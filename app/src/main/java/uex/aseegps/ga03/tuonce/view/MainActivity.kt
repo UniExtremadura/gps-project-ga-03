@@ -1,4 +1,4 @@
-package uex.aseegps.ga03.tuonce
+package uex.aseegps.ga03.tuonce.view
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
