@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/misLigasFragment"
+        android:enabled="true"
+        android:icon="@drawable/logo"
+        android:title="MisLigas"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/clasificacionFragment"
+        android:enabled="true"
+        android:icon="@drawable/logo"
+        android:title="Clasificación"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/equipoFragment"
+        android:enabled="true"
+        android:icon="@drawable/logo"
+        android:title="Equipo"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/mercadoFragment"
+        android:enabled="true"
+        android:icon="@drawable/logo"
+        android:title="Mercado"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/actividadFragment"
+        android:enabled="true"
+        android:title="Actividad"
+        android:icon="@drawable/logo"
+        app:showAsAction="ifRoom" />
+</menu>

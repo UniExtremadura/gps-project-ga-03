@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/barra_navegacion"
+    app:startDestination="@id/misLigasFragment">
+
+    <fragment
+        android:id="@+id/misLigasFragment"
+        android:name="uex.aseegps.ga03.tuonce.view.Home.MisLigasFragment"
+        android:label="fragment_mis_ligas"
+        tools:layout="@layout/fragment_mis_ligas" />
+    <fragment
+        android:id="@+id/actividadFragment"
+        android:name="uex.aseegps.ga03.tuonce.view.Home.ActividadFragment"
+        android:label="fragment_actividad"
+        tools:layout="@layout/fragment_actividad" />
+    <fragment
+        android:id="@+id/clasificacionFragment"
+        android:name="uex.aseegps.ga03.tuonce.view.Home.ClasificacionFragment"
+        android:label="fragment_clasificacion"
+        tools:layout="@layout/fragment_clasificacion" />
+    <fragment
+        android:id="@+id/equipoFragment"
+        android:name="uex.aseegps.ga03.tuonce.view.Home.EquipoFragment"
+        android:label="fragment_equipo"
+        tools:layout="@layout/fragment_equipo" />
+    <fragment
+        android:id="@+id/mercadoFragment"
+        android:name="uex.aseegps.ga03.tuonce.view.Home.MercadoFragment"
+        android:label="fragment_mercado"
+        tools:layout="@layout/fragment_mercado" />
+</navigation>
