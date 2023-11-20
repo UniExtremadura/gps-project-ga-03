@@ -71,8 +71,8 @@ class LoginActivity : AppCompatActivity() {
                     db?.userDao()?.findByName(binding.etUsername.text.toString())
                 if (user != null) {
                     val check =
-                        CredentialCheck.passwordOk(binding.etPassword.text.toString(),
-                            user.password)
+                        CredentialCheck.passwordOk((binding.etPassword.text.toString()),
+                            (user.password))
                     if (check.fail) notifyInvalidCredentials(check.msg)
                     else navigateToHomeActivity(user!!, check.msg)
                 }

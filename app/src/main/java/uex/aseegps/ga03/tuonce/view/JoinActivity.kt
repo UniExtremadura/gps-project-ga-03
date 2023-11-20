@@ -14,6 +14,11 @@ import uex.aseegps.ga03.tuonce.databinding.ActivityJoinBinding
 import uex.aseegps.ga03.tuonce.databinding.ActivityLoginBinding
 import uex.aseegps.ga03.tuonce.model.User
 import uex.aseegps.ga03.tuonce.utils.CredentialCheck
+import uex.aseegps.ga03.tuonce.utils.hashPassword
+
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
+import java.math.BigInteger
 
 class JoinActivity : AppCompatActivity() {
     private lateinit var binding: ActivityJoinBinding
@@ -61,7 +66,7 @@ class JoinActivity : AppCompatActivity() {
                     val user = User(
                         null,
                         etUsername.text.toString(),
-                        etPasswordOne.text.toString()
+                        hashPassword(etPasswordOne.text.toString())
                     )
                     val id = db?.userDao()?.insert(user)
                     navigateBackWithResult(User( id, etUsername.text.toString(),etPasswordOne.text.toString()))
@@ -90,4 +95,6 @@ class JoinActivity : AppCompatActivity() {
     private fun notifyInvalidCredentials(msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
+
+
 }

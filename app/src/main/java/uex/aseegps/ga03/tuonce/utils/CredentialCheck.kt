@@ -1,5 +1,25 @@
 package uex.aseegps.ga03.tuonce.utils
 
+import android.util.Log
+import android.widget.Toast
+import java.math.BigInteger
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
+
+
+fun hashPassword(password: String): String {
+    try {
+        val md = MessageDigest.getInstance("SHA-256")
+
+        md.update(password.toByteArray())
+
+        return String.format("%064x", BigInteger(1, md.digest()))
+
+    } catch (e: NoSuchAlgorithmException) {
+        e.printStackTrace()
+        return ""
+    }
+}
 class CredentialCheck private constructor() {
 
     var fail: Boolean = false
@@ -49,7 +69,7 @@ class CredentialCheck private constructor() {
         }
 
         fun passwordOk(pw1: String, pw2: String): CredentialCheck {
-            return if (pw1 != pw2) checks[2]
+            return if (hashPassword(pw1) != pw2) checks[2]
             else checks[0]
         }
     }
