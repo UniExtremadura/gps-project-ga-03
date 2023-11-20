@@ -12,14 +12,30 @@
         android:id="@+id/btLogin"
         android:layout_width="84dp"
         android:layout_height="59dp"
-        android:layout_marginBottom="192dp"
+        android:layout_marginBottom="196dp"
         android:backgroundTint="#B90B0B"
         android:text="Login"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.305"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/btJoin"
+        android:layout_width="84dp"
+        android:layout_height="59dp"
+        android:layout_marginBottom="196dp"
+        android:backgroundTint="#3E9B04"
+        android:text="Join"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.691"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints" />
 

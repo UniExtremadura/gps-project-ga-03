@@ -36,16 +36,20 @@ class CredentialCheck private constructor() {
         )
 
         fun login(username: String, password: String): CredentialCheck {
-            return checks[0]
-            //return if (username.isBlank() || username.length < MINCHARS) checks[1]
-            //else if (password.isBlank() || password.length < MINCHARS) checks[2]
-            //else checks[0]
+            return if (username.isBlank() || username.length < MINCHARS) checks[1]
+            else if (password.isBlank() || password.length < MINCHARS) checks[2]
+            else checks[0]
         }
 
         fun join(username: String, password: String, repassword: String): CredentialCheck {
             return if (username.isBlank() || username.length < MINCHARS) checks[1]
             else if (password.isBlank() || password.length < MINCHARS) checks[2]
             else if (password!=repassword) checks[3]
+            else checks[0]
+        }
+
+        fun passwordOk(pw1: String, pw2: String): CredentialCheck {
+            return if (pw1 != pw2) checks[2]
             else checks[0]
         }
     }
