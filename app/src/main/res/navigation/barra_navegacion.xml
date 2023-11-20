@@ -9,7 +9,11 @@
         android:id="@+id/misLigasFragment"
         android:name="uex.aseegps.ga03.tuonce.view.Home.MisLigasFragment"
         android:label="fragment_mis_ligas"
-        tools:layout="@layout/fragment_mis_ligas" />
+        tools:layout="@layout/fragment_mis_ligas">
+        <action
+            android:id="@+id/action_misLigasFragment_to_crearLigaPersonalizada"
+            app:destination="@id/crearLigaPersonalizada" />
+    </fragment>
     <fragment
         android:id="@+id/actividadFragment"
         android:name="uex.aseegps.ga03.tuonce.view.Home.ActividadFragment"
@@ -30,4 +34,10 @@
         android:name="uex.aseegps.ga03.tuonce.view.Home.MercadoFragment"
         android:label="fragment_mercado"
         tools:layout="@layout/fragment_mercado" />
+    <fragment
+        android:id="@+id/crearLigaPersonalizada"
+        android:name="uex.aseegps.ga03.tuonce.view.Home.CrearLigaPersonalizada"
+        android:label="fragment_crear_liga_personalizada"
+        tools:layout="@layout/fragment_crear_liga_personalizada" />
+
 </navigation>

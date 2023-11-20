@@ -40,6 +40,7 @@ class HomeActivity : AppCompatActivity() {
         )
         setSupportActionBar(binding.toolbar)
         setupActionBarWithNavController(navController, appBarConfiguration)
+
     }
 
     override fun onSupportNavigateUp(): Boolean {

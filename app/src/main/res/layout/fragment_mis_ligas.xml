@@ -5,10 +5,12 @@
     android:layout_height="match_parent"
     tools:context=".view.Home.MisLigasFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="MisLigas" />
-
+    <Button
+        android:id="@+id/btnAtras"
+        android:layout_width="165dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:background="#FF0000"
+        android:text="Crear Liga personalizada"
+        android:textColor="#FFFFFF" />
 </FrameLayout>
