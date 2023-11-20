@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
 import uex.aseegps.ga03.tuonce.model.User
 import uex.aseegps.ga03.tuonce.utils.CredentialCheck
+import uex.aseegps.ga03.tuonce.view.Home.HomeActivity
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -58,7 +59,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun navigateToHomeActivity(user: User, msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, HomeActivity::class.java)
         startActivity(intent)
     }
     private fun checkLogin(){
