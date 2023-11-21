@@ -1,5 +1,18 @@
 <resources>
     <string name="app_name">tuonce</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="nombreEtiqueta">%1$s</string>
+    <string name="valorEtiqueta">Valor del Futbolista: %1$s</string>
+    <string name="posicionEtiqueta">Posicion del Futbolista: %1$s</string>
+    <string name="añosEtiqueta">Años del Futbolista: %1$s</string>
+    <string name="minutosJugadosEtiqueta">Minutos Jugados: %1$s</string>
+    <string name="golesEtiqueta">Goles: %1$s</string>
+    <string name="asistenciasEtiqueta">Asistencias: %1$s</string>
+    <string name="balonAlAreaEtiqueta">Balones al Área: %1$s</string>
+    <string name="paradaEtiqueta">Paradas: %1$s</string>
+    <string name="tarjetaAmarillaEtiqueta">Tarjetas Amarillas: %1$s</string>
+    <string name="tarjetaRojaEtiqueta">Tarjetas Rojas: %1$s</string>
+    <string name="mediaEtiqueta">Media: %1$s</string>
+    <string name="puntosAportadosEtiqueta">Puntos Aportados: %1$s</string>
+    <string name="faltasCometidasEtiqueta">Faltas Cometidas: %1$s</string>
 </resources>
