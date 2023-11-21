@@ -1,14 +1,317 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.Home.EquipoFragment">
+    android:background="#000000"
+    tools:context=".view.Home.EquipoFragment"
+    tools:layout_editor_absoluteX="-41dp"
+    tools:layout_editor_absoluteY="-3dp">
 
-    <!-- TODO: Update blank fragment layout -->
+    <!-- Botón de Alineación -->
+
+    <!-- Botón de Plantilla -->
+
+    <!-- Simulando los huecos para jugadores con ImageView -->
+
+    <!-- Simulando los huecos para jugadores con ImageView -->
+
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="EQUIPO" />
+        android:id="@+id/TeamTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:text="EQUIPO"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/btnTemplate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.085"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
-</FrameLayout>
+    <EditText
+        android:id="@+id/etEquipo"
+        android:layout_width="182dp"
+        android:layout_height="52dp"
+        android:ems="10"
+        android:hint="Equipo"
+        android:inputType="text"
+        android:minHeight="48dp"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#A9A9A9"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.325"
+        app:layout_constraintStart_toEndOf="@+id/TeamTitle"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.064" />
+
+    <Button
+        android:id="@+id/btnTemplate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#FFFFFF"
+        android:text="Plantilla"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnAlignment"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.254" />
+
+    <Button
+        android:id="@+id/btnAlignment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#FF0000"
+        android:text="Alineación"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnTemplate"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.254" />
+
+    <ImageView
+        android:id="@+id/playerSlot7"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="56dp"
+        android:src="@drawable/baseline_person_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playerSlot4" />
+
+    <TextView
+        android:id="@+id/playerSlot7Label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Futbolista"
+        android:textColor="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@+id/playerSlot7"
+        app:layout_constraintEnd_toEndOf="@+id/playerSlot7"
+        app:layout_constraintStart_toStartOf="@+id/playerSlot7"
+        app:layout_constraintBottom_toBottomOf="@+id/playerSlot7" />
+
+    <ImageView
+        android:id="@+id/playerSlot5"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/baseline_person_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playerSlot1" />
+    <TextView
+        android:id="@+id/playerSlot5Label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Futbolista"
+        android:textColor="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@+id/playerSlot5"
+        app:layout_constraintEnd_toEndOf="@+id/playerSlot5"
+        app:layout_constraintStart_toStartOf="@+id/playerSlot5"
+        app:layout_constraintBottom_toBottomOf="@+id/playerSlot5" />
+
+    <ImageView
+        android:id="@+id/playerSlot11"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="176dp"
+        android:src="@drawable/baseline_person_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnAlignment" />
+    <TextView
+        android:id="@+id/playerSlot11Label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Futbolista"
+        android:textColor="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@+id/playerSlot11"
+        app:layout_constraintEnd_toEndOf="@+id/playerSlot11"
+        app:layout_constraintStart_toStartOf="@+id/playerSlot11"
+        app:layout_constraintBottom_toBottomOf="@+id/playerSlot11" />
+
+    <ImageView
+        android:id="@+id/playerSlot6"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="44dp"
+        android:src="@drawable/baseline_person_24"
+        app:layout_constraintEnd_toStartOf="@+id/playerSlot7"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toEndOf="@+id/playerSlot5"
+        app:layout_constraintTop_toBottomOf="@+id/playerSlot3" />
+
+    <TextView
+        android:id="@+id/playerSlot6Label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Futbolista"
+        android:textColor="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@+id/playerSlot6"
+        app:layout_constraintEnd_toEndOf="@+id/playerSlot6"
+        app:layout_constraintStart_toStartOf="@+id/playerSlot6"
+        app:layout_constraintBottom_toBottomOf="@+id/playerSlot6" />
+
+    <ImageView
+        android:id="@+id/playerSlot3"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="44dp"
+        android:src="@drawable/baseline_person_24"
+        app:layout_constraintStart_toEndOf="@+id/playerSlot2"
+        app:layout_constraintTop_toBottomOf="@+id/playerSlot11" />
+
+    <TextView
+        android:id="@+id/playerSlot3Label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Futbolista"
+        android:textColor="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@+id/playerSlot3"
+        app:layout_constraintEnd_toEndOf="@+id/playerSlot3"
+        app:layout_constraintStart_toStartOf="@+id/playerSlot3"
+        app:layout_constraintBottom_toBottomOf="@+id/playerSlot3" />
+
+    <ImageView
+        android:id="@+id/playerSlot9"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="108dp"
+        android:src="@drawable/baseline_person_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/playerSlot10"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toEndOf="@+id/playerSlot8" />
+    <TextView
+        android:id="@+id/playerSlot9Label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Futbolista"
+        android:textColor="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@+id/playerSlot9"
+        app:layout_constraintEnd_toEndOf="@+id/playerSlot9"
+        app:layout_constraintStart_toStartOf="@+id/playerSlot9"
+        app:layout_constraintBottom_toBottomOf="@+id/playerSlot9" />
+
+    <ImageView
+        android:id="@+id/playerSlot10"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="56dp"
+        android:src="@drawable/baseline_person_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playerSlot7" />
+    <TextView
+        android:id="@+id/playerSlot10Label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Futbolista"
+        android:textColor="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@+id/playerSlot10"
+        app:layout_constraintEnd_toEndOf="@+id/playerSlot10"
+        app:layout_constraintStart_toStartOf="@+id/playerSlot10"
+        app:layout_constraintBottom_toBottomOf="@+id/playerSlot10" />
+
+    <ImageView
+        android:id="@+id/playerSlot2"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="44dp"
+        android:src="@drawable/baseline_person_24"
+        app:layout_constraintEnd_toStartOf="@+id/playerSlot6"
+        app:layout_constraintTop_toBottomOf="@+id/playerSlot11" />
+    <TextView
+        android:id="@+id/playerSlot2Label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Futbolista"
+        android:textColor="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@+id/playerSlot2"
+        app:layout_constraintEnd_toEndOf="@+id/playerSlot2"
+        app:layout_constraintStart_toStartOf="@+id/playerSlot2"
+        app:layout_constraintBottom_toBottomOf="@+id/playerSlot2" />
+    <ImageView
+        android:id="@+id/playerSlot4"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="44dp"
+        android:src="@drawable/baseline_person_24"
+        app:layout_constraintStart_toEndOf="@+id/playerSlot3"
+        app:layout_constraintTop_toBottomOf="@+id/playerSlot11" />
+    <TextView
+        android:id="@+id/playerSlot4Label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Futbolista"
+        android:textColor="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@+id/playerSlot4"
+        app:layout_constraintEnd_toEndOf="@+id/playerSlot4"
+        app:layout_constraintStart_toStartOf="@+id/playerSlot4"
+        app:layout_constraintBottom_toBottomOf="@+id/playerSlot4" />
+    <ImageView
+        android:id="@+id/playerSlot1"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="32dp"
+        android:src="@drawable/baseline_person_24"
+        app:layout_constraintEnd_toStartOf="@+id/playerSlot2"
+        app:layout_constraintTop_toBottomOf="@+id/playerSlot11" />
+    <TextView
+        android:id="@+id/playerSlot1Label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Futbolista"
+        android:textColor="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@+id/playerSlot1"
+        app:layout_constraintEnd_toEndOf="@+id/playerSlot1"
+        app:layout_constraintStart_toStartOf="@+id/playerSlot1"
+        app:layout_constraintBottom_toBottomOf="@+id/playerSlot1" />
+
+    <ImageView
+        android:id="@+id/playerSlot8"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/baseline_person_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playerSlot5" />
+    <TextView
+        android:id="@+id/playerSlot8Label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Futbolista"
+        android:textColor="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@+id/playerSlot8"
+        app:layout_constraintEnd_toEndOf="@+id/playerSlot8"
+        app:layout_constraintStart_toStartOf="@+id/playerSlot8"
+        app:layout_constraintBottom_toBottomOf="@+id/playerSlot8" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="170dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="64dp"
+        android:backgroundTint="#949393"
+        android:text="Cambiar nombre"
+        app:circularflow_radiusInDP="40"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etEquipo" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

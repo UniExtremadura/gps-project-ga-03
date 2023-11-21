@@ -74,7 +74,10 @@ class LoginActivity : AppCompatActivity() {
                         CredentialCheck.passwordOk(binding.etPassword.text.toString(),
                             user.password)
                     if (check.fail) notifyInvalidCredentials(check.msg)
-                    else navigateToHomeActivity(user!!, check.msg)
+                    else{
+                        db?.userDao()?.conectar(binding.etUsername.text.toString())
+                        navigateToHomeActivity(user!!, check.msg)
+                    }
                 }
                 else notifyInvalidCredentials("Invalid username")
             }

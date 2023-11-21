@@ -8,5 +8,6 @@ import java.io.Serializable
 data class User(
     @PrimaryKey(autoGenerate = true) var userId: Long?,
     val name: String = "",
-    val password: String = ""
+    val password: String = "",
+    var conectado: Int = 0 // 0 significa no conectado, 1 significa conectado
 ) : Serializable
