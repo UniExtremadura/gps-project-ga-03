@@ -39,12 +39,12 @@
                 android:visibility="visible" />
 
             <EditText
-                android:id="@+id/editTextPresupuesto"
+                android:id="@+id/numPartidos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:gravity="center"
-                android:hint="Ingrese el presupuesto inicial"
+                android:hint="Ingrese el número de partidos"
                 android:inputType="numberDecimal"
                 android:minHeight="64dp"
                 android:textColor="#FF0000"

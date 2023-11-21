@@ -80,7 +80,8 @@ class JoinActivity : AppCompatActivity() {
         val nuevoEquipo : Equipo = Equipo(
             null,
             name = user.name,
-            userId = id
+            userId = id,
+            ligaId = null
         )
         lifecycleScope.launch{
             val equipoId = db?.equipoDao()?.insert(nuevoEquipo)
