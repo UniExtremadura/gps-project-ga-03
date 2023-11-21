@@ -8,26 +8,26 @@
     <fragment
         android:id="@+id/misLigasFragment"
         android:name="uex.aseegps.ga03.tuonce.view.Home.MisLigasFragment"
-        android:label="fragment_mis_ligas"
+        android:label="Mis Ligas"
         tools:layout="@layout/fragment_mis_ligas" />
     <fragment
         android:id="@+id/actividadFragment"
         android:name="uex.aseegps.ga03.tuonce.view.Home.ActividadFragment"
-        android:label="fragment_actividad"
+        android:label="Actividad"
         tools:layout="@layout/fragment_actividad" />
     <fragment
         android:id="@+id/clasificacionFragment"
         android:name="uex.aseegps.ga03.tuonce.view.Home.ClasificacionFragment"
-        android:label="fragment_clasificacion"
+        android:label="Clasificación"
         tools:layout="@layout/fragment_clasificacion" />
     <fragment
         android:id="@+id/equipoFragment"
         android:name="uex.aseegps.ga03.tuonce.view.Home.EquipoFragment"
-        android:label="fragment_equipo"
+        android:label="Equipo"
         tools:layout="@layout/fragment_equipo" />
     <fragment
         android:id="@+id/mercadoFragment"
         android:name="uex.aseegps.ga03.tuonce.view.Home.MercadoFragment"
-        android:label="fragment_mercado"
+        android:label="Mercado"
         tools:layout="@layout/fragment_mercado" />
 </navigation>
