@@ -41,7 +41,7 @@ class MisLigasFragment : Fragment() {
     }
 
     private fun setUpListeners() {
-        binding.btnAtras.setOnClickListener {
+        binding.crearLigaPersonalizada.setOnClickListener {
             // Navegar al fragmento CrearLiga
             findNavController().navigate(R.id.action_misLigasFragment_to_crearLigaPersonalizada)
         }
