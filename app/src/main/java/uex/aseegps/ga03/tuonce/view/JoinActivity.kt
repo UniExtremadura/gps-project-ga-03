@@ -60,11 +60,13 @@ class JoinActivity : AppCompatActivity() {
                 lifecycleScope.launch{
                     val user = User(
                         null,
+                        R.drawable.ic_launcher_background,
                         etUsername.text.toString(),
-                        etPasswordOne.text.toString()
+                        etPasswordOne.text.toString(),
+                        0
                     )
                     val id = db?.userDao()?.insert(user)
-                    navigateBackWithResult(User( id, etUsername.text.toString(),etPasswordOne.text.toString()))
+                    navigateBackWithResult(User( id, R.drawable.ic_launcher_background ,etUsername.text.toString(),etPasswordOne.text.toString(), 0))
                 }
             }
         }

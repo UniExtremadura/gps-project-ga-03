@@ -8,24 +8,14 @@
     android:backgroundTint="#000000"
     tools:context=".view.Home.ClasificacionFragment">
 
-    <TextView
-        android:layout_width="200sp"
-        android:layout_height="100sp"
-        android:text="Clasificacion"
-        android:textColor="#FFFFFF"
-        android:textSize="30sp"
-        android:textAlignment="center"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal|top"/>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvClasificacion"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:paddingBottom="@dimen/bottom_navigation_height"
+        android:clipToPadding="false"
+        android:background="#000000"
+        android:backgroundTint="#000000"/>
 
 
 </FrameLayout>

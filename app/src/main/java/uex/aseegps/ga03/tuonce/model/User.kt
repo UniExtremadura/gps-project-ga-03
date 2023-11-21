@@ -7,6 +7,8 @@ import java.io.Serializable
 @Entity
 data class User(
     @PrimaryKey(autoGenerate = true) var userId: Long?,
+    val image: Int = 0,
     val name: String = "",
-    val password: String = ""
+    val password: String = "",
+    val points : Int = 0
 ) : Serializable
