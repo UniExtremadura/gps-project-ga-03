@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import uex.aseegps.ga03.tuonce.R
-import uex.aseegps.ga03.tuonce.database.Futbolista
+import uex.aseegps.ga03.tuonce.model.Futbolista
 import android.widget.TextView
 import androidx.navigation.findNavController
 import uex.aseegps.ga03.tuonce.databinding.ActivityDetalleFutbolistaBinding
@@ -25,6 +25,8 @@ class DetalleFutbolista : AppCompatActivity() {
             onBackPressed()
         }
     }
+
+
     fun escribirFutbolista(){
         val futbolista = intent.getSerializableExtra("nom") as Futbolista
 
@@ -33,7 +35,7 @@ class DetalleFutbolista : AppCompatActivity() {
         val idPosicionFutbolista = findViewById<TextView>(R.id.idPosicionFutbolista)
         idPosicionFutbolista.text = getString(R.string.posicionEtiqueta, futbolista.posicion)
         val idPrecioFutbolista = findViewById<TextView>(R.id.idPrecioFutbolista)
-        idPrecioFutbolista.text = getString(R.string.valorEtiqueta, futbolista.valor.toString())
+        idPrecioFutbolista.text = getString(R.string.valorEtiqueta, futbolista.varor.toString())
         val idAños = findViewById<TextView>(R.id.idAños)
         idAños.text = getString(R.string.añosEtiqueta, futbolista.años)
         val idminutosJugados = findViewById<TextView>(R.id.idminutosJugados)

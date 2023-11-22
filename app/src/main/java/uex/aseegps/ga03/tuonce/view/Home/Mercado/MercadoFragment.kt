@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import uex.aseegps.ga03.tuonce.R
-import uex.aseegps.ga03.tuonce.database.Futbolista
 import uex.aseegps.ga03.tuonce.databinding.FragmentMercadoBinding
 import uex.aseegps.ga03.tuonce.database.dummyFutbolista
 
