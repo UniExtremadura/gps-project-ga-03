@@ -7,9 +7,7 @@
     android:backgroundTint="@color/black"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.Home.HomeActivity"
-    android:background="#000000"
-    android:backgroundTint="#000000">
+    tools:context=".view.Home.HomeActivity">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"

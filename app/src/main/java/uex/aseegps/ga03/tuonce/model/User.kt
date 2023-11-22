@@ -10,5 +10,6 @@ data class User(
     val image: Int = 0,
     val name: String = "",
     val password: String = "",
-    val points : Int = 0
+    var points : Int = 0,
+    var conectado: Int = 0 // 0 significa no conectado, 1 significa conectado
 ) : Serializable

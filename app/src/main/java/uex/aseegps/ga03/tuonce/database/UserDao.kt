@@ -24,4 +24,7 @@ interface UserDao {
 
     @Query("SELECT * FROM user WHERE conectado = 1 LIMIT 1")
     suspend fun obtenerUsuarioConectado(): User?
+
+    @Query("UPDATE user SET points = :pointsUser WHERE userId = :userId")
+    suspend fun updatePoints(userId: Long, pointsUser: Int)
 }
