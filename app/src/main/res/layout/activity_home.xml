@@ -11,14 +11,14 @@
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         app:defaultNavHost="true"
         app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="0.0"
         app:navGraph="@navigation/barra_navegacion" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -33,18 +33,32 @@
         app:menu="@menu/bottom_menu"
         app:layout_constraintWidth_percent="1.0"/>
 
+    <!--
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="#000000"
         android:elevation="4dp"
+        android:theme="@style/Toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/toolbar_menu">
+
+    </androidx.appcompat.widget.Toolbar>
+    -->
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#FFFFFF"
+        android:elevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!-- Botón de retroceso -->
         <ImageButton
             android:id="@+id/toolbar_icon_back"
             android:layout_width="24dp"
@@ -55,17 +69,15 @@
             android:contentDescription="Boton Back"
             android:src="@drawable/ic_baseline_back_backspace_24" />
 
-        <!-- Título centrado -->
         <TextView
             android:id="@+id/toolbar_title"
-            android:layout_width="330dp"
+            android:layout_width="340dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textAlignment="center"
             android:textColor="#D70000"
             android:textSize="18sp" />
 
-        <!-- Botón de preguntas frecuentes -->
         <ImageButton
             android:id="@+id/toolbar_icon_preferencias"
             android:layout_width="24dp"

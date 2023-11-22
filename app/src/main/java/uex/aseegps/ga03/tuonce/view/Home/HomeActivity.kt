@@ -1,10 +1,15 @@
 package uex.aseegps.ga03.tuonce.view.Home
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
+import android.graphics.Color
+import android.util.AttributeSet
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -18,6 +23,9 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var appBarConfiguration: AppBarConfiguration
 
+    private val blanco = Color.WHITE
+    private val negro = Color.BLACK
+
     private val navController by lazy {
         (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment).navController
     }
@@ -25,6 +33,7 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
+
         setContentView(binding.root)
 
         setUpUI()
@@ -44,20 +53,33 @@ class HomeActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-        // Encuentra el TextView por su ID
-        val titleTextView = findViewById<TextView>(R.id.toolbar_title)
-
-        val toolbarIconBack: ImageButton = findViewById(R.id.toolbar_icon_back)
-
-        toolbarIconBack.setOnClickListener {
+        val botonBack = findViewById<ImageButton>(R.id.toolbar_icon_back)
+        botonBack.setOnClickListener {
             onBackPressed()
         }
 
+        val botonPreferences = findViewById<ImageButton>(R.id.toolbar_icon_preferencias)
+        botonPreferences.setOnClickListener {
+            navController.navigate(R.id.action_home_to_settingsFragment)
+        }
 
-        // Configura un oyente para los cambios de navegación
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            // Actualiza el título según la opción seleccionada en la barra de navegación inferior
-            titleTextView.text = destination.label
+
+            val title = findViewById<TextView>(R.id.toolbar_title)
+            title.text = destination.label
+            title.setTextColor(Color.parseColor("#D70000"))
+
+            if(destination.id == R.id.settingsFragment) {
+                binding.bottomNavigation.visibility = View.GONE
+                binding.toolbarIconPreferencias.visibility = View.GONE
+                binding.toolbarIconBack.visibility = View.GONE
+                binding.toolbar.setBackgroundColor(blanco)
+            } else {
+                binding.bottomNavigation.visibility = View.VISIBLE
+                binding.toolbarIconPreferencias.visibility = View.VISIBLE
+                binding.toolbarIconBack.visibility = View.VISIBLE
+                binding.toolbar.setBackgroundColor(negro)
+            }
         }
 
     }
@@ -67,4 +89,9 @@ class HomeActivity : AppCompatActivity() {
                 || super.onSupportNavigateUp()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+        menuInflater.inflate(R.menu.toolbar_menu, menu)
+        return true
+    }
 }

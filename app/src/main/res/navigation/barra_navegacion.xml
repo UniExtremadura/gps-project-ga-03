@@ -7,7 +7,7 @@
 
     <action
         android:id="@+id/action_home_to_settingsFragment"
-        app:destination="@+id/settingsFragment" />
+        app:destination="@id/settingsFragment" />
 
     <fragment
         android:id="@+id/misLigasFragment"
@@ -37,5 +37,5 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="uex.aseegps.ga03.tuonce.view.Home.SettingsFragment"
-        android:label="SettingsFragment" />
+        android:label="Ajustes" />
 </navigation>
