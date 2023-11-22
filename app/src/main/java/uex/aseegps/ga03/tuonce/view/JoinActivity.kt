@@ -17,6 +17,7 @@ import uex.aseegps.ga03.tuonce.model.User
 import uex.aseegps.ga03.tuonce.utils.CredentialCheck
 import uex.aseegps.ga03.tuonce.database.dummyFutbolista
 import uex.aseegps.ga03.tuonce.model.Futbolista
+import kotlin.random.Random
 
 class JoinActivity : AppCompatActivity() {
     private lateinit var binding: ActivityJoinBinding
@@ -77,18 +78,29 @@ class JoinActivity : AppCompatActivity() {
     // Funcion que crea un equipo para un usuario, inicialmente el nombre es el del usuario + FC
     private fun crearEquipo(user : User, id : Long?){
         Toast.makeText(this, "Creandote un equipo...", Toast.LENGTH_SHORT).show()
-        val nuevoEquipo : Equipo = Equipo(
+        // Crear una instancia de la clase Random
+        val random = Random
+        // Generar un número aleatorio entre 15,000,000 (inclusive) y 20,000,000 (inclusive)
+        val randomNumber = random.nextInt(15_000_000, 20_000_001)
+        val nuevoEquipo = Equipo(
             null,
             name = user.name,
+            presupuesto = randomNumber,
             userId = id
         )
         lifecycleScope.launch{
+
             val equipoId = db?.equipoDao()?.insert(nuevoEquipo)
-            val onceJugadores = seleccionar11Jugadores()
-            onceJugadores.forEach {
-                it.equipoId = equipoId
-                db?.futbolistaDao()?.insert(it)
+            // Inserto todos los jugadores en la base de datos
+            dummyFutbolista.shuffled().forEachIndexed{ index, futbolista ->
+                if (index < 11) {
+                    futbolista.equipoId = equipoId
+                } else {
+                    futbolista.equipoId = null
+                }
+                db?.futbolistaDao()?.insert(futbolista)
             }
+
         }
     }
 
@@ -102,15 +114,6 @@ class JoinActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun seleccionar11Jugadores(): List<Futbolista> {
-        // Obtén la lista de futbolistas barajada aleatoriamente
-        val futbolistasBarajados = dummyFutbolista.shuffled()
-
-        // Toma los primeros 11 jugadores de la lista barajada
-        val onceJugadores = futbolistasBarajados.take(11)
-
-        return onceJugadores
-    }
     private fun notifyInvalidCredentials(msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }

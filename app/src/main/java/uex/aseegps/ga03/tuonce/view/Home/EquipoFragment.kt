@@ -89,6 +89,7 @@ class EquipoFragment : Fragment() {
             val nombreEquipo = equipo?.name
             binding.etEquipo.text = Editable.Factory.getInstance().newEditable(nombreEquipo)
             binding.nombreEquipo.text = "Equipo ${equipo?.name?.replace(" ", "")}"
+            binding.presupuestoText.text = "Presupuesto (euros): ${equipo?.presupuesto}"
         }
     }
     private suspend fun recuperarUsuario(): User? {

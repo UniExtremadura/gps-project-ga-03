@@ -14,13 +14,19 @@ interface FutbolistaDao {
     suspend fun insert(futbolista: Futbolista): Long
 
     @Update
-    suspend fun update(futbolista: Futbolista)
+    suspend fun update(futbolista: Futbolista?)
 
     @Query("SELECT * FROM futbolista WHERE futbolistaId = :futbolistaId LIMIT 1")
     suspend fun findById(futbolistaId: Long): Futbolista?
 
+    @Query("SELECT * FROM futbolista WHERE nombreJugador = :futbolistaName LIMIT 1")
+    suspend fun findByName(futbolistaName: String): Futbolista?
+
     @Query("SELECT * FROM futbolista WHERE equipo_id = :equipoId")
     suspend fun findByEquipoId(equipoId: Long?): List<Futbolista>
+
+    @Query("SELECT * FROM futbolista")
+    suspend fun findAll(): List<Futbolista>
 
     @Delete
     suspend fun delete(futbolista: Futbolista)

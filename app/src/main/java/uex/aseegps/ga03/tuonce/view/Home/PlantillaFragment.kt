@@ -9,11 +9,15 @@ import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import uex.aseegps.ga03.tuonce.R
+import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
 import uex.aseegps.ga03.tuonce.database.dummyFutbolista
 import uex.aseegps.ga03.tuonce.databinding.FragmentPlantillaBinding
 import uex.aseegps.ga03.tuonce.model.Equipo
+import uex.aseegps.ga03.tuonce.model.Futbolista
 import uex.aseegps.ga03.tuonce.model.User
 
 // TODO: Rename parameter arguments, choose names that match
@@ -30,6 +34,7 @@ class PlantillaFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var db: TuOnceDatabase
 
 
     private var _binding: FragmentPlantillaBinding? = null
@@ -42,6 +47,7 @@ class PlantillaFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+        db = TuOnceDatabase.getInstance(requireContext())!!
     }
 
     override fun onCreateView(
@@ -66,14 +72,46 @@ class PlantillaFragment : Fragment() {
         }
 
     private fun setUpRecyclerView() {
-        adapter = PlantillaAdapter(
-            lista = dummyFutbolista,
-            contexto = this.context
-        )
-        with(binding) {
-            rvFutbolistasList.layoutManager = LinearLayoutManager(context)
-            rvFutbolistasList.adapter = adapter
+        var futbolistasDelEquipo = mutableListOf<Futbolista>()
+        val context = this.context
+        lifecycleScope?.launch {
+            var futbolistas: List<Futbolista>? = db?.futbolistaDao()?.findAll()
+            val equipo : Equipo? = recuperarEquipo(recuperarUsuario())
+            futbolistas?.forEach {
+                if (it.equipoId == equipo?.equipoId) {
+                    futbolistasDelEquipo.add(it)
+                }
+            }
+            adapter = PlantillaAdapter(
+                lista = futbolistasDelEquipo,
+                contexto = context,
+                onClick = {
+                    lifecycleScope.launch {
+
+                        var futbolistaVendido : Futbolista? = db?.futbolistaDao()?.findByName(it.nombreJugador.toString())
+                        val equipoId = futbolistaVendido?.equipoId
+                        futbolistaVendido?.equipoId = null
+                        db?.futbolistaDao()?.update(futbolistaVendido)
+
+                        val equipo : Equipo? = db?.equipoDao()?.findById(equipoId)
+                        equipo?.presupuesto = equipo?.presupuesto!! - futbolistaVendido?.varor!!
+
+                        db?.equipoDao()?.update(equipo)
+
+                        val navController = findNavController()
+                        navController.navigate(R.id.action_plantillaFragment_to_equipoFragment)
+                    }
+
+                }
+
+            )
+            with(binding) {
+                rvFutbolistasList.layoutManager = LinearLayoutManager(context)
+                rvFutbolistasList.adapter = adapter
+            }
         }
+
+
     }
     companion object {
         /**
@@ -93,5 +131,16 @@ class PlantillaFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    private suspend fun recuperarUsuario(): User? {
+        return withContext(Dispatchers.IO) {
+            db?.userDao()?.obtenerUsuarioConectado()
+        }
+    }
+    private suspend fun recuperarEquipo(usuario: User?): Equipo? {
+        return withContext(Dispatchers.IO) {
+            db?.equipoDao()?.findByUserId(usuario?.userId)
+        }
     }
 }
