@@ -19,7 +19,7 @@ import java.io.Serializable
 )
 data class Equipo(
     @PrimaryKey(autoGenerate = true) var equipoId: Long?,
-    val name: String = "",
+    var name: String = "",
 
     @ColumnInfo(name = "user_id")
     val userId: Long?

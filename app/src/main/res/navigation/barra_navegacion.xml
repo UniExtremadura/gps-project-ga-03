@@ -24,10 +24,23 @@
         android:id="@+id/equipoFragment"
         android:name="uex.aseegps.ga03.tuonce.view.Home.EquipoFragment"
         android:label="fragment_equipo"
-        tools:layout="@layout/fragment_equipo" />
+        tools:layout="@layout/fragment_equipo" >
+        <action
+            android:id="@+id/action_equipoFragment_to_plantillaFragment"
+            app:destination="@id/plantillaFragment" />
+    </fragment>
     <fragment
         android:id="@+id/mercadoFragment"
         android:name="uex.aseegps.ga03.tuonce.view.Home.MercadoFragment"
         android:label="fragment_mercado"
         tools:layout="@layout/fragment_mercado" />
+    <fragment
+        android:id="@+id/plantillaFragment"
+        android:name="uex.aseegps.ga03.tuonce.view.Home.PlantillaFragment"
+        android:label="fragment_plantilla"
+        tools:layout="@layout/fragment_plantilla" >
+        <action
+            android:id="@+id/action_plantillaFragment_to_equipoFragment"
+            app:destination="@id/equipoFragment" />
+    </fragment>
 </navigation>

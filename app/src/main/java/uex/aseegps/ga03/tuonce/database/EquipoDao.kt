@@ -20,7 +20,7 @@ interface EquipoDao {
     suspend fun insert(equipo: Equipo): Long
 
     @Update
-    suspend fun update(equipo: Equipo)
+    suspend fun update(equipo: Equipo?)
 
     @Delete
     suspend fun delete(equipo: Equipo)
