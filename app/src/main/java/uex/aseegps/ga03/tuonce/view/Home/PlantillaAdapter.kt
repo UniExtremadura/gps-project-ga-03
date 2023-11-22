@@ -1,10 +1,13 @@
 package uex.aseegps.ga03.tuonce.view.Home
 
 import android.content.Context
+import android.content.Intent
+import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -20,7 +23,6 @@ class PlantillaAdapter(private var lista: List<Futbolista>, private var contexto
     RecyclerView.Adapter<PlantillaAdapter.PlantillaViewHolder>()
 {
     class PlantillaViewHolder(var vista: View, var contexto: Context, private val onClick: (show: Futbolista) -> Unit,) : RecyclerView.ViewHolder(vista) {
-        private val db: TuOnceDatabase? = TuOnceDatabase.getInstance(contexto)
         fun bind(futbolista: Futbolista) {
             val xmlnombreJugador = vista.findViewById<TextView>(R.id.nombreFutbolistaTxt)
             val xmlPuntosJugador = vista.findViewById<TextView>(R.id.puntosFutbolistaTxt)
@@ -34,6 +36,16 @@ class PlantillaAdapter(private var lista: List<Futbolista>, private var contexto
                 onClick(futbolista)
             }
 
+            vista.findViewById<ImageView>(R.id.persona_vender_mover).setOnClickListener{
+                verFutbolista(futbolista)
+            }
+
+        }
+
+        private fun verFutbolista(futbolista: Futbolista){
+            val intent = Intent(contexto, DetalleFutbolista::class.java)
+            intent.putExtra("nom", futbolista)
+            contexto.startActivity(intent)
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType:

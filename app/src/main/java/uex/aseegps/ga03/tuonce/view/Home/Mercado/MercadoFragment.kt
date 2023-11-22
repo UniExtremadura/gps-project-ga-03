@@ -5,14 +5,23 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import uex.aseegps.ga03.tuonce.R
 import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
 import uex.aseegps.ga03.tuonce.databinding.FragmentMercadoBinding
 import uex.aseegps.ga03.tuonce.database.dummyFutbolista
+import uex.aseegps.ga03.tuonce.model.Equipo
 import uex.aseegps.ga03.tuonce.model.Futbolista
+import uex.aseegps.ga03.tuonce.model.User
 
 
 class MercadoFragment : Fragment() {
@@ -46,9 +55,58 @@ class MercadoFragment : Fragment() {
             binding.RvFutbolista.layoutManager = LinearLayoutManager(requireContext())
 
             // Aquí puedes continuar configurando tu RecyclerView con el adaptador, etc.
-            binding.RvFutbolista.adapter = AdaptadorFutbolista(jugadoresLibres, requireContext())
+            binding.RvFutbolista.adapter = AdaptadorFutbolista(
+                lista = jugadoresLibres,
+                contexto = requireContext(),
+                onClick = {
+                    lifecycleScope.launch {
+
+                        var futbolistaComprado: Futbolista? = it
+
+                        //Obtengo el equipo del usuario
+                        val equipoUsuario: Equipo? = recuperarEquipo(recuperarUsuario())
+
+                        if (equipoUsuario?.presupuesto!! >= futbolistaComprado?.varor!!) {
+                            // Pongo que el futbolista va a tener el equipo del usuario
+                            futbolistaComprado?.equipoId = equipoUsuario?.equipoId
+                            db?.futbolistaDao()?.update(futbolistaComprado)
+
+                            // Reduzco el presupuesto del equipo con lo que se ha gastado
+                            equipoUsuario?.presupuesto =
+                                equipoUsuario.presupuesto!! - futbolistaComprado.varor!!
+                            db?.equipoDao()?.update(equipoUsuario)
+                        } else {
+                            Toast.makeText(
+                                requireContext(),
+                                "No tienes suficiente dinero",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+
+                        withContext(Dispatchers.Main) {
+                            val navOptions =
+                                NavOptions.Builder().setPopUpTo(R.id.mercadoFragment, true).build()
+                            findNavController().navigate(
+                                R.id.action_mercadoFragment_to_equipoFragment,
+                                null,
+                                navOptions
+                            )
+                        }
+                    }
+
+                })
         }
 
+    }
+    private suspend fun recuperarUsuario(): User? {
+        return withContext(Dispatchers.IO) {
+            db?.userDao()?.obtenerUsuarioConectado()
+        }
+    }
+    private suspend fun recuperarEquipo(usuario: User?): Equipo? {
+        return withContext(Dispatchers.IO) {
+            db?.equipoDao()?.findByUserId(usuario?.userId)
+        }
     }
 }
 

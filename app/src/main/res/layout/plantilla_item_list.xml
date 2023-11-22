@@ -22,7 +22,7 @@
             android:backgroundTintMode="screen">
 
             <ImageView
-                android:id="@+id/item_img"
+                android:id="@+id/persona_vender_mover"
                 android:layout_width="70dp"
                 android:layout_height="120dp"
                 android:layout_marginStart="24dp"
@@ -54,7 +54,7 @@
                 android:text="Futbolista"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
-                app:layout_constraintStart_toEndOf="@+id/item_img"
+                app:layout_constraintStart_toEndOf="@+id/persona_vender_mover"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
@@ -67,7 +67,7 @@
                 android:text="Vender"
                 app:layout_constraintEnd_toStartOf="@+id/comprarBt"
                 app:layout_constraintHorizontal_bias="0.816"
-                app:layout_constraintStart_toEndOf="@+id/item_img"
+                app:layout_constraintStart_toEndOf="@+id/persona_vender_mover"
                 app:layout_constraintTop_toBottomOf="@+id/nombreFutbolistaTxt" />
 
             <Button

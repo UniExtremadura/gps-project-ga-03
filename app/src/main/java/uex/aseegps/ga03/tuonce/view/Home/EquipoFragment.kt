@@ -80,7 +80,7 @@ class EquipoFragment : Fragment() {
 
             // Cambiar el texto de los TextViews
             jugadores?.let {
-                for ((index, jugador) in it.withIndex()) {
+                for ((index, jugador) in it.withIndex().take(minOf(it.size, 11))) {
                     val textView = textViewIds[index]
                     textView.text = jugador.nombreJugador
                 }
