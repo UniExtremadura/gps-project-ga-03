@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Autologin">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="rememberme"
+            android:title="Remember Me" />
+        <EditTextPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="Default usuario"
+            android:key="usurname"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Usuario"
+            android:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="12345"
+            android:key="password"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Contraseña"
+            android:useSimpleSummaryProvider="true"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>

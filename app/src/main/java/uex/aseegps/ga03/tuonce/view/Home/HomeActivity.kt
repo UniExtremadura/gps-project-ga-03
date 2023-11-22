@@ -53,6 +53,7 @@ class HomeActivity : AppCompatActivity() {
             onBackPressed()
         }
 
+
         // Configura un oyente para los cambios de navegación
         navController.addOnDestinationChangedListener { _, destination, _ ->
             // Actualiza el título según la opción seleccionada en la barra de navegación inferior

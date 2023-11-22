@@ -5,6 +5,10 @@
     android:id="@+id/barra_navegacion"
     app:startDestination="@id/misLigasFragment">
 
+    <action
+        android:id="@+id/action_home_to_settingsFragment"
+        app:destination="@+id/settingsFragment" />
+
     <fragment
         android:id="@+id/misLigasFragment"
         android:name="uex.aseegps.ga03.tuonce.view.Home.MisLigasFragment"
@@ -30,4 +34,8 @@
         android:name="uex.aseegps.ga03.tuonce.view.Home.MercadoFragment"
         android:label="Mercado"
         tools:layout="@layout/fragment_mercado" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="uex.aseegps.ga03.tuonce.view.Home.SettingsFragment"
+        android:label="SettingsFragment" />
 </navigation>
