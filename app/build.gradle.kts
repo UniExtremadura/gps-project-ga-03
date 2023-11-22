@@ -57,6 +57,7 @@ android {
 
 dependencies {
     implementation("androidx.navigation:navigation-fragment:2.7.5")
+    implementation("com.google.firebase:firebase-inappmessaging:20.4.0")
     val room_version = "2.5.0"
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")

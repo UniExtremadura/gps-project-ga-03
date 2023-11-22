@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import uex.aseegps.ga03.tuonce.R
 import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
 import uex.aseegps.ga03.tuonce.databinding.FragmentEquipoBinding
 import uex.aseegps.ga03.tuonce.model.Equipo
@@ -39,7 +41,20 @@ class EquipoFragment : Fragment() {
     }
 
     private fun setUpListeners() {
-
+        with(binding){
+            cambiarNombreBt.setOnClickListener{
+                lifecycleScope.launch {
+                    val usuarioConectado: User? = recuperarUsuario()
+                    var equipo: Equipo? = recuperarEquipo(usuarioConectado)
+                    equipo?.name = binding.etEquipo.text.toString().replace(" ", "")
+                    nombreEquipo.text = "Equipo ${equipo?.name?.replace(" ", "")}"
+                    actualizarEquipo(equipo)
+                }
+            }
+            plantillaBt.setOnClickListener {
+                findNavController().navigate(R.id.action_equipoFragment_to_plantillaFragment)
+            }
+        }
     }
 
     private fun escribirNombreEquipoEditable(){
@@ -73,6 +88,7 @@ class EquipoFragment : Fragment() {
 
             val nombreEquipo = equipo?.name
             binding.etEquipo.text = Editable.Factory.getInstance().newEditable(nombreEquipo)
+            binding.nombreEquipo.text = "Equipo ${equipo?.name?.replace(" ", "")}"
         }
     }
     private suspend fun recuperarUsuario(): User? {
@@ -86,6 +102,12 @@ class EquipoFragment : Fragment() {
         }
     }
 
+    private suspend fun actualizarEquipo(equipo: Equipo?) {
+        return withContext(Dispatchers.IO) {
+            db?.equipoDao()?.update(equipo)
+
+        }
+    }
     private suspend fun recuperarJugadores(equipo: Equipo?): List<Futbolista>? {
         return withContext(Dispatchers.IO) {
             db?.futbolistaDao()?.findByEquipoId(equipo?.equipoId)
