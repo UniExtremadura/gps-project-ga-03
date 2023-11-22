@@ -9,34 +9,13 @@
     tools:layout_editor_absoluteX="-41dp"
     tools:layout_editor_absoluteY="-3dp">
 
-    <!-- Botón de Alineación -->
-
-    <!-- Botón de Plantilla -->
-
-    <!-- Simulando los huecos para jugadores con ImageView -->
-
-    <!-- Simulando los huecos para jugadores con ImageView -->
-
-    <TextView
-        android:id="@+id/TeamTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:text="EQUIPO"
-        android:textColor="#FFFFFF"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/btnTemplate"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.085"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/etEquipo"
         android:layout_width="182dp"
         android:layout_height="52dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="36dp"
         android:ems="10"
         android:hint="Equipo"
         android:inputType="text"
@@ -44,15 +23,11 @@
         android:textColor="#FFFFFF"
         android:textColorHint="#A9A9A9"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.325"
-        app:layout_constraintStart_toEndOf="@+id/TeamTitle"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.064" />
+        app:layout_constraintTop_toBottomOf="@+id/plantillaBt" />
 
     <Button
-        android:id="@+id/btnTemplate"
+        android:id="@+id/plantillaBt"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:backgroundTint="#FFFFFF"
@@ -61,24 +36,24 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btnAlignment"
+        app:layout_constraintStart_toEndOf="@+id/alineacionBt"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.254" />
+        app:layout_constraintVertical_bias="0.07" />
 
     <Button
-        android:id="@+id/btnAlignment"
+        android:id="@+id/alineacionBt"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:backgroundTint="#FF0000"
         android:text="Alineación"
         android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnTemplate"
+        app:layout_constraintEnd_toStartOf="@+id/plantillaBt"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.254" />
+        app:layout_constraintVertical_bias="0.07" />
 
     <ImageView
         android:id="@+id/playerSlot7"
@@ -96,10 +71,10 @@
         android:layout_height="wrap_content"
         android:text="Futbolista"
         android:textColor="#FFFFFF"
-        app:layout_constraintTop_toBottomOf="@+id/playerSlot7"
+        app:layout_constraintBottom_toBottomOf="@+id/playerSlot7"
         app:layout_constraintEnd_toEndOf="@+id/playerSlot7"
         app:layout_constraintStart_toStartOf="@+id/playerSlot7"
-        app:layout_constraintBottom_toBottomOf="@+id/playerSlot7" />
+        app:layout_constraintTop_toBottomOf="@+id/playerSlot7" />
 
     <ImageView
         android:id="@+id/playerSlot5"
@@ -110,16 +85,17 @@
         android:src="@drawable/baseline_person_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/playerSlot1" />
+
     <TextView
         android:id="@+id/playerSlot5Label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Futbolista"
         android:textColor="#FFFFFF"
-        app:layout_constraintTop_toBottomOf="@+id/playerSlot5"
+        app:layout_constraintBottom_toBottomOf="@+id/playerSlot5"
         app:layout_constraintEnd_toEndOf="@+id/playerSlot5"
         app:layout_constraintStart_toStartOf="@+id/playerSlot5"
-        app:layout_constraintBottom_toBottomOf="@+id/playerSlot5" />
+        app:layout_constraintTop_toBottomOf="@+id/playerSlot5" />
 
     <ImageView
         android:id="@+id/playerSlot11"
@@ -129,17 +105,18 @@
         android:layout_marginEnd="176dp"
         android:src="@drawable/baseline_person_24"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnAlignment" />
+        app:layout_constraintTop_toBottomOf="@+id/cambiarNombreBt" />
+
     <TextView
         android:id="@+id/playerSlot11Label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Futbolista"
         android:textColor="#FFFFFF"
-        app:layout_constraintTop_toBottomOf="@+id/playerSlot11"
+        app:layout_constraintBottom_toBottomOf="@+id/playerSlot11"
         app:layout_constraintEnd_toEndOf="@+id/playerSlot11"
         app:layout_constraintStart_toStartOf="@+id/playerSlot11"
-        app:layout_constraintBottom_toBottomOf="@+id/playerSlot11" />
+        app:layout_constraintTop_toBottomOf="@+id/playerSlot11" />
 
     <ImageView
         android:id="@+id/playerSlot6"
@@ -158,10 +135,10 @@
         android:layout_height="wrap_content"
         android:text="Futbolista"
         android:textColor="#FFFFFF"
-        app:layout_constraintTop_toBottomOf="@+id/playerSlot6"
+        app:layout_constraintBottom_toBottomOf="@+id/playerSlot6"
         app:layout_constraintEnd_toEndOf="@+id/playerSlot6"
         app:layout_constraintStart_toStartOf="@+id/playerSlot6"
-        app:layout_constraintBottom_toBottomOf="@+id/playerSlot6" />
+        app:layout_constraintTop_toBottomOf="@+id/playerSlot6" />
 
     <ImageView
         android:id="@+id/playerSlot3"
@@ -179,10 +156,10 @@
         android:layout_height="wrap_content"
         android:text="Futbolista"
         android:textColor="#FFFFFF"
-        app:layout_constraintTop_toBottomOf="@+id/playerSlot3"
+        app:layout_constraintBottom_toBottomOf="@+id/playerSlot3"
         app:layout_constraintEnd_toEndOf="@+id/playerSlot3"
         app:layout_constraintStart_toStartOf="@+id/playerSlot3"
-        app:layout_constraintBottom_toBottomOf="@+id/playerSlot3" />
+        app:layout_constraintTop_toBottomOf="@+id/playerSlot3" />
 
     <ImageView
         android:id="@+id/playerSlot9"
@@ -194,16 +171,17 @@
         app:layout_constraintEnd_toStartOf="@+id/playerSlot10"
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toEndOf="@+id/playerSlot8" />
+
     <TextView
         android:id="@+id/playerSlot9Label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Futbolista"
         android:textColor="#FFFFFF"
-        app:layout_constraintTop_toBottomOf="@+id/playerSlot9"
+        app:layout_constraintBottom_toBottomOf="@+id/playerSlot9"
         app:layout_constraintEnd_toEndOf="@+id/playerSlot9"
         app:layout_constraintStart_toStartOf="@+id/playerSlot9"
-        app:layout_constraintBottom_toBottomOf="@+id/playerSlot9" />
+        app:layout_constraintTop_toBottomOf="@+id/playerSlot9" />
 
     <ImageView
         android:id="@+id/playerSlot10"
@@ -214,16 +192,17 @@
         android:src="@drawable/baseline_person_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/playerSlot7" />
+
     <TextView
         android:id="@+id/playerSlot10Label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Futbolista"
         android:textColor="#FFFFFF"
-        app:layout_constraintTop_toBottomOf="@+id/playerSlot10"
+        app:layout_constraintBottom_toBottomOf="@+id/playerSlot10"
         app:layout_constraintEnd_toEndOf="@+id/playerSlot10"
         app:layout_constraintStart_toStartOf="@+id/playerSlot10"
-        app:layout_constraintBottom_toBottomOf="@+id/playerSlot10" />
+        app:layout_constraintTop_toBottomOf="@+id/playerSlot10" />
 
     <ImageView
         android:id="@+id/playerSlot2"
@@ -233,16 +212,18 @@
         android:src="@drawable/baseline_person_24"
         app:layout_constraintEnd_toStartOf="@+id/playerSlot6"
         app:layout_constraintTop_toBottomOf="@+id/playerSlot11" />
+
     <TextView
         android:id="@+id/playerSlot2Label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Futbolista"
         android:textColor="#FFFFFF"
-        app:layout_constraintTop_toBottomOf="@+id/playerSlot2"
+        app:layout_constraintBottom_toBottomOf="@+id/playerSlot2"
         app:layout_constraintEnd_toEndOf="@+id/playerSlot2"
         app:layout_constraintStart_toStartOf="@+id/playerSlot2"
-        app:layout_constraintBottom_toBottomOf="@+id/playerSlot2" />
+        app:layout_constraintTop_toBottomOf="@+id/playerSlot2" />
+
     <ImageView
         android:id="@+id/playerSlot4"
         android:layout_width="60dp"
@@ -252,16 +233,18 @@
         android:src="@drawable/baseline_person_24"
         app:layout_constraintStart_toEndOf="@+id/playerSlot3"
         app:layout_constraintTop_toBottomOf="@+id/playerSlot11" />
+
     <TextView
         android:id="@+id/playerSlot4Label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Futbolista"
         android:textColor="#FFFFFF"
-        app:layout_constraintTop_toBottomOf="@+id/playerSlot4"
+        app:layout_constraintBottom_toBottomOf="@+id/playerSlot4"
         app:layout_constraintEnd_toEndOf="@+id/playerSlot4"
         app:layout_constraintStart_toStartOf="@+id/playerSlot4"
-        app:layout_constraintBottom_toBottomOf="@+id/playerSlot4" />
+        app:layout_constraintTop_toBottomOf="@+id/playerSlot4" />
+
     <ImageView
         android:id="@+id/playerSlot1"
         android:layout_width="60dp"
@@ -271,16 +254,17 @@
         android:src="@drawable/baseline_person_24"
         app:layout_constraintEnd_toStartOf="@+id/playerSlot2"
         app:layout_constraintTop_toBottomOf="@+id/playerSlot11" />
+
     <TextView
         android:id="@+id/playerSlot1Label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Futbolista"
         android:textColor="#FFFFFF"
-        app:layout_constraintTop_toBottomOf="@+id/playerSlot1"
+        app:layout_constraintBottom_toBottomOf="@+id/playerSlot1"
         app:layout_constraintEnd_toEndOf="@+id/playerSlot1"
         app:layout_constraintStart_toStartOf="@+id/playerSlot1"
-        app:layout_constraintBottom_toBottomOf="@+id/playerSlot1" />
+        app:layout_constraintTop_toBottomOf="@+id/playerSlot1" />
 
     <ImageView
         android:id="@+id/playerSlot8"
@@ -291,27 +275,40 @@
         android:src="@drawable/baseline_person_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/playerSlot5" />
+
     <TextView
         android:id="@+id/playerSlot8Label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Futbolista"
         android:textColor="#FFFFFF"
-        app:layout_constraintTop_toBottomOf="@+id/playerSlot8"
+        app:layout_constraintBottom_toBottomOf="@+id/playerSlot8"
         app:layout_constraintEnd_toEndOf="@+id/playerSlot8"
         app:layout_constraintStart_toStartOf="@+id/playerSlot8"
-        app:layout_constraintBottom_toBottomOf="@+id/playerSlot8" />
+        app:layout_constraintTop_toBottomOf="@+id/playerSlot8" />
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="170dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="64dp"
+        android:id="@+id/cambiarNombreBt"
+        android:layout_width="183dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="36dp"
         android:backgroundTint="#949393"
         android:text="Cambiar nombre"
         app:circularflow_radiusInDP="40"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etEquipo" />
+
+    <TextView
+        android:id="@+id/nombreEquipo"
+        android:layout_width="95dp"
+        android:layout_height="61dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="48dp"
+        android:text="Equipo"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/etEquipo"
+        app:layout_constraintTop_toBottomOf="@+id/alineacionBt" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
