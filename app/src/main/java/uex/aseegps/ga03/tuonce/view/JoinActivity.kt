@@ -12,11 +12,8 @@ import uex.aseegps.ga03.tuonce.R
 import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
 import uex.aseegps.ga03.tuonce.databinding.ActivityJoinBinding
 import uex.aseegps.ga03.tuonce.databinding.ActivityLoginBinding
-import uex.aseegps.ga03.tuonce.model.Equipo
 import uex.aseegps.ga03.tuonce.model.User
 import uex.aseegps.ga03.tuonce.utils.CredentialCheck
-import uex.aseegps.ga03.tuonce.database.dummyFutbolista
-import uex.aseegps.ga03.tuonce.model.Futbolista
 
 class JoinActivity : AppCompatActivity() {
     private lateinit var binding: ActivityJoinBinding
@@ -63,36 +60,18 @@ class JoinActivity : AppCompatActivity() {
                 lifecycleScope.launch{
                     val user = User(
                         null,
+                        R.drawable.ic_launcher_background,
                         etUsername.text.toString(),
-                        etPasswordOne.text.toString()
+                        etPasswordOne.text.toString(),
+                        0
                     )
                     val id = db?.userDao()?.insert(user)
-                    crearEquipo(user, id)
-                    navigateBackWithResult(User(id, etUsername.text.toString(),etPasswordOne.text.toString()))
+                    navigateBackWithResult(User( id, R.drawable.ic_launcher_background ,etUsername.text.toString(),etPasswordOne.text.toString(), 0))
                 }
             }
         }
-    }
 
-    // Funcion que crea un equipo para un usuario, inicialmente el nombre es el del usuario + FC
-    private fun crearEquipo(user : User, id : Long?){
-        Toast.makeText(this, "Creandote un equipo...", Toast.LENGTH_SHORT).show()
-        val nuevoEquipo : Equipo = Equipo(
-            null,
-            name = user.name,
-            userId = id,
-            ligaId = null
-        )
-        lifecycleScope.launch{
-            val equipoId = db?.equipoDao()?.insert(nuevoEquipo)
-            val onceJugadores = seleccionar11Jugadores()
-            onceJugadores.forEach {
-                it.equipoId = equipoId
-                db?.futbolistaDao()?.insert(it)
-            }
-        }
     }
-
 
     private fun navigateBackWithResult(user: User) {
         val intent = Intent().apply {
@@ -103,15 +82,13 @@ class JoinActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun seleccionar11Jugadores(): List<Futbolista> {
-        // Obtén la lista de futbolistas barajada aleatoriamente
-        val futbolistasBarajados = dummyFutbolista.shuffled()
 
-        // Toma los primeros 11 jugadores de la lista barajada
-        val onceJugadores = futbolistasBarajados.take(11)
-
-        return onceJugadores
+    private fun navigateToLoginActivity() {
+        Toast.makeText(this, "Login ->", Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
     }
+
     private fun notifyInvalidCredentials(msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
