@@ -6,14 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import uex.aseegps.ga03.tuonce.R
+import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
 import uex.aseegps.ga03.tuonce.database.dummyFutbolista
 import uex.aseegps.ga03.tuonce.databinding.FragmentPlantillaBinding
 import uex.aseegps.ga03.tuonce.model.Equipo
+import uex.aseegps.ga03.tuonce.model.Futbolista
 import uex.aseegps.ga03.tuonce.model.User
 
 // TODO: Rename parameter arguments, choose names that match
@@ -30,7 +35,7 @@ class PlantillaFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-
+    private lateinit var db: TuOnceDatabase
 
     private var _binding: FragmentPlantillaBinding? = null
     private val binding get() = _binding!!
@@ -42,6 +47,7 @@ class PlantillaFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+        db = TuOnceDatabase.getInstance(requireContext())!!
     }
 
     override fun onCreateView(
@@ -66,13 +72,46 @@ class PlantillaFragment : Fragment() {
         }
 
     private fun setUpRecyclerView() {
-        adapter = PlantillaAdapter(
-            lista = dummyFutbolista,
-            contexto = this.context
-        )
-        with(binding) {
-            rvFutbolistasList.layoutManager = LinearLayoutManager(context)
-            rvFutbolistasList.adapter = adapter
+        var futbolistasDelEquipo = mutableListOf<Futbolista>()
+        var futbolistasDelEquipo2 = mutableListOf<Futbolista>()
+        val context = this.context
+        lifecycleScope?.launch {
+            var futbolistas: List<Futbolista>? = db?.futbolistaDao()?.findAll()
+            val equipo: Equipo? = recuperarEquipo(recuperarUsuario())
+            futbolistas?.forEach {
+                if ((it.equipoId == equipo?.equipoId) and (it.estaEnel11 == 0)) {
+                    futbolistasDelEquipo.add(it)
+                }
+            }
+            adapter = PlantillaAdapter(
+                lista = futbolistasDelEquipo,
+                contexto = context,
+                viewLifecycleOwner.lifecycleScope
+            )
+            with(binding) {
+                rvFutbolistasList.layoutManager = LinearLayoutManager(context)
+                rvFutbolistasList.adapter = adapter
+            }
+            binding.tvEncimaRecyclerView.text = "Jugador no alineado"
+        }
+        lifecycleScope?.launch {
+            var futbolistas: List<Futbolista>? = db?.futbolistaDao()?.findAll()
+            val equipo: Equipo? = recuperarEquipo(recuperarUsuario())
+            futbolistas?.forEach {
+                if ((it.equipoId == equipo?.equipoId) and (it.estaEnel11 == 1)) {
+                    futbolistasDelEquipo2.add(it)
+                }
+            }
+            adapter = PlantillaAdapter(
+                lista = futbolistasDelEquipo2,
+                contexto = context,
+                viewLifecycleOwner.lifecycleScope
+            )
+            with(binding) {
+                rvFutbolistasList2.layoutManager = LinearLayoutManager(context)
+                rvFutbolistasList2.adapter = adapter
+            }
+            binding.tvEncimaRecyclerView3.text = "Jugadores Alineados"
         }
     }
     companion object {
@@ -93,5 +132,15 @@ class PlantillaFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+    private suspend fun recuperarUsuario(): User? {
+        return withContext(Dispatchers.IO) {
+            db?.userDao()?.obtenerUsuarioConectado()
+        }
+    }
+    private suspend fun recuperarEquipo(usuario: User?): Equipo? {
+        return withContext(Dispatchers.IO) {
+            db?.equipoDao()?.findByUserId(usuario?.userId)
+        }
     }
 }
