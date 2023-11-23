@@ -165,12 +165,13 @@
         android:id="@+id/playerSlot9"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginBottom="108dp"
         android:src="@drawable/baseline_person_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/playerSlot10"
-        app:layout_constraintHorizontal_bias="0.504"
-        app:layout_constraintStart_toEndOf="@+id/playerSlot8" />
+        app:layout_constraintHorizontal_bias="0.514"
+        app:layout_constraintStart_toEndOf="@+id/playerSlot8"
+        app:layout_constraintTop_toBottomOf="@+id/playerSlot6Label"
+        app:layout_constraintVertical_bias="0.655" />
 
     <TextView
         android:id="@+id/playerSlot9Label"

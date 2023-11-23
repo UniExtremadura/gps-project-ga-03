@@ -13,6 +13,7 @@ import uex.aseegps.ga03.tuonce.model.Futbolista
 import uex.aseegps.ga03.tuonce.view.Home.DetalleFutbolista
 
 
+
 class AdaptadorFutbolista(private var lista: List<Futbolista>,private var contexto: Context) : RecyclerView.Adapter<AdaptadorFutbolista.viewHolder>() {
 
     class viewHolder(var vista: View, var contexto: Context) : RecyclerView.ViewHolder(vista) {
