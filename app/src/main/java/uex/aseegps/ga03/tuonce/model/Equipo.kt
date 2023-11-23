@@ -14,7 +14,13 @@ import java.io.Serializable
             parentColumns = ["userId"],
             childColumns = ["user_id"],
             onDelete = CASCADE
-        )
+        ),
+        ForeignKey(
+            entity = Liga::class,
+            parentColumns = ["ligaId"],
+            childColumns = ["liga_id"],
+            onDelete = CASCADE
+        ),
     ]
 )
 data class Equipo(
@@ -24,5 +30,8 @@ data class Equipo(
     var presupuesto : Int,
 
     @ColumnInfo(name = "user_id")
-    val userId: Long?
+    val userId: Long?,
+
+    @ColumnInfo(name = "liga_id")
+    var ligaId: Long?
 ) : Serializable

@@ -39,7 +39,6 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-
     fun setUpUI() {
         binding.bottomNavigation.setupWithNavController(navController)
         appBarConfiguration = AppBarConfiguration(

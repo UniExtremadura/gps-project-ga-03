@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_misLigasFragment_to_crearLigaPersonalizada"
             app:destination="@id/crearLigaPersonalizada" />
+        <action
+            android:id="@+id/action_misLigasFragment_to_clasificacionFragment"
+            app:destination="@id/clasificacionFragment" />
     </fragment>
     <fragment
         android:id="@+id/actividadFragment"
@@ -55,6 +58,10 @@
         android:id="@+id/crearLigaPersonalizada"
         android:name="uex.aseegps.ga03.tuonce.view.Home.CrearLigaPersonalizada"
         android:label="fragment_crear_liga_personalizada"
-        tools:layout="@layout/fragment_crear_liga_personalizada" />
+        tools:layout="@layout/fragment_crear_liga_personalizada" >
+        <action
+            android:id="@+id/action_crearLigaPersonalizada_to_misLigasFragment"
+            app:destination="@id/misLigasFragment" />
+    </fragment>
 
 </navigation>

@@ -64,12 +64,13 @@ class JoinActivity : AppCompatActivity() {
                 lifecycleScope.launch{
                     val user = User(
                         null,
+                        R.drawable.ic_launcher_background,
                         etUsername.text.toString(),
                         etPasswordOne.text.toString()
                     )
                     val id = db?.userDao()?.insert(user)
                     crearEquipo(user, id)
-                    navigateBackWithResult(User(id, etUsername.text.toString(),etPasswordOne.text.toString()))
+                    navigateBackWithResult(User(id,R.drawable.ic_launcher_background, etUsername.text.toString(),etPasswordOne.text.toString()))
                 }
             }
         }
@@ -85,6 +86,8 @@ class JoinActivity : AppCompatActivity() {
         val nuevoEquipo = Equipo(
             null,
             name = user.name,
+            userId = id,
+            ligaId = null,
             presupuesto = randomNumber,
             userId = id
         )

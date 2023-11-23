@@ -1,14 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
+    android:backgroundTint="#000000"
     tools:context=".view.Home.ClasificacionFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/tvNombreLiga"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textSize="18sp"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:text="Nombre de la Liga" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvClasificacion"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="CLASIFICACION" />
+        android:layout_marginTop="56dp"
+        android:paddingBottom="@dimen/bottom_navigation_height"
+        android:clipToPadding="false"
+        android:background="#000000"
+        android:backgroundTint="#000000"/>
+
 
 </FrameLayout>
