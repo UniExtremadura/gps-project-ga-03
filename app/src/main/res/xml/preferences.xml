@@ -7,6 +7,11 @@
     app:iconSpaceReserved="false"
     app:title="Ajustes">
 
+    <Preference
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout="@layout/custom_preference_header" />
+
     <PreferenceCategory
 
         android:layout_width="wrap_content"
@@ -49,5 +54,15 @@
             app:iconSpaceReserved="false"
             app:key="contraseña"
             app:useSimpleSummaryProvider="true" />
+
+        <Preference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:title="Preguntas Frecuentes"
+            android:summary="Aquí puedes encontrar respuestas a preguntas comunes."
+            app:iconSpaceReserved="false"
+            app:key="preguntas_frecuentes" />
+
     </PreferenceCategory>
+
 </PreferenceScreen>

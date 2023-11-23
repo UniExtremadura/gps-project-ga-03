@@ -37,5 +37,14 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="uex.aseegps.ga03.tuonce.view.Home.SettingsFragment"
-        android:label="Ajustes" />
+        android:label="Ajustes" >
+        <action
+            android:id="@+id/action_settingsFragment_to_preguntasFrecuentesFragment"
+            app:destination="@id/preguntasFrecuentesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/preguntasFrecuentesFragment"
+        android:name="uex.aseegps.ga03.tuonce.view.Home.PreguntasFrecuentesFragment"
+        android:label="Preguntas Frecuentes"
+        tools:layout="@layout/fragment_preguntas_frecuentes" />
 </navigation>

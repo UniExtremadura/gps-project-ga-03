@@ -74,6 +74,13 @@ class HomeActivity : AppCompatActivity() {
                 binding.toolbarIconPreferencias.visibility = View.GONE
                 binding.toolbarIconBack.visibility = View.GONE
                 binding.toolbar.setBackgroundColor(blanco)
+                title.text = ""
+            } else if(destination.id == R.id.preguntasFrecuentesFragment) {
+                binding.bottomNavigation.visibility = View.GONE
+                binding.toolbarIconPreferencias.visibility = View.GONE
+                binding.toolbarIconBack.visibility = View.GONE
+                binding.toolbar.setBackgroundColor(blanco)
+                title.text = ""
             } else {
                 binding.bottomNavigation.visibility = View.VISIBLE
                 binding.toolbarIconPreferencias.visibility = View.VISIBLE

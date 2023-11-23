@@ -16,4 +16,18 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+
+    <string name="explicacion_calculo_puntuacion">Para calcular la puntuación de un jugador al acabar una jornadad, se hace la suma de la puntuación que han obtenido todos los jugadores de su plantilla.
+    La puntuación de cada jugador se basa en varios aspectos de su desempeño durante un partido. Se calcula de la siguiente forma:</string>
+
+    <string name="explicacion_goles_asistencias">Goles y Asistencias: Se otorgan puntos por la cantidad de goles (5 puntos por gol) y asistencias (3 puntos por asistencia) realizadas, reflejando la contribución del futbolista al marcador.</string>
+
+    <string name="explicacion_minutos_jugados">Minutos Jugados: La puntuación se incrementa proporcionalmente a los minutos jugados, dividiendo la cantidad de minutos por 10, es decir, cada 10 minutos jugados se suma 1 punto.</string>
+
+    <string name="explicacion_paradas_balones_area">Paradas y Balones al Área: Se otorgan puntos por acciones defensivas, sumando 4 puntos por cada parada y 2 puntos por cada balón enviado al área.</string>
+
+    <string name="explicacion_tarjeta_amarilla_roja">Tarjetas Amarillas y Rojas: Se penaliza al futbolista restando puntos por tarjetas recibidas, restando 2 puntos por tarjeta amarilla y 5 puntos por tarjeta roja.</string>
+
+    <string name="explicacion_media">Media, Puntos Aportados y Faltas Cometidas: Se suman directamente a la puntuación la media, los puntos aportados y se restan las faltas cometidas.</string>
+
 </resources>
