@@ -7,19 +7,31 @@
 
     <Button
         android:id="@+id/btnCrearLiga"
-        android:layout_width="165dp"
+        android:layout_width="match_parent"
+        android:layout_margin="10dp"
         android:layout_height="100dp"
         android:layout_gravity="center"
-        android:background="#FF0000"
-        android:text="Crear Liga personalizada"
+        android:background="#cc0000"
+        android:text="Crear Liga Personalizada"
         android:textColor="#FFFFFF" />
 
     <Button
         android:id="@+id/btnSimularPartido"
-        android:layout_width="165dp"
+        android:layout_width="match_parent"
+        android:layout_margin="10dp"
         android:layout_height="100dp"
         android:layout_gravity="center"
-        android:background="#FF0000"
+        android:background="#cc0000"
         android:text="Simular Partido"
+        android:textColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/btnTerminarLiga"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:background="#cc0000"
+        android:text="Terminar Liga"
         android:textColor="#FFFFFF" />
 </FrameLayout>

@@ -10,11 +10,15 @@ interface UserDao {
 
     @Query("SELECT * FROM user")
     suspend fun getAllUsers(): List<User>
+
     @Query("SELECT * FROM user WHERE name LIKE :first LIMIT 1")
     suspend fun findByName(first: String): User
 
     @Insert
     suspend fun insert(user: User): Long
+
+    @Query("DELETE FROM user WHERE userId = :id")
+    suspend fun delete(id: Long)
 
     @Query("UPDATE user SET conectado = 1 WHERE name = :username")
     suspend fun conectar(username: String)

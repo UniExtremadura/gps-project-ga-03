@@ -6,18 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import uex.aseegps.ga03.tuonce.R
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import uex.aseegps.ga03.tuonce.adapter.UsuarioClasificacionAdapter
 import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
+import uex.aseegps.ga03.tuonce.databinding.FragmentClasificacionBinding
+import uex.aseegps.ga03.tuonce.model.User
 
 class ClasificacionFragment : Fragment() {
 
-    private lateinit var rvClasificacion: RecyclerView
+    private var _binding: FragmentClasificacionBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var db: TuOnceDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,34 +27,40 @@ class ClasificacionFragment : Fragment() {
         db = TuOnceDatabase.getInstance(requireContext())!!
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Infla el layout para este fragment
-        val view = inflater.inflate(R.layout.fragment_clasificacion, container, false)
-
-        // Encuentra el RecyclerView en el layout
-        rvClasificacion = view.findViewById(R.id.rvClasificacion)
-        rvClasificacion.layoutManager = LinearLayoutManager(context)
-
-        // Cargar los usuarios de la base de datos
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        _binding = FragmentClasificacionBinding.inflate(inflater, container, false)
+        binding.rvClasificacion.layoutManager = LinearLayoutManager(context)
         cargarUsuariosDesdeBD()
+        return binding.root
+    }
 
-        return view
+    override fun onResume() {
+        super.onResume()
+        cargarUsuariosDesdeBD()
     }
 
     private fun cargarUsuariosDesdeBD() {
         lifecycleScope.launch(Dispatchers.IO) {
-            val listaUsuarios = db.userDao().getAllUsers()
-            // Ordenar usuarios por puntos de forma descendente
-            val listaUsuariosOrdenada = listaUsuarios.sortedByDescending { it.points }
+            val usuarioActivo = db.userDao().obtenerUsuarioConectado()
+            val ligaActiva = usuarioActivo?.userId?.let { db.ligaDao().obtenerLigaPorUsuario(it) }
+            var listaUsuariosOrdenada: List<User> = emptyList()
 
-            // Actualiza el adaptador del RecyclerView en el hilo principal
+            ligaActiva?.ligaId?.let { ligaId ->
+                var listaUsuarios = db.ligaDao().obtenerUsuariosPorLiga(ligaId)
+                listaUsuarios = listaUsuarios.distinctBy { it.userId }
+                listaUsuariosOrdenada = listaUsuarios.sortedByDescending { it.points }
+            }
+
             withContext(Dispatchers.Main) {
                 val adapter = UsuarioClasificacionAdapter(listaUsuariosOrdenada)
-                rvClasificacion.adapter = adapter
+                binding.rvClasificacion.adapter = adapter
+                binding.tvNombreLiga.text = ligaActiva?.name ?: "No hay liga activa"
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

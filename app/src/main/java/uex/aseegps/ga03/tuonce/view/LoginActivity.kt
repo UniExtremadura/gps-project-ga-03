@@ -67,8 +67,8 @@ class LoginActivity : AppCompatActivity() {
             binding.etPassword.text.toString())
         if (!check.fail){
             lifecycleScope.launch{
-                val user =
-                    db?.userDao()?.findByName(binding.etUsername.text.toString())
+                db?.userDao()?.desconectarTodos()
+                val user = db?.userDao()?.findByName(binding.etUsername.text.toString())
                 if (user != null) {
                     val check =
                         CredentialCheck.passwordOk(binding.etPassword.text.toString(),
