@@ -210,6 +210,9 @@ class MisLigasFragment : Fragment() {
                     fut.tarjetaRoja = 0
                     fut.tarjetaAmarilla = 0
                     fut.parada = 0
+                    fut.balonAlArea = 0
+                    fut.faltacometidas = 0
+                    fut.minutoJugados = 0
                     fut.puntosAportados = 0
                     db.futbolistaDao().update(fut)
                 }
@@ -298,6 +301,9 @@ class MisLigasFragment : Fragment() {
             futbolista.tarjetaRoja += (0..1).random()
             futbolista.tarjetaAmarilla += (0..2).random()
             futbolista.parada += (0..1).random()
+            futbolista.balonAlArea += (0..3).random()
+            futbolista.faltacometidas += (0..3).random()
+            futbolista.minutoJugados += (5..90).random()
 
             futbolista.puntosAportados += calcularPuntuacion(futbolista)
 

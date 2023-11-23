@@ -109,6 +109,7 @@ class CrearLigaPersonalizada : Fragment() {
             null,
             name = user.name,
             userId = id,
+            presupuesto = 1000000,
             ligaId = idLiga
         )
         lifecycleScope.launch{

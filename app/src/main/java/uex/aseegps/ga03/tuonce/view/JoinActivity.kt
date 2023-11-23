@@ -89,17 +89,16 @@ class JoinActivity : AppCompatActivity() {
             userId = id,
             ligaId = null,
             presupuesto = randomNumber,
-            userId = id
         )
         lifecycleScope.launch{
 
             val equipoId = db?.equipoDao()?.insert(nuevoEquipo)
+            var jugadoresSeleccionados = 0
             // Inserto todos los jugadores en la base de datos
             dummyFutbolista.shuffled().forEachIndexed{ index, futbolista ->
-                if (index < 11) {
+                if (jugadoresSeleccionados < 11 && futbolista.equipoId == null) {
                     futbolista.equipoId = equipoId
-                } else {
-                    futbolista.equipoId = null
+                    jugadoresSeleccionados++
                 }
                 db?.futbolistaDao()?.insert(futbolista)
             }
