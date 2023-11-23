@@ -86,7 +86,24 @@ class PlantillaFragment : Fragment() {
             adapter = PlantillaAdapter(
                 lista = futbolistasDelEquipo,
                 contexto = context,
-                viewLifecycleOwner.lifecycleScope
+                viewLifecycleOwner.lifecycleScope,
+                onClick = {
+                    lifecycleScope.launch {
+
+                        var futbolistaVendido : Futbolista? = db?.futbolistaDao()?.findByName(it.nombreJugador.toString())
+                        val equipoId = futbolistaVendido?.equipoId
+                        futbolistaVendido?.equipoId = null
+                        db?.futbolistaDao()?.update(futbolistaVendido)
+
+                        val equipo : Equipo? = db?.equipoDao()?.findById(equipoId)
+                        equipo?.presupuesto = equipo?.presupuesto!! + futbolistaVendido?.varor!!
+
+                        db?.equipoDao()?.update(equipo)
+
+                        val navController = findNavController()
+                        navController.navigate(R.id.action_plantillaFragment_to_equipoFragment)
+                    }
+                }
             )
             with(binding) {
                 rvFutbolistasList.layoutManager = LinearLayoutManager(context)
@@ -105,7 +122,25 @@ class PlantillaFragment : Fragment() {
             adapter = PlantillaAdapter(
                 lista = futbolistasDelEquipo2,
                 contexto = context,
-                viewLifecycleOwner.lifecycleScope
+                viewLifecycleOwner.lifecycleScope,
+                onClick = {
+                    lifecycleScope.launch {
+
+                        var futbolistaVendido : Futbolista? = db?.futbolistaDao()?.findByName(it.nombreJugador.toString())
+                        val equipoId = futbolistaVendido?.equipoId
+                        futbolistaVendido?.equipoId = null
+                        db?.futbolistaDao()?.update(futbolistaVendido)
+
+                        val equipo : Equipo? = db?.equipoDao()?.findById(equipoId)
+                        equipo?.presupuesto = equipo?.presupuesto!! - futbolistaVendido?.varor!!
+
+                        db?.equipoDao()?.update(equipo)
+
+                        val navController = findNavController()
+                        navController.navigate(R.id.action_plantillaFragment_to_equipoFragment)
+                    }
+
+                }
             )
             with(binding) {
                 rvFutbolistasList2.layoutManager = LinearLayoutManager(context)
@@ -133,6 +168,7 @@ class PlantillaFragment : Fragment() {
                 }
             }
     }
+
     private suspend fun recuperarUsuario(): User? {
         return withContext(Dispatchers.IO) {
             db?.userDao()?.obtenerUsuarioConectado()

@@ -26,7 +26,7 @@ class EquipoFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         db = TuOnceDatabase.getInstance(requireContext())!!
-        escribirNombreEquipoEditableDinamico()
+
     }
 
     override fun onCreateView(
@@ -35,7 +35,7 @@ class EquipoFragment : Fragment() {
     ): View? {
         _binding = FragmentEquipoBinding.inflate(inflater, container, false)
 
-
+        escribirNombreEquipoEditableDinamico()
         setUpListeners()
 
         return binding.root
@@ -89,50 +89,13 @@ private fun escribirNombreEquipoEditableDinamico(){
                 cont++
             }
         }
-
         val nombreEquipo = equipo?.name
         binding.etEquipo.text = Editable.Factory.getInstance().newEditable(nombreEquipo)
         binding.nombreEquipo.text = "Equipo ${equipo?.name?.replace(" ", "")}"
+        binding.presupuestoText.text = "Presupuesto (euros): ${equipo?.presupuesto}"
     }
 }
-    private fun escribirNombreEquipoEditable(){
-            lifecycleScope.launch {
-                val usuarioConectado: User? = recuperarUsuario()
-                val equipo: Equipo? = recuperarEquipo(usuarioConectado)
-                val jugadores: List<Futbolista>? = recuperarJugadores(equipo)
 
-                // Lista de IDs de TextViews
-                val textViewIds = mutableListOf(
-                    binding.playerSlot1Label,
-                    binding.playerSlot2Label,
-                    binding.playerSlot3Label,
-                    binding.playerSlot4Label,
-                    binding.playerSlot5Label,
-                    binding.playerSlot6Label,
-                    binding.playerSlot7Label,
-                    binding.playerSlot8Label,
-                    binding.playerSlot9Label,
-                    binding.playerSlot10Label,
-                    binding.playerSlot11Label
-                )
-
-                // Cambiar el texto de los TextViews
-                jugadores?.let {
-                    for ((index, jugador) in it.withIndex()) {
-                        if ((index < 11) and (jugador.estaEnel11 == 1)) {
-                            val textView = textViewIds[index]
-                            textView.text = jugador.nombreJugador
-                        } else {
-                            break  // Sal del bucle si ya procesaste los 11 primeros jugadores
-                        }
-                    }
-                }
-
-                val nombreEquipo = equipo?.name
-                binding.etEquipo.text = Editable.Factory.getInstance().newEditable(nombreEquipo)
-                binding.nombreEquipo.text = "Equipo ${equipo?.name?.replace(" ", "")}"
-            }
-    }
     private suspend fun recuperarUsuario(): User? {
         return withContext(Dispatchers.IO) {
             db?.userDao()?.obtenerUsuarioConectado()
@@ -150,13 +113,11 @@ private fun escribirNombreEquipoEditableDinamico(){
 
         }
     }
-
     private suspend fun recuperarJugadores(equipo: Equipo?): List<Futbolista>? {
         return withContext(Dispatchers.IO) {
             db?.futbolistaDao()?.findByEquipoId(equipo?.equipoId)
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -38,7 +38,11 @@
         android:id="@+id/mercadoFragment"
         android:name="uex.aseegps.ga03.tuonce.view.Home.Mercado.MercadoFragment"
         android:label="fragment_mercado"
-        tools:layout="@layout/fragment_mercado" />
+        tools:layout="@layout/fragment_mercado">
+        <action
+        android:id="@+id/action_mercadoFragment_to_equipoFragment"
+        app:destination="@id/equipoFragment" />
+        </fragment>
     <fragment
         android:id="@+id/plantillaFragment"
         android:name="uex.aseegps.ga03.tuonce.view.Home.PlantillaFragment"

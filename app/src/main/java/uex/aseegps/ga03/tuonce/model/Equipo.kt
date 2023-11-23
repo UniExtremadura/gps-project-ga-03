@@ -21,6 +21,8 @@ data class Equipo(
     @PrimaryKey(autoGenerate = true) var equipoId: Long?,
     var name: String = "",
 
+    var presupuesto : Int,
+
     @ColumnInfo(name = "user_id")
     val userId: Long?
 ) : Serializable
