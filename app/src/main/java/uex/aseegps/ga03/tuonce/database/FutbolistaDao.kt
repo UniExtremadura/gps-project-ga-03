@@ -21,6 +21,8 @@ interface FutbolistaDao {
 
     @Query("SELECT * FROM futbolista WHERE equipo_id = :equipoId")
     suspend fun findByEquipoId(equipoId: Long?): List<Futbolista>
+    @Query("SELECT * FROM futbolista")
+    suspend fun findAll(): List<Futbolista>
 
     @Delete
     suspend fun delete(futbolista: Futbolista)

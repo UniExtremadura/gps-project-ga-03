@@ -32,6 +32,7 @@
         <action
             android:id="@+id/action_equipoFragment_to_plantillaFragment"
             app:destination="@id/plantillaFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/mercadoFragment"
@@ -46,11 +47,22 @@
         <action
             android:id="@+id/action_plantillaFragment_to_equipoFragment"
             app:destination="@id/equipoFragment" />
+        <action
+            android:id="@+id/action_plantillaFragment_to_moverAl11"
+            app:destination="@id/moverAl11" />
     </fragment>
     <fragment
         android:id="@+id/crearLigaPersonalizada"
         android:name="uex.aseegps.ga03.tuonce.view.Home.CrearLigaPersonalizada"
         android:label="fragment_crear_liga_personalizada"
         tools:layout="@layout/fragment_crear_liga_personalizada" />
+    <fragment
+        android:id="@+id/moverAl11"
+        android:name="uex.aseegps.ga03.tuonce.view.Home.moverAl11"
+        android:label="moverAl11" >
+        <action
+            android:id="@+id/action_moverAl11_to_equipoFragment"
+            app:destination="@id/equipoFragment" />
+    </fragment>
 
 </navigation>

@@ -29,9 +29,11 @@ data class Futbolista(
     var parada: Int,
     var tarjetaAmarilla: Int,
     var tarjetaRoja: Int,
+    var estaEnel11: Int,
     var media: Int,
     var puntosAportados: Int,
     var faltacometidas: Int,
+
     @ColumnInfo(name = "equipo_id")
     var equipoId: Long?
 ) : Serializable

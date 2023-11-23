@@ -84,7 +84,7 @@ class JoinActivity : AppCompatActivity() {
         )
         lifecycleScope.launch{
             val equipoId = db?.equipoDao()?.insert(nuevoEquipo)
-            val onceJugadores = seleccionar11Jugadores()
+            val onceJugadores = seleccionarPlantilla()
             onceJugadores.forEach {
                 it.equipoId = equipoId
                 db?.futbolistaDao()?.insert(it)
@@ -102,14 +102,26 @@ class JoinActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun seleccionar11Jugadores(): List<Futbolista> {
+    private fun seleccionarPlantilla(): List<Futbolista> {
         // Obtén la lista de futbolistas barajada aleatoriamente
         val futbolistasBarajados = dummyFutbolista.shuffled()
 
         // Toma los primeros 11 jugadores de la lista barajada
-        val onceJugadores = futbolistasBarajados.take(11)
+        val plantilla = futbolistasBarajados.take(14)
 
-        return onceJugadores
+        plantilla?.let {
+            lifecycleScope.launch {
+                for ((index, jugador) in it.withIndex()) {
+                    if (index < 11) {
+                        jugador.estaEnel11 = 1
+                        db?.futbolistaDao()?.update(jugador)
+                    } else {
+                        break
+                    }
+                }
+            }
+        }
+        return plantilla
     }
     private fun notifyInvalidCredentials(msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
