@@ -58,38 +58,14 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_futbolistas_list"
         android:layout_width="407dp"
-        android:layout_height="265dp"
+        android:layout_height="549dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvEncimaRecyclerView"
-        app:layout_constraintVertical_bias="0.028"/>
+        app:layout_constraintVertical_bias="0.037" />
 
     <!-- Nuevo TextView -->
-    <TextView
-        android:id="@+id/tvEncimaRecyclerView3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:padding="8dp"
-        android:text="Texto encima del segundo RecyclerView"
-        android:textColor="#FF0000"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rv_futbolistas_list" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_futbolistas_list2"
-        android:layout_width="424dp"
-        android:layout_height="263dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvEncimaRecyclerView3" />
 </androidx.constraintlayout.widget.ConstraintLayout>
