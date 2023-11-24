@@ -5,7 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import uex.aseegps.ga03.tuonce.R
+import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import uex.aseegps.ga03.tuonce.databinding.FragmentMisLigasBinding
+import uex.aseegps.ga03.tuonce.api.RetrofitServiceFactory
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -18,25 +25,42 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class MisLigasFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
+    private var _binding: FragmentMisLigasBinding? = null
+    private val binding get() = _binding!!
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+        }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        _binding = FragmentMisLigasBinding.inflate(inflater, container, false)
+        binding.rvShowList.layoutManager = LinearLayoutManager(context)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        fetchArticles()
+    }
+
+    private fun fetchArticles() {
+        lifecycleScope.launch {
+            binding.spinner.visibility = View.VISIBLE
+            try {
+                val service = RetrofitServiceFactory.makeRetrofitService()
+                val remoteResource = service.listNoticias("sports", "ar", "49aa5dc1188e4486810c0f8cf239bc00")
+                val notices = remoteResource.articles
+                binding.spinner.visibility = View.GONE
+                withContext(Dispatchers.Main) {
+                    val adapter = MisLigasAdapter(notices)
+                    binding.rvShowList.adapter = adapter
+                }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_mis_ligas, container, false)
-    }
 
     companion object {
         /**
