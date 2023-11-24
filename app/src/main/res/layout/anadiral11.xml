@@ -41,7 +41,7 @@
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.948"
+                app:layout_constraintHorizontal_bias="0.723"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.16" />
@@ -56,7 +56,7 @@
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.339"
+                app:layout_constraintHorizontal_bias="0.256"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.16" />
@@ -72,9 +72,35 @@
                 android:text="Quitar del 11"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintHorizontal_bias="0.22"
                 app:layout_constraintStart_toEndOf="@+id/item_img"
-                app:layout_constraintTop_toBottomOf="@+id/puntosFutbolistaal11" />
+                app:layout_constraintTop_toBottomOf="@+id/puntosFutbolistaal11"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="58dp"
+                android:layout_height="18dp"
+                android:layout_marginStart="9dp"
+                android:layout_marginTop="24dp"
+                android:text="puntos"
+                android:textColor="#FFFFFF"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.157"
+                app:layout_constraintStart_toEndOf="@+id/puntosFutbolistaal11"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/posTxt"
+                android:layout_width="109dp"
+                android:layout_height="33dp"
+                android:layout_marginBottom="16dp"
+                android:text="Posicion"
+                android:textColor="#FFFFFF"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.543"
+                app:layout_constraintStart_toEndOf="@+id/anadiral11" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

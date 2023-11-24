@@ -29,6 +29,8 @@ class Al11Adapter(private var lista: List<Futbolista>, private var contexto: Con
                 db = TuOnceDatabase.getInstance(contexto!!)!!
                 val xmlnombreJugador = vista.findViewById<TextView>(R.id.nombreFutbolistaal11)
                 val xmlPuntosJugador = vista.findViewById<TextView>(R.id.puntosFutbolistaal11)
+                val xmlPosicionJugador = vista.findViewById<TextView>(R.id.posTxt)
+
                 var futbolistas: List<Futbolista>? = withContext(Dispatchers.IO) {
                     db?.futbolistaDao()?.findAll()
                 }
@@ -46,6 +48,7 @@ class Al11Adapter(private var lista: List<Futbolista>, private var contexto: Con
                 // Establecer los datos del futbolista en los elementos visuales del diseño
                 xmlnombreJugador.text = futbolista.nombreJugador
                 xmlPuntosJugador.text = futbolista.puntosAportados.toString()
+                xmlPosicionJugador.text = futbolista.posicion.toString()
                 val comprarButton = vista.findViewById<Button>(R.id.anadiral11)
                 comprarButton.setOnClickListener {
                     if (futbolista.posicion == jugador?.posicion) {

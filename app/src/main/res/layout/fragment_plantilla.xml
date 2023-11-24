@@ -112,13 +112,14 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_futbolistas_list"
-        android:layout_width="match_parent"
-        android:layout_height= "490dp"
+        android:layout_width="373dp"
+        android:layout_height="526dp"
         android:layout_margin="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvEncimaRecyclerView"
-        app:layout_constraintVertical_bias="0.037"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
