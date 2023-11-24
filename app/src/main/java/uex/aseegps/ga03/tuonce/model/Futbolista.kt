@@ -1,18 +1,39 @@
 package uex.aseegps.ga03.tuonce.model
 
-data class Futbolista(
-    val nombreJugador: String,
-    val años: String,
-    val posicion: String,
-    val valor: Int,
-    val minutoJugados: Int,
-    val goles: Int,
-    val asistencias: Int,
-    val balonAlArea: Int,
-    val parada: Int,
-    val tarjetaAmarilla: Int,
-    val tarjetaRoja: Int,
-    val media: Int,
-    val puntosAportados: Int,
-    val faltacometidas: Int
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.PrimaryKey
+import java.io.Serializable
+
+@Entity(
+    foreignKeys = [
+        ForeignKey(
+            entity = Equipo::class,
+            parentColumns = ["equipoId"],
+            childColumns = ["equipo_id"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ]
 )
+data class Futbolista(
+    @PrimaryKey(autoGenerate = true) var futbolistaId: Long?,
+    var nombreJugador: String,
+    var años: String,
+    var posicion: String,
+    var varor: Int,
+    var minutoJugados: Int,
+    var goles: Int,
+    var asistencias: Int,
+    var balonAlArea: Int,
+    var parada: Int,
+    var tarjetaAmarilla: Int,
+    var tarjetaRoja: Int,
+    var estaEnel11: Int,
+    var media: Int,
+    var puntosAportados: Int,
+    var faltacometidas: Int,
+
+    @ColumnInfo(name = "equipo_id")
+    var equipoId: Long?
+) : Serializable

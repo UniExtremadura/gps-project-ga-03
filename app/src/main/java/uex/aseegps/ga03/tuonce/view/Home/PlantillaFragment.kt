@@ -17,6 +17,7 @@ import uex.aseegps.ga03.tuonce.R
 import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
 import uex.aseegps.ga03.tuonce.database.dummyFutbolista
 import uex.aseegps.ga03.tuonce.databinding.FragmentPlantillaBinding
+import uex.aseegps.ga03.tuonce.utils.SortPlayers.clasificarJugadores
 import uex.aseegps.ga03.tuonce.model.Equipo
 import uex.aseegps.ga03.tuonce.model.Futbolista
 import uex.aseegps.ga03.tuonce.model.User
@@ -63,6 +64,41 @@ class PlantillaFragment : Fragment() {
     private fun setUpListeners() {
         binding.alineacionBt.setOnClickListener {
             findNavController().navigate(R.id.action_plantillaFragment_to_equipoFragment)
+        }
+        binding.buttonOrdenarPuntos.setOnClickListener {
+            var futbolistasDelEquipo = mutableListOf<Futbolista>()
+            lifecycleScope.launch {
+                val futbolistas: List<Futbolista>? = db?.futbolistaDao()?.findAll()
+                val equipo: Equipo? = recuperarEquipo(recuperarUsuario())
+                futbolistas?.forEach {
+                    if (it.equipoId == equipo?.equipoId) {
+                        futbolistasDelEquipo.add(it)
+                    }
+                }
+                val futbolistasDelEquipoOrdenados = clasificarJugadores(futbolistasDelEquipo)
+                adapter = PlantillaAdapter(
+                    lista = futbolistasDelEquipoOrdenados,
+                    contexto = context,
+                    viewLifecycleOwner.lifecycleScope,
+                    onClick = {
+                        lifecycleScope.launch {
+
+                            var futbolistaVendido : Futbolista? = db?.futbolistaDao()?.findByName(it.nombreJugador.toString())
+                            val equipoId = futbolistaVendido?.equipoId
+                            futbolistaVendido?.equipoId = null
+                            db?.futbolistaDao()?.update(futbolistaVendido)
+
+                            val equipo : Equipo? = db?.equipoDao()?.findById(equipoId)
+                            equipo?.presupuesto = equipo?.presupuesto!! + futbolistaVendido?.varor!!
+
+                            db?.equipoDao()?.update(equipo)
+
+                            val navController = findNavController()
+                            navController.navigate(R.id.action_plantillaFragment_to_equipoFragment)
+                        }
+                    }
+                )
+            }
         }
     }
 

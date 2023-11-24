@@ -9,8 +9,9 @@
 
     <!-- Botón en la parte superior -->
     <Button
-        android:id="@+id/button2"
-        android:layout_width="369dp"
+        android:id="@+id/ordenarPorPuntuacion"
+        android:layout_width="match_parent"
+        android:layout_margin="6dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:background="#cc0000"

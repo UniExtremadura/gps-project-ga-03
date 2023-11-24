@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navOptions
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,10 +17,11 @@ import kotlinx.coroutines.withContext
 import uex.aseegps.ga03.tuonce.R
 import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
 import uex.aseegps.ga03.tuonce.databinding.FragmentMercadoBinding
-import uex.aseegps.ga03.tuonce.database.dummyFutbolista
 import uex.aseegps.ga03.tuonce.model.Equipo
 import uex.aseegps.ga03.tuonce.model.Futbolista
 import uex.aseegps.ga03.tuonce.model.User
+import uex.aseegps.ga03.tuonce.utils.SortPlayers
+import uex.aseegps.ga03.tuonce.utils.SortPlayers.clasificarJugadores
 
 
 class MercadoFragment : Fragment() {
@@ -37,7 +37,65 @@ class MercadoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMercadoBinding.inflate(inflater, container, false)
+        setUpListeners()
         return binding.root
+    }
+
+    private fun setUpListeners() {
+        binding.ordenarPorPuntuacion.setOnClickListener {
+            var jugadoresLibres = mutableListOf<Futbolista>()
+            lifecycleScope.launch {
+                var futbolistas: List<Futbolista>? = db?.futbolistaDao()?.findAll()
+                futbolistas?.forEach {
+                    if (it.equipoId == null) {
+                        jugadoresLibres.add(it)
+                    }
+                }
+                val jugadoresOrdenados = clasificarJugadores(jugadoresLibres)
+                binding.RvFutbolista.layoutManager = LinearLayoutManager(requireContext())
+                binding.RvFutbolista.adapter = AdaptadorFutbolista(
+                    lista = jugadoresOrdenados,
+                    contexto = requireContext(),
+                    onClick = {
+                        lifecycleScope.launch {
+
+                            var futbolistaComprado: Futbolista? = it
+
+                            //Obtengo el equipo del usuario
+                            val equipoUsuario: Equipo? = recuperarEquipo(recuperarUsuario())
+
+                            if (equipoUsuario?.presupuesto!! >= futbolistaComprado?.varor!!) {
+                                // Pongo que el futbolista va a tener el equipo del usuario
+                                futbolistaComprado?.equipoId = equipoUsuario?.equipoId
+                                db?.futbolistaDao()?.update(futbolistaComprado)
+
+                                // Reduzco el presupuesto del equipo con lo que se ha gastado
+                                equipoUsuario?.presupuesto =
+                                    equipoUsuario.presupuesto!! - futbolistaComprado.varor!!
+                                db?.equipoDao()?.update(equipoUsuario)
+                            } else {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "No tienes suficiente dinero",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                            withContext(Dispatchers.Main) {
+                                val navOptions =
+                                    NavOptions.Builder().setPopUpTo(R.id.mercadoFragment, true)
+                                        .build()
+                                findNavController().navigate(
+                                    R.id.action_mercadoFragment_to_equipoFragment,
+                                    null,
+                                    navOptions
+                                )
+                            }
+                        }
+
+                    })
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
