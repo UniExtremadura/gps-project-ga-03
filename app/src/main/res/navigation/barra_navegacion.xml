@@ -44,7 +44,11 @@
         android:id="@+id/mercadoFragment"
         android:name="uex.aseegps.ga03.tuonce.view.Home.Mercado.MercadoFragment"
         android:label="Mercado"
-        tools:layout="@layout/fragment_mercado" />
+        tools:layout="@layout/fragment_mercado">
+    <action
+        android:id="@+id/action_mercadoFragment_to_equipoFragment"
+        app:destination="@id/equipoFragment" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="uex.aseegps.ga03.tuonce.view.Home.SettingsFragment"
@@ -58,9 +62,7 @@
         android:name="uex.aseegps.ga03.tuonce.view.Home.PreguntasFrecuentesFragment"
         android:label="Preguntas Frecuentes"
         tools:layout="@layout/fragment_preguntas_frecuentes">
-        <action
-        android:id="@+id/action_mercadoFragment_to_equipoFragment"
-        app:destination="@id/equipoFragment" />
+
         </fragment>
     <fragment
         android:id="@+id/plantillaFragment"

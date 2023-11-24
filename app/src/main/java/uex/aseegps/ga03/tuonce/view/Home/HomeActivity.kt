@@ -11,6 +11,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.graphics.Color
 import android.util.AttributeSet
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -62,7 +63,7 @@ class HomeActivity : AppCompatActivity() {
             )
         )
         setSupportActionBar(binding.toolbar)
-        setupActionBarWithNavController(navController, appBarConfiguration)
+
 
         val botonBack = findViewById<ImageButton>(R.id.toolbar_icon_back)
         botonBack.setOnClickListener {
@@ -79,26 +80,31 @@ class HomeActivity : AppCompatActivity() {
             val title = findViewById<TextView>(R.id.toolbar_title)
             title.text = destination.label
             title.setTextColor(Color.parseColor("#D70000"))
-
             if(destination.id == R.id.settingsFragment) {
+                val nPrincipal = findViewById<View>(R.id.nPrincipal)  // Reemplaza con el tipo de vista correcto y el ID real
+                nPrincipal.setBackgroundColor(ContextCompat.getColor(this, R.color.white))  // Usa el color que prefieras
                 binding.bottomNavigation.visibility = View.GONE
                 binding.toolbarIconPreferencias.visibility = View.GONE
                 binding.toolbarIconBack.visibility = View.GONE
-                binding.toolbar.setBackgroundColor(blanco)
+                binding.toolbar.setBackgroundColor(Color.parseColor("#CC0000"))
                 title.text = ""
             } else if(destination.id == R.id.preguntasFrecuentesFragment) {
                 binding.bottomNavigation.visibility = View.GONE
                 binding.toolbarIconPreferencias.visibility = View.GONE
                 binding.toolbarIconBack.visibility = View.GONE
-                binding.toolbar.setBackgroundColor(blanco)
+                binding.toolbar.setBackgroundColor(Color.parseColor("#CC0000"))
                 title.text = ""
             } else {
+                val nPrincipal = findViewById<View>(R.id.nPrincipal)  // Reemplaza con el tipo de vista correcto y el ID real
+                nPrincipal.setBackgroundColor(ContextCompat.getColor(this, R.color.black))  // Usa el color que prefieras
+
                 binding.bottomNavigation.visibility = View.VISIBLE
                 binding.toolbarIconPreferencias.visibility = View.VISIBLE
                 binding.toolbarIconBack.visibility = View.VISIBLE
                 binding.toolbar.setBackgroundColor(negro)
             }
         }
+        setupActionBarWithNavController(navController, appBarConfiguration)
 
     }
 

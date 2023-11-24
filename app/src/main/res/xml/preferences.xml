@@ -22,12 +22,12 @@
         <SwitchPreference
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/black"
+            android:background="@color/white"
             android:defaultValue="false"
             android:textColor="#D70000"
             android:thumbTint="#D70000"
             android:title="Guardar Sesión"
-            android:trackTint="@color/black"
+            android:trackTint="@color/white"
             app:iconSpaceReserved="false"
             app:key="guardarsesion" />
         <EditTextPreference
