@@ -25,6 +25,14 @@ import uex.aseegps.ga03.tuonce.model.Futbolista
 import uex.aseegps.ga03.tuonce.model.Liga
 import uex.aseegps.ga03.tuonce.model.User
 import uex.aseegps.ga03.tuonce.utils.SortPlayers.calcularPuntuacion
+import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import uex.aseegps.ga03.tuonce.databinding.FragmentMisLigasBinding
+import uex.aseegps.ga03.tuonce.api.RetrofitServiceFactory
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -182,6 +190,30 @@ class MisLigasFragment : Fragment() {
                     db.userDao().delete(bot.userId!!)
                 }
             }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        fetchArticles()
+    }
+
+    private fun fetchArticles() {
+        lifecycleScope.launch {
+            binding.spinner.visibility = View.VISIBLE
+            try {
+                val service = RetrofitServiceFactory.makeRetrofitService()
+                val remoteResource = service.listNoticias("sports", "ar", "49aa5dc1188e4486810c0f8cf239bc00")
+                val notices = remoteResource.articles
+                binding.spinner.visibility = View.GONE
+                withContext(Dispatchers.Main) {
+                    val adapter = MisLigasAdapter(notices)
+                    binding.rvShowList.adapter = adapter
+                }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
 
             // Borrar Liga
             val ligaid = equipo?.ligaId
