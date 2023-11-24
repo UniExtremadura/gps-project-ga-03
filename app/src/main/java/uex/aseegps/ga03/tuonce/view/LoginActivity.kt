@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
+import androidx.preference.PreferenceManager
 import kotlinx.coroutines.launch
 import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
 import uex.aseegps.ga03.tuonce.model.User
@@ -44,6 +45,8 @@ class LoginActivity : AppCompatActivity() {
         db = TuOnceDatabase.getInstance(applicationContext)!!
         setContentView(binding.root)
         setUpListeners()
+
+        readSettings()
     }
 
     private fun setUpListeners() {
@@ -91,6 +94,17 @@ class LoginActivity : AppCompatActivity() {
 
     private fun notifyInvalidCredentials(msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun readSettings() {
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this).all
+        val rememberme = preferences["guardarsesion"] as Boolean? ?: false
+        val username = preferences["nombreusuario"] as String? ?: ""
+        val password = preferences["contraseña"] as String? ?: ""
+
+        if (rememberme) { binding.etUsername.setText(username)
+            binding.etPassword.setText(password)
+        }
     }
 
 }

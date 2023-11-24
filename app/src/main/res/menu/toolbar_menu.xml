@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--
+    <item
+        android:id="@+id/toolbar_icon_back"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_back_backspace_24"
+        android:title="Boton Back"
+        android:layout_gravity="left"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/toolbar_title"
+        android:title="MIS LIGAS"
+        app:showAsAction="ifRoom"
+        android:layout_gravity="center"
+        android:enabled="true" />
+
+    <item
+        android:id="@+id/toolbar_icon_preferencias"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_preference"
+        android:title="Preguntas Frecuentes"
+        android:layout_gravity="right"
+        app:showAsAction="ifRoom" />
+    -->
+</menu>

@@ -1,4 +1,4 @@
- plugins {
+plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     //id("androidx.navigation.safeargs.kotlin")
@@ -58,6 +58,7 @@ android {
 dependencies {
     implementation("androidx.navigation:navigation-fragment:2.7.5")
     implementation("com.google.firebase:firebase-inappmessaging:20.4.0")
+    implementation("androidx.preference:preference:1.2.1")
     val room_version = "2.5.0"
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
@@ -84,6 +85,8 @@ dependencies {
 
     // Jetpack Compose Integration
     implementation("androidx.navigation:navigation-compose:$navVersion")
+
+    implementation("androidx.preference:preference-ktx:1.2.0")
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
