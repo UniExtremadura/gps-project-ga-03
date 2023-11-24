@@ -7,24 +7,12 @@
     android:orientation="vertical"
     tools:context=".view.Home.MisLigasFragment">
 
-    <ProgressBar
-        android:id="@+id/spinner"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textViewTitle"
+    <!-- Botones -->
     <Button
         android:id="@+id/btnCrearLiga"
         android:layout_width="match_parent"
-        android:layout_margin="10dp"
         android:layout_height="100dp"
-        android:layout_gravity="center"
+        android:layout_margin="10dp"
         android:background="#cc0000"
         android:text="Crear Liga Personalizada"
         android:textColor="#FFFFFF" />
@@ -32,12 +20,25 @@
     <Button
         android:id="@+id/btnSimularPartido"
         android:layout_width="match_parent"
-        android:layout_margin="10dp"
         android:layout_height="100dp"
-        android:layout_gravity="center"
+        android:layout_margin="10dp"
         android:background="#cc0000"
         android:text="Simular Partido"
         android:textColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/btnTerminarLiga"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_margin="10dp"
+        android:background="#cc0000"
+        android:text="Terminar Liga"
+        android:textColor="#FFFFFF" />
+
+    <!-- Título de Noticias -->
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Noticias TuOnce"
         android:gravity="center"
@@ -46,22 +47,9 @@
         android:layout_marginTop="16dp"
         android:padding="8dp"
         android:background="#dddddd"
-    android:textColor="#222222"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"/>
+        android:textColor="#222222"/>
 
-    <Button
-        android:id="@+id/btnTerminarLiga"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
-        android:background="#cc0000"
-        android:text="Terminar Liga"
-        android:textColor="#FFFFFF" />
-</FrameLayout>
-
+    <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_show_list"
         android:layout_width="match_parent"

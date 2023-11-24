@@ -16,7 +16,7 @@ object SortPlayers {
         puntuacion += futbolista.media
         puntuacion += futbolista.puntosAportados
         puntuacion -= futbolista.faltacometidas * 1
-        return puntuacion
+        return puntuacion/11
     }
 
     fun clasificarJugadores(listaFutbolistas: List<Futbolista>): List<Futbolista> {

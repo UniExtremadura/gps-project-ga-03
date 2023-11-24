@@ -94,7 +94,14 @@ class HomeActivity : AppCompatActivity() {
                 binding.toolbarIconBack.visibility = View.GONE
                 binding.toolbar.setBackgroundColor(Color.parseColor("#CC0000"))
                 title.text = ""
-            } else {
+
+            } else if (destination.id == R.id.crearLigaPersonalizada || destination.id == R.id.plantillaFragment || destination.id == R.id.moverAl11) {
+                binding.bottomNavigation.visibility = View.GONE
+                binding.toolbarIconPreferencias.visibility = View.GONE
+                binding.toolbarIconBack.visibility = View.GONE
+                binding.toolbar.setBackgroundColor(Color.parseColor("#CC0000"))
+            }
+            else {
                 val nPrincipal = findViewById<View>(R.id.nPrincipal)  // Reemplaza con el tipo de vista correcto y el ID real
                 nPrincipal.setBackgroundColor(ContextCompat.getColor(this, R.color.black))  // Usa el color que prefieras
 

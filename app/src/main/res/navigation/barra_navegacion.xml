@@ -79,7 +79,7 @@
     <fragment
         android:id="@+id/crearLigaPersonalizada"
         android:name="uex.aseegps.ga03.tuonce.view.Home.CrearLigaPersonalizada"
-        android:label="fragment_crear_liga_personalizada"
+        android:label="Crear Liga"
         tools:layout="@layout/fragment_crear_liga_personalizada">
     <action
         android:id="@+id/action_crearLigaPersonalizada_to_misLigasFragment"

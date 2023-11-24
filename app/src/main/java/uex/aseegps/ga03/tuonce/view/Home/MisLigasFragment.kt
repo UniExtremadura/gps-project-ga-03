@@ -6,14 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import uex.aseegps.ga03.tuonce.R
 import uex.aseegps.ga03.tuonce.databinding.ActivityJoinBinding
-import uex.aseegps.ga03.tuonce.databinding.FragmentMisLigasBinding
 import androidx.navigation.fragment.findNavController
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
@@ -60,6 +57,7 @@ class MisLigasFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentMisLigasBinding.inflate(inflater, container, false)
+        binding.rvShowList.layoutManager = LinearLayoutManager(context)
         cargarDatos()
         setUpListeners()
         return binding.root
@@ -82,11 +80,6 @@ class MisLigasFragment : Fragment() {
             val ligaid = equipo?.ligaId
             mostrarBotonLiga(ligaid)
         }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
     }
 
     private fun setUpListeners() {
@@ -191,30 +184,6 @@ class MisLigasFragment : Fragment() {
                 }
             }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        fetchArticles()
-    }
-
-    private fun fetchArticles() {
-        lifecycleScope.launch {
-            binding.spinner.visibility = View.VISIBLE
-            try {
-                val service = RetrofitServiceFactory.makeRetrofitService()
-                val remoteResource = service.listNoticias("sports", "ar", "49aa5dc1188e4486810c0f8cf239bc00")
-                val notices = remoteResource.articles
-                binding.spinner.visibility = View.GONE
-                withContext(Dispatchers.Main) {
-                    val adapter = MisLigasAdapter(notices)
-                    binding.rvShowList.adapter = adapter
-                }
-
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
-
             // Borrar Liga
             val ligaid = equipo?.ligaId
             val actividadAcabarLiga = Actividad(
@@ -236,7 +205,7 @@ class MisLigasFragment : Fragment() {
             Log.d("Jugador: ", db?.equipoDao()?.findById(1).toString())
 
             for (equipo in listOf(equipoBot1, equipoBot2, equipoBot3)) {
-                    db.equipoDao().delete(equipo!!)
+                db.equipoDao().delete(equipo!!)
             }
 
 
@@ -270,6 +239,31 @@ class MisLigasFragment : Fragment() {
             Toast.makeText(requireContext(), "Liga terminada", Toast.LENGTH_SHORT).show()
 
             cargarDatos()
+        }
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        fetchArticles()
+    }
+
+    private fun fetchArticles() {
+        lifecycleScope.launch {
+            try {
+                val service = RetrofitServiceFactory.makeRetrofitService()
+                val remoteResource = service.listNoticias("sports", "ar", "49aa5dc1188e4486810c0f8cf239bc00")
+                val notices = remoteResource.articles
+
+                // Mostrar el numero de noticias por consola
+                Log.d("MisLigasFragment", "Numero de noticias: ${notices.size}")
+
+                withContext(Dispatchers.Main) {
+                    val adapter = MisLigasAdapter(notices)
+                    binding.rvShowList.adapter = adapter
+                }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
