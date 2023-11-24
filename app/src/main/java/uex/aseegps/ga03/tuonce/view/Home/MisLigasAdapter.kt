@@ -19,6 +19,7 @@ class MisLigasAdapter(private var listaArticulos: List<Article>) :
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val article = listaArticulos[position]
+            holder.textAuthor.text = article.author
             holder.textTitle.text = article.title
         }
 
@@ -27,6 +28,7 @@ class MisLigasAdapter(private var listaArticulos: List<Article>) :
         }
 
         class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+            val textAuthor: TextView = view.findViewById(R.id.textAuthor)
             val textTitle: TextView = view.findViewById(R.id.textTitle)
         }
     }
