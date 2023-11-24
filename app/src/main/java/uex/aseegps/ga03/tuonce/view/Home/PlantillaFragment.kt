@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,7 +36,6 @@ class PlantillaFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var db: TuOnceDatabase
-
 
     private var _binding: FragmentPlantillaBinding? = null
     private val binding get() = _binding!!
@@ -73,18 +73,56 @@ class PlantillaFragment : Fragment() {
 
     private fun setUpRecyclerView() {
         var futbolistasDelEquipo = mutableListOf<Futbolista>()
+        var futbolistasDelEquipo2 = mutableListOf<Futbolista>()
         val context = this.context
         lifecycleScope?.launch {
             var futbolistas: List<Futbolista>? = db?.futbolistaDao()?.findAll()
-            val equipo : Equipo? = recuperarEquipo(recuperarUsuario())
+            val equipo: Equipo? = recuperarEquipo(recuperarUsuario())
             futbolistas?.forEach {
-                if (it.equipoId == equipo?.equipoId) {
+                if ((it.equipoId == equipo?.equipoId) and (it.estaEnel11 == 0)) {
                     futbolistasDelEquipo.add(it)
                 }
             }
             adapter = PlantillaAdapter(
                 lista = futbolistasDelEquipo,
                 contexto = context,
+                viewLifecycleOwner.lifecycleScope,
+                onClick = {
+                    lifecycleScope.launch {
+
+                        var futbolistaVendido : Futbolista? = db?.futbolistaDao()?.findByName(it.nombreJugador.toString())
+                        val equipoId = futbolistaVendido?.equipoId
+                        futbolistaVendido?.equipoId = null
+                        db?.futbolistaDao()?.update(futbolistaVendido)
+
+                        val equipo : Equipo? = db?.equipoDao()?.findById(equipoId)
+                        equipo?.presupuesto = equipo?.presupuesto!! + futbolistaVendido?.varor!!
+
+                        db?.equipoDao()?.update(equipo)
+
+                        val navController = findNavController()
+                        navController.navigate(R.id.action_plantillaFragment_to_equipoFragment)
+                    }
+                }
+            )
+            with(binding) {
+                rvFutbolistasList.layoutManager = LinearLayoutManager(context)
+                rvFutbolistasList.adapter = adapter
+            }
+            binding.tvEncimaRecyclerView.text = "Jugador no alineado"
+        }
+        lifecycleScope?.launch {
+            var futbolistas: List<Futbolista>? = db?.futbolistaDao()?.findAll()
+            val equipo: Equipo? = recuperarEquipo(recuperarUsuario())
+            futbolistas?.forEach {
+                if ((it.equipoId == equipo?.equipoId) and (it.estaEnel11 == 1)) {
+                    futbolistasDelEquipo2.add(it)
+                }
+            }
+            adapter = PlantillaAdapter(
+                lista = futbolistasDelEquipo2,
+                contexto = context,
+                viewLifecycleOwner.lifecycleScope,
                 onClick = {
                     lifecycleScope.launch {
 
@@ -103,15 +141,13 @@ class PlantillaFragment : Fragment() {
                     }
 
                 }
-
             )
             with(binding) {
-                rvFutbolistasList.layoutManager = LinearLayoutManager(context)
-                rvFutbolistasList.adapter = adapter
+                rvFutbolistasList2.layoutManager = LinearLayoutManager(context)
+                rvFutbolistasList2.adapter = adapter
             }
+            binding.tvEncimaRecyclerView3.text = "Jugadores Alineados"
         }
-
-
     }
     companion object {
         /**

@@ -192,19 +192,16 @@ class MisLigasFragment : Fragment() {
             if (liga != null) {
                 db.ligaDao().eliminarLiga(liga.ligaId!!)
             }
+            Log.d("Jugador: ", db?.equipoDao()?.findById(1).toString())
 
-            // Borrar referencias a liga en equipos
-            for (equipo in listOf(equipo, equipoBot1, equipoBot2, equipoBot3)) {
-                if (equipo != null) {
-                    equipo.ligaId = null
-                    db.equipoDao().update(equipo)
-                }
+            for (equipo in listOf(equipoBot1, equipoBot2, equipoBot3)) {
+                    db.equipoDao().delete(equipo!!)
             }
 
+
             // Borrar referencias a equipo en futbolistas
-            for (futbolista in listOf(futbolistasBot1, futbolistasBot2, futbolistasBot3)) {
+            for (futbolista in listOf(futbolistasUsuario, futbolistasBot1, futbolistasBot2, futbolistasBot3)) {
                 for (fut in futbolista) {
-                    fut.equipoId = null
                     fut.goles = 0
                     fut.asistencias = 0
                     fut.tarjetaRoja = 0
@@ -217,6 +214,13 @@ class MisLigasFragment : Fragment() {
                     db.futbolistaDao().update(fut)
                 }
             }
+            for (futbolista in listOf(futbolistasBot1, futbolistasBot2, futbolistasBot3)) {
+                for (fut in futbolista) {
+                    fut.equipoId = null
+                    db.futbolistaDao().update(fut)
+                }
+            }
+
 
             // Restablecer jornada
             jornada = 1
@@ -288,14 +292,36 @@ class MisLigasFragment : Fragment() {
 
         // Mensaje de equipos recibidos en consola y cuales son
         Log.d("MisLigasFragment", "4. Equipos recibidos: $equipoLocal y $equipoVisitante")
+        var listaLocal = mutableListOf<Futbolista>()
+        val listaVisitante = mutableListOf<Futbolista>()
+        for (futbolista in equipoLocal) {
+            if(futbolista.estaEnel11 == 1){
+                listaLocal.add(futbolista)
+            }
+        }
+        for (futbolista in equipoVisitante) {
+            if(futbolista.estaEnel11 == 1){
+                listaVisitante.add(futbolista)
+            }
+        }
 
-        val futbolistasLocal = equipoLocal.shuffled().take(5)
-        val futbolistasVisitante = equipoVisitante.shuffled().take(5)
+        for (futbolista in listaLocal) {
+            futbolista.goles += (0..2).random()
+            futbolista.asistencias += (0..2).random()
+            futbolista.tarjetaRoja += (0..1).random()
+            futbolista.tarjetaAmarilla += (0..2).random()
+            futbolista.parada += (0..1).random()
+            futbolista.balonAlArea += (0..3).random()
+            futbolista.faltacometidas += (0..3).random()
+            futbolista.minutoJugados = (70..90).random()
 
-        // Mensaje de seleccionados 5 futbolistas de cada equipo en consola y cuales son
-        Log.d("MisLigasFragment", "4. Seleccionados 5 futbolistas de cada equipo: $futbolistasLocal y $futbolistasVisitante")
+            futbolista.puntosAportados += calcularPuntuacion(futbolista)
 
-        for (futbolista in futbolistasLocal) {
+            // Mensaje de puntos locales calculados en consola y el valor de los puntos
+            Log.d("MisLigasFragment", "4. Puntos locales calculados: ${futbolista.puntosAportados}")
+        }
+
+        for (futbolista in listaVisitante) {
             futbolista.goles += (0..2).random()
             futbolista.asistencias += (0..2).random()
             futbolista.tarjetaRoja += (0..1).random()
@@ -307,24 +333,11 @@ class MisLigasFragment : Fragment() {
 
             futbolista.puntosAportados += calcularPuntuacion(futbolista)
 
-            // Mensaje de puntos locales calculados en consola y el valor de los puntos
-            Log.d("MisLigasFragment", "4. Puntos locales calculados: ${futbolista.puntosAportados}")
-        }
-
-        for (futbolista in futbolistasVisitante) {
-            futbolista.goles += (0..2).random()
-            futbolista.asistencias += (0..2).random()
-            futbolista.tarjetaRoja += (0..1).random()
-            futbolista.tarjetaAmarilla += (0..2).random()
-            futbolista.parada += (0..1).random()
-
-            futbolista.puntosAportados += calcularPuntuacion(futbolista)
-
             // Mensaje de puntos visitantes calculados escrito en consola y el valor de los puntos
             Log.d("MisLigasFragment", "4. Puntos visitantes calculados: ${futbolista.puntosAportados}")
         }
 
-        val futbolistas = futbolistasLocal + futbolistasVisitante
+        val futbolistas = listaLocal + listaVisitante
 
         for(futbolista in futbolistas) {
                 db?.futbolistaDao()?.update(futbolista)

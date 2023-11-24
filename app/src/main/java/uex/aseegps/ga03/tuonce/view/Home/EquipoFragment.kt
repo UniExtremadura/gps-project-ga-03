@@ -26,6 +26,7 @@ class EquipoFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         db = TuOnceDatabase.getInstance(requireContext())!!
+
     }
 
     override fun onCreateView(
@@ -34,7 +35,7 @@ class EquipoFragment : Fragment() {
     ): View? {
         _binding = FragmentEquipoBinding.inflate(inflater, container, false)
 
-        escribirNombreEquipoEditable()
+        escribirNombreEquipoEditableDinamico()
         setUpListeners()
 
         return binding.root
@@ -57,41 +58,44 @@ class EquipoFragment : Fragment() {
         }
     }
 
-    private fun escribirNombreEquipoEditable(){
-        lifecycleScope.launch {
-            val usuarioConectado: User? = recuperarUsuario()
-            val equipo : Equipo? = recuperarEquipo(usuarioConectado)
-            val jugadores : List<Futbolista>? = recuperarJugadores(equipo)
+// AÑADIR AL 11 EN EL EQUIPO
+private fun escribirNombreEquipoEditableDinamico(){
+    lifecycleScope.launch {
+        val usuarioConectado: User? = recuperarUsuario()
+        val equipo: Equipo? = recuperarEquipo(usuarioConectado)
+        val jugadores: List<Futbolista>? = recuperarJugadores(equipo)
 
-            // Lista de IDs de TextViews
-            val textViewIds = mutableListOf(
-                binding.playerSlot1Label,
-                binding.playerSlot2Label,
-                binding.playerSlot3Label,
-                binding.playerSlot4Label,
-                binding.playerSlot5Label,
-                binding.playerSlot6Label,
-                binding.playerSlot7Label,
-                binding.playerSlot8Label,
-                binding.playerSlot9Label,
-                binding.playerSlot10Label,
-                binding.playerSlot11Label
-            )
+        // Lista de IDs de TextViews
+        val textViewIds = mutableListOf(
+            binding.playerSlot1Label,
+            binding.playerSlot2Label,
+            binding.playerSlot3Label,
+            binding.playerSlot4Label,
+            binding.playerSlot5Label,
+            binding.playerSlot6Label,
+            binding.playerSlot7Label,
+            binding.playerSlot8Label,
+            binding.playerSlot9Label,
+            binding.playerSlot10Label,
+            binding.playerSlot11Label
+        )
 
-            // Cambiar el texto de los TextViews
-            jugadores?.let {
-                for ((index, jugador) in it.withIndex().take(minOf(it.size, 11))) {
-                    val textView = textViewIds[index]
-                    textView.text = jugador.nombreJugador
-                }
+        // Cambiar el texto de los TextViews
+        var cont = 0
+        jugadores?.forEachIndexed { index, jugador ->
+            if (jugador.estaEnel11 == 1 && cont < 11) {
+                val textView = textViewIds[cont]
+                textView.text = jugador.nombreJugador
+                cont++
             }
-
-            val nombreEquipo = equipo?.name
-            binding.etEquipo.text = Editable.Factory.getInstance().newEditable(nombreEquipo)
-            binding.nombreEquipo.text = "Equipo ${equipo?.name?.replace(" ", "")}"
-            binding.presupuestoText.text = "Presupuesto (euros): ${equipo?.presupuesto}"
         }
+        val nombreEquipo = equipo?.name
+        binding.etEquipo.text = Editable.Factory.getInstance().newEditable(nombreEquipo)
+        binding.nombreEquipo.text = "Equipo ${equipo?.name?.replace(" ", "")}"
+        binding.presupuestoText.text = "Presupuesto (euros): ${equipo?.presupuesto}"
     }
+}
+
     private suspend fun recuperarUsuario(): User? {
         return withContext(Dispatchers.IO) {
             db?.userDao()?.obtenerUsuarioConectado()

@@ -13,9 +13,10 @@ object SortPlayers {
         puntuacion += futbolista.balonAlArea * 2
         puntuacion -= futbolista.tarjetaAmarilla * 2
         puntuacion -= futbolista.tarjetaRoja * 5
-        puntuacion += futbolista.media
+        puntuacion += futbolista.media / 11
         puntuacion += futbolista.puntosAportados
         puntuacion -= futbolista.faltacometidas * 1
+        puntuacion = puntuacion / 2
         return puntuacion
     }
 

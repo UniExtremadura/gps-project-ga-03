@@ -83,18 +83,10 @@ class CrearLigaPersonalizada : Fragment() {
                         User(null, R.drawable.ic_launcher_background, "Bot3", "Bot3", 0)
                     )
 
-                    // Mostrar por consola el nombre de los bots
-                    bots.forEach { bot ->
-                        println("Nombre del bot: ${bot.name}")
-                    }
-
                     bots.forEach { bot ->
                         val id = db.userDao().insert(bot)
                         crearEquipoEnLiga(bot, id, idLiga)
                     }
-
-                    // Meter el usuario conectado en la liga
-                    usuarioConectado?.let { crearEquipoEnLiga(it, it.userId, idLiga) }
 
                     findNavController().navigate(R.id.action_crearLigaPersonalizada_to_misLigasFragment)
                 }
@@ -117,6 +109,7 @@ class CrearLigaPersonalizada : Fragment() {
             val onceJugadores = seleccionar11Jugadores()
             onceJugadores.forEach {
                 it.equipoId = equipoId
+                it.estaEnel11 = 1
                 db?.futbolistaDao()?.insert(it)
                 // Mostrar por consola el nombre de los jugadores y el id del equipo
                 println("Nombre del jugador: ${it.nombreJugador} , Id del equipo: ${equipoId}")

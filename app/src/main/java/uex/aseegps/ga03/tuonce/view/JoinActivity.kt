@@ -91,18 +91,25 @@ class JoinActivity : AppCompatActivity() {
             presupuesto = randomNumber,
         )
         lifecycleScope.launch{
-
             val equipoId = db?.equipoDao()?.insert(nuevoEquipo)
             var jugadoresSeleccionados = 0
             // Inserto todos los jugadores en la base de datos
             dummyFutbolista.shuffled().forEachIndexed{ index, futbolista ->
-                if (jugadoresSeleccionados < 11 && futbolista.equipoId == null) {
+                if (index < 11) {
                     futbolista.equipoId = equipoId
-                    jugadoresSeleccionados++
+                    futbolista.estaEnel11 = 1
+                } else {
+                    futbolista.equipoId = null
                 }
                 db?.futbolistaDao()?.insert(futbolista)
             }
-
+            var futbolistas: List<Futbolista>? = db?.futbolistaDao()?.findAll()
+            futbolistas?.shuffled()?.take(7)?.forEachIndexed{ index, futbolista ->
+                if (futbolista.estaEnel11 == 0 && futbolista.equipoId == null) {
+                    futbolista.equipoId = equipoId
+                    db?.futbolistaDao()?.update(futbolista)
+                }
+            }
         }
     }
 
