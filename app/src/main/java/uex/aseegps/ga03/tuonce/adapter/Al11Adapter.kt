@@ -11,10 +11,14 @@ import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import uex.aseegps.ga03.tuonce.R
 import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
+import uex.aseegps.ga03.tuonce.model.Equipo
 import uex.aseegps.ga03.tuonce.model.Futbolista
+import uex.aseegps.ga03.tuonce.model.User
 
 class Al11Adapter(private var lista: List<Futbolista>, private var contexto: Context, private val lifecycleScope: CoroutineScope) : RecyclerView.Adapter<Al11Adapter.Al11ViewHolder>() {
 
