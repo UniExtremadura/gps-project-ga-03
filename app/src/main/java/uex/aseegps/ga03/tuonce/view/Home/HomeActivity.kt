@@ -3,6 +3,7 @@ package uex.aseegps.ga03.tuonce.view.Home
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.lifecycleScope
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -10,7 +11,6 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.graphics.Color
 import android.util.AttributeSet
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
