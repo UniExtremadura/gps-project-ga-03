@@ -5,9 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
-    tools:context=".view.Home.PlantillaFragment"
-    tools:layout_editor_absoluteX="-41dp"
-    tools:layout_editor_absoluteY="-3dp">
+    tools:context=".view.Home.PlantillaFragment">
+
+    <Button
+        android:id="@+id/buttonOrdenarPuntos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="#cc0000"
+        android:text="Ordenar por puntuacion"
+        android:textColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/alineacionBt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#FFFFFF"
+        android:text="AlineaciÃ³n"
+        android:textColor="#000000"
+        app:layout_constraintTop_toBottomOf="@+id/buttonOrdenarPuntos"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/plantillaBt"
+        android:layout_marginTop="6dp" />
 
     <Button
         android:id="@+id/plantillaBt"
@@ -16,55 +36,35 @@
         android:backgroundTint="#FF0000"
         android:text="Plantilla"
         android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintTop_toBottomOf="@+id/buttonOrdenarPuntos"
         app:layout_constraintStart_toEndOf="@+id/alineacionBt"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.07" />
-
-    <Button
-        android:id="@+id/alineacionBt"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#FFFFFF"
-        android:text="Alineación"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/plantillaBt"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.07" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="6dp" />
 
     <TextView
         android:id="@+id/tvEncimaRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:layout_marginTop="8dp"
         android:gravity="center"
         android:padding="8dp"
         android:text="Texto encima del RecyclerView"
         android:textColor="#FF0000"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@+id/alineacionBt"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/plantillaBt" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_futbolistas_list"
-        android:layout_width="407dp"
-        android:layout_height="549dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@+id/tvEncimaRecyclerView"
-        app:layout_constraintVertical_bias="0.037" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="8dp" />
 
     <!-- Nuevo TextView -->
 

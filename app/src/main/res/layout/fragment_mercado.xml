@@ -13,7 +13,7 @@
         android:layout_width="369dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:background="#FF0000"
+        android:background="#cc0000"
         android:text="Ordenar por puntuacion"
         android:textColor="#FFFFFF" />
 
