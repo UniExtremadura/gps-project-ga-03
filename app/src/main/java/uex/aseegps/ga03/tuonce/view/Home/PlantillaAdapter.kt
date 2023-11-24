@@ -32,10 +32,17 @@ class PlantillaAdapter(private var lista: List<Futbolista>, private var contexto
             db = TuOnceDatabase.getInstance(contexto!!)!!
             val xmlnombreJugador = vista.findViewById<TextView>(R.id.nombreFutbolistaTxt)
             val xmlPuntosJugador = vista.findViewById<TextView>(R.id.puntosFutbolistaTxt)
-
+            val xmlPosicionJugador = vista.findViewById<TextView>(R.id.posicionFutbolistaTxt)
+            val xmlTitularJugador = vista.findViewById<TextView>(R.id.Titular)
             // Aquí debes establecer los datos del futbolista en los elementos visuales del diseño
             xmlnombreJugador.text = futbolista.nombreJugador
             xmlPuntosJugador.text = futbolista.puntosAportados.toString()
+            xmlPosicionJugador.text = futbolista.posicion
+            if(futbolista.estaEnel11 == 1){
+                xmlTitularJugador.visibility = View.VISIBLE
+            }else{
+                xmlTitularJugador.visibility = View.GONE
+            }
 
             val comprarButton = vista.findViewById<Button>(R.id.comprarBt)
             val venderButton = vista.findViewById<Button>(R.id.venderBt)

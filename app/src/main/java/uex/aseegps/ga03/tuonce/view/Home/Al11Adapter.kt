@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
@@ -24,24 +25,64 @@ class Al11Adapter(private var lista: List<Futbolista>, private var contexto: Con
     class Al11ViewHolder(var vista: View, var contexto: Context?, private val lifecycleScope: CoroutineScope) : RecyclerView.ViewHolder(vista) {
         private lateinit var db: TuOnceDatabase
         fun bind(futbolista: Futbolista, adapter: Al11Adapter) {
-            db = TuOnceDatabase.getInstance(contexto!!)!!
-            val xmlnombreJugador = vista.findViewById<TextView>(R.id.nombreFutbolistaal11)
-            val xmlPuntosJugador = vista.findViewById<TextView>(R.id.puntosFutbolistaal11)
+            lifecycleScope.launch {
+                db = TuOnceDatabase.getInstance(contexto!!)!!
+                val xmlnombreJugador = vista.findViewById<TextView>(R.id.nombreFutbolistaal11)
+                val xmlPuntosJugador = vista.findViewById<TextView>(R.id.puntosFutbolistaal11)
+                var futbolistas: List<Futbolista>? = withContext(Dispatchers.IO) {
+                    db?.futbolistaDao()?.findAll()
+                }
 
-            // Establecer los datos del futbolista en los elementos visuales del diseño
-            xmlnombreJugador.text = futbolista.nombreJugador
-            xmlPuntosJugador.text = futbolista.puntosAportados.toString()
-            val comprarButton = vista.findViewById<Button>(R.id.anadiral11)
-            comprarButton.setOnClickListener {
-                lifecycleScope.launch {
-                    futbolista.estaEnel11 = 0
-                    db?.futbolistaDao()?.update(futbolista)
-                    val navController = Navigation.findNavController(vista)
-                    // Navegar a la acción correspondiente
-                    navController.navigate(R.id.action_moverAl11_to_equipoFragment)
+                val equipo: Equipo? = withContext(Dispatchers.IO) {
+                    recuperarEquipo(recuperarUsuario())
+                }
+
+                var jugador: Futbolista? = null
+                futbolistas?.forEach {
+                    if ((it.equipoId == equipo?.equipoId) and (it.estaEnel11 == 2)) {
+                        jugador = it
+                    }
+                }
+                // Establecer los datos del futbolista en los elementos visuales del diseño
+                xmlnombreJugador.text = futbolista.nombreJugador
+                xmlPuntosJugador.text = futbolista.puntosAportados.toString()
+                val comprarButton = vista.findViewById<Button>(R.id.anadiral11)
+                comprarButton.setOnClickListener {
+                    if (futbolista.posicion == jugador?.posicion) {
+                        lifecycleScope.launch {
+                            futbolista.estaEnel11 = 0
+                            db?.futbolistaDao()?.update(futbolista)
+                            jugador?.estaEnel11 = 1
+                            db?.futbolistaDao()?.update(jugador)
+                            val navController = Navigation.findNavController(vista)
+                            // Navegar a la acción correspondiente
+                            navController.navigate(R.id.action_moverAl11_to_equipoFragment)
+                            showToast("Se ha realizado el cambio")
+                        }
+                    } else {
+                        lifecycleScope.launch {
+                            jugador?.estaEnel11 = 0
+                            db?.futbolistaDao()?.update(jugador)
+                            val navController = Navigation.findNavController(vista)
+                            navController.navigate(R.id.action_moverAl11_to_equipoFragment)
+                            showToast("Las posiciones no coinciden")
+                        }
+                    }
                 }
             }
-
+        }
+        private fun showToast(message: String) {
+            Toast.makeText(contexto, message, Toast.LENGTH_SHORT).show()
+        }
+        private suspend fun recuperarUsuario(): User? {
+            return withContext(Dispatchers.IO) {
+                db?.userDao()?.obtenerUsuarioConectado()
+            }
+        }
+        private suspend fun recuperarEquipo(usuario: User?): Equipo? {
+            return withContext(Dispatchers.IO) {
+                db?.equipoDao()?.findByUserId(usuario?.userId)
+            }
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Al11ViewHolder {
