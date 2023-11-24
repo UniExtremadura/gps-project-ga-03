@@ -5,57 +5,84 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import uex.aseegps.ga03.tuonce.R
+import uex.aseegps.ga03.tuonce.adapter.ActividadAdapter
+import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
+import uex.aseegps.ga03.tuonce.databinding.FragmentActividadBinding
+import uex.aseegps.ga03.tuonce.model.AccionActividad
+import uex.aseegps.ga03.tuonce.model.Actividad
+import uex.aseegps.ga03.tuonce.model.Equipo
+import uex.aseegps.ga03.tuonce.model.Futbolista
+import uex.aseegps.ga03.tuonce.model.Liga
+import uex.aseegps.ga03.tuonce.model.User
 
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ActividadFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class ActividadFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var _binding: FragmentActividadBinding? = null
+    private val binding get() = _binding!!
+
+    private lateinit var db: TuOnceDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+        db = TuOnceDatabase.getInstance(requireContext())!!
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        _binding = FragmentActividadBinding.inflate(inflater, container, false)
+        binding.rvActividad.layoutManager = LinearLayoutManager(context)
+        cargarActividadesDesdeBD()
+        return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        cargarActividadesDesdeBD()
+    }
+
+    private fun cargarActividadesDesdeBD() {
+        lifecycleScope.launch(Dispatchers.IO) {
+
+            var usuario : User? = recuperarUsuario()
+            var actividades : List<Actividad>? = db?.actividadDao()?.findAllByUser(usuario?.userId!!)
+
+            withContext(Dispatchers.Main) {
+                val adapter = ActividadAdapter(actividades!!, context, lifecycleScope)
+                binding.rvActividad.adapter = adapter
+            }
+
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_actividad, container, false)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ActividadFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ActividadFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private suspend fun recuperarUsuario(): User? {
+        return withContext(Dispatchers.Main) {
+            db.userDao().obtenerUsuarioConectado()
+        }
+    }
+
+    private suspend fun recuperarEquipo(usuario: User?): Equipo? {
+        return withContext(Dispatchers.Main) {
+            usuario?.userId?.let { db.equipoDao().findByUserId(it) }
+        }
+    }
+
+    private suspend fun recuperarFutbolistas(equipo: Equipo?): List<Futbolista> {
+        return withContext(Dispatchers.Main) {
+            equipo?.equipoId?.let { equipoId ->
+                db?.futbolistaDao()?.findByEquipoId(equipoId) ?: emptyList()
+            } ?: emptyList()
+        }
     }
 }

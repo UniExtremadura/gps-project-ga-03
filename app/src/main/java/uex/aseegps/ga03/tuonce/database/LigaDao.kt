@@ -15,7 +15,7 @@ interface LigaDao {
 
     @Query("""
         SELECT * FROM Liga
-        WHERE user_id = :userId
+        WHERE user_id = :userId AND activa = 1
     """)
     suspend fun obtenerLigaPorUsuario(userId: Long): Liga?
 
@@ -36,6 +36,6 @@ interface LigaDao {
     @Query("SELECT * FROM Liga WHERE ligaId = :id")
     suspend fun obtenerLigaPorId(id: Long): Liga?
 
-    @Query("DELETE FROM Liga WHERE ligaId = :id")
-    suspend fun eliminarLiga(id: Long)
+    @Query("UPDATE Liga SET activa = 0 WHERE activa = 1")
+    suspend fun eliminarLiga()
 }

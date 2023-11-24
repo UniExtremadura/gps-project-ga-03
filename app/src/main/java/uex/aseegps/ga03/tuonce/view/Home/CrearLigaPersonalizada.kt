@@ -15,6 +15,8 @@ import uex.aseegps.ga03.tuonce.R
 import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
 import uex.aseegps.ga03.tuonce.database.dummyFutbolista
 import uex.aseegps.ga03.tuonce.databinding.FragmentCrearLigaPersonalizadaBinding
+import uex.aseegps.ga03.tuonce.model.AccionActividad
+import uex.aseegps.ga03.tuonce.model.Actividad
 import uex.aseegps.ga03.tuonce.model.Equipo
 import uex.aseegps.ga03.tuonce.model.Futbolista
 import uex.aseegps.ga03.tuonce.model.Liga
@@ -65,14 +67,22 @@ class CrearLigaPersonalizada : Fragment() {
             val numPartidos = numPartidosStr.toIntOrNull() // Convierte a entero y maneja posibles entradas no numéricas
 
             if (nombreLiga.isNotBlank() && numPartidos != null) {
-                val nuevaLiga = Liga(null, nombreLiga, numPartidos, 0)
-                // Mostrar por consola el nombre de la liga y el número de partidos
-                println("Nombre de la liga: ${nuevaLiga.name}")
-                println("Número de partidos: ${nuevaLiga.partidos}")
+
                 lifecycleScope.launch {
                     val usuarioConectado: User? = recuperarUsuario()
-                    nuevaLiga.userId = usuarioConectado?.userId
+                    val nuevaLiga = Liga(null, nombreLiga, numPartidos, usuarioConectado?.userId, 1)
                     val idLiga = db.ligaDao().insertarLiga(nuevaLiga)
+
+                    val actividadIniciarLiga = Actividad(
+                        actividadId = null,
+                        accion = AccionActividad.INICIAR_LIGA,
+                        usuarioActividad = usuarioConectado?.userId,
+                        futbolistaActividad = null,
+                        ligaActividad = idLiga,
+                        jornadaActividad = null
+                    )
+                    db?.actividadDao()?.insertar(actividadIniciarLiga)
+
                     val equipo: Equipo? = recuperarEquipo(usuarioConectado)
                     equipo?.ligaId = idLiga
                     equipo?.let { db.equipoDao().update(it) }

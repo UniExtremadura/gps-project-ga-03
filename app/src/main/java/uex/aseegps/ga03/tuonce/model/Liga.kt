@@ -22,6 +22,7 @@ data class Liga (
     val name: String = "",
     val partidos: Int,
     @ColumnInfo(name = "user_id")
-    var userId: Long?
+    var userId: Long?,
 
+    var activa : Long?
 ) : Serializable

@@ -46,7 +46,7 @@
         android:layout_marginTop="8dp"
         android:gravity="center"
         android:padding="8dp"
-        android:text="Texto encima del RecyclerView"
+        android:text="Cargando plantilla..."
         android:textColor="#FF0000"
         android:textSize="18sp"
         android:textStyle="bold"

@@ -18,6 +18,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
 import uex.aseegps.ga03.tuonce.databinding.FragmentEquipoBinding
+import uex.aseegps.ga03.tuonce.model.AccionActividad
+import uex.aseegps.ga03.tuonce.model.Actividad
 import uex.aseegps.ga03.tuonce.model.Equipo
 import uex.aseegps.ga03.tuonce.model.Futbolista
 import uex.aseegps.ga03.tuonce.model.Liga
@@ -67,8 +69,6 @@ class MisLigasFragment : Fragment() {
 
     private fun cargarDatos() {
         lifecycleScope.launch {
-            // Mostrar todos los usuarios en consola
-            Log.d("MisLigasFragment", "1. Todos los usuarios: ${db.userDao().getAllUsers()}")
             val usuarioConectado = recuperarUsuario()
             val equipo = recuperarEquipo(usuarioConectado)
             val ligaid = equipo?.ligaId
@@ -100,16 +100,11 @@ class MisLigasFragment : Fragment() {
             val bot2 = recuperarUsuarioPorNombre("Bot2")
             val bot3 = recuperarUsuarioPorNombre("Bot3")
 
-            // Mensaje de bots recuperados en consola
-            Log.d("MisLigasFragment", "1. Bots recuperados")
-
             val equipoUsuario = recuperarEquipo(usuarioConectado)
             val equipoBot1 = recuperarEquipo(bot1)
             val equipoBot2 = recuperarEquipo(bot2)
             val equipoBot3 = recuperarEquipo(bot3)
 
-            // Mensaje de equipos recuperados en consola
-            Log.d("MisLigasFragment", "2. Equipos recuperados")
 
             if (equipoUsuario != null && equipoBot1 != null && equipoBot2 != null && equipoBot3 != null) {
                 val equipos = listOf(equipoBot1, equipoBot2, equipoBot3)
@@ -119,8 +114,6 @@ class MisLigasFragment : Fragment() {
                 val equipoBotContraUsuario = equiposMezclados.first()
                 val partidoRestante = equiposMezclados.drop(1)
 
-                // Mensaje de equipos mezclados en consola
-                Log.d("MisLigasFragment", "3. Equipos mezclados")
 
                 simularPartido(
                     recuperarFutbolistas(equipoUsuario),
@@ -131,9 +124,6 @@ class MisLigasFragment : Fragment() {
                     recuperarFutbolistas(partidoRestante[1])
                 )
 
-                // Mensaje de partidos simulados en consola
-                Log.d("MisLigasFragment", "Partidos simulados")
-
                 if (usuarioConectado != null && bot1 != null && bot2 != null && bot3 != null) {
                     calcularPuntuacionUsuario(usuarioConectado)
                     calcularPuntuacionUsuario(bot1)
@@ -141,14 +131,21 @@ class MisLigasFragment : Fragment() {
                     calcularPuntuacionUsuario(bot3)
                 }
 
-                // Mensaje de puntuacion calculada en consola
-                Log.d("MisLigasFragment", "Puntuacion calculada")
-
-                // Crear notificacion de que se ha simulado el partido
-                Toast.makeText(requireContext(), "Partido simulado", Toast.LENGTH_SHORT).show()
+                // Crear notificacion de que se ha simulado la jornada
+                Toast.makeText(requireContext(), "Jornada simulada", Toast.LENGTH_SHORT).show()
 
                 // Actualizar jornada
                 jornada += 1
+
+                val actividadIniciarJornada = Actividad(
+                    actividadId = null,
+                    accion = AccionActividad.INICIAR_JORNADA,
+                    usuarioActividad = usuarioConectado?.userId,
+                    futbolistaActividad = null,
+                    ligaActividad = null,
+                    jornadaActividad = jornada - 1
+                )
+                db?.actividadDao()?.insertar(actividadIniciarJornada)
 
                 // Actualizar boton de liga
                 cargarDatos()
@@ -188,9 +185,21 @@ class MisLigasFragment : Fragment() {
 
             // Borrar Liga
             val ligaid = equipo?.ligaId
+            val actividadAcabarLiga = Actividad(
+                actividadId = null,
+                accion = AccionActividad.ACABAR_LIGA,
+                usuarioActividad = usuarioConectado?.userId,
+                futbolistaActividad = null,
+                ligaActividad = ligaid,
+                jornadaActividad = null
+            )
+            db?.actividadDao()?.insertar(actividadAcabarLiga)
+
             val liga = ligaid?.let { db.ligaDao().obtenerLigaPorId(it) }
             if (liga != null) {
-                db.ligaDao().eliminarLiga(liga.ligaId!!)
+                db.ligaDao().eliminarLiga()
+                equipo.ligaId = null
+                db.equipoDao().update(equipo)
             }
             Log.d("Jugador: ", db?.equipoDao()?.findById(1).toString())
 
