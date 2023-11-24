@@ -38,6 +38,60 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.07" />
 
+    <!-- Nuevos botones para filtrar por posición -->
+    <Button
+        android:id="@+id/btnPortero"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/white"
+        android:text="Portero"
+        android:textColor="#000000"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnDefensa"
+        app:layout_constraintTop_toBottomOf="@+id/alineacionBt" />
+
+    <Button
+        android:id="@+id/btnDefensa"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="4dp"
+        android:background="@color/white"
+        android:text="Defensa"
+        android:textColor="#000000"
+        app:layout_constraintStart_toEndOf="@+id/btnPortero"
+        app:layout_constraintEnd_toStartOf="@+id/btnCentrocampista"
+        app:layout_constraintTop_toBottomOf="@+id/alineacionBt" />
+
+    <Button
+        android:id="@+id/btnCentrocampista"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="4dp"
+        android:background="@color/white"
+        android:text="Centro Campista"
+        android:textColor="#000000"
+        app:layout_constraintStart_toEndOf="@+id/btnDefensa"
+        app:layout_constraintEnd_toStartOf="@+id/btnDelantero"
+        app:layout_constraintTop_toBottomOf="@+id/alineacionBt" />
+
+    <Button
+        android:id="@+id/btnDelantero"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="4dp"
+        android:background="@color/white"
+        android:text="Delantero"
+        android:textColor="#000000"
+        app:layout_constraintStart_toEndOf="@+id/btnCentrocampista"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/alineacionBt" />
+
+
+
     <TextView
         android:id="@+id/tvEncimaRecyclerView"
         android:layout_width="match_parent"
@@ -53,7 +107,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/plantillaBt" />
+        app:layout_constraintTop_toBottomOf="@+id/btnDelantero" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_futbolistas_list"
