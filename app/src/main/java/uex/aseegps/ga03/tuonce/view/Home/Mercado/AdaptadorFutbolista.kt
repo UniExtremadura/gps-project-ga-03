@@ -59,4 +59,9 @@ class AdaptadorFutbolista(private var lista: List<Futbolista>,private var contex
     override fun onBindViewHolder(holder: viewHolder, position: Int) {
         holder.bind(lista[position])
     }
+
+    fun updateList(newList: List<Futbolista>) {
+        lista = newList
+        notifyDataSetChanged()
+    }
 }

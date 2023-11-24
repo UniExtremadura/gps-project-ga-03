@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -96,6 +97,30 @@ class MercadoFragment : Fragment() {
 
                 })
         }
+
+        binding.buscadorMercado.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+
+                val distinctList = jugadoresLibres.distinctBy { it.futbolistaId }
+
+                val filteredList = distinctList.filter {
+                    it.nombreJugador.contains(newText.orEmpty(), ignoreCase = true)
+                }
+
+                (binding.RvFutbolista.adapter as AdaptadorFutbolista).updateList(filteredList)
+
+                Log.d("OriginalList", jugadoresLibres.toString())
+                Log.d("FilteredList", filteredList.toString())
+
+                return true
+            }
+        })
 
     }
     private suspend fun recuperarUsuario(): User? {
