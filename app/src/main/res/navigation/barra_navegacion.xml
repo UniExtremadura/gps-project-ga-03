@@ -5,10 +5,14 @@
     android:id="@+id/barra_navegacion"
     app:startDestination="@id/misLigasFragment">
 
+    <action
+        android:id="@+id/action_home_to_settingsFragment"
+        app:destination="@id/settingsFragment" />
+
     <fragment
         android:id="@+id/misLigasFragment"
         android:name="uex.aseegps.ga03.tuonce.view.Home.MisLigasFragment"
-        android:label="fragment_mis_ligas"
+        android:label="Mis Ligas"
         tools:layout="@layout/fragment_mis_ligas">
         <action
             android:id="@+id/action_misLigasFragment_to_crearLigaPersonalizada"
@@ -20,17 +24,17 @@
     <fragment
         android:id="@+id/actividadFragment"
         android:name="uex.aseegps.ga03.tuonce.view.Home.ActividadFragment"
-        android:label="fragment_actividad"
+        android:label="Actividad"
         tools:layout="@layout/fragment_actividad" />
     <fragment
         android:id="@+id/clasificacionFragment"
         android:name="uex.aseegps.ga03.tuonce.view.Home.ClasificacionFragment"
-        android:label="fragment_clasificacion"
+        android:label="Clasificación"
         tools:layout="@layout/fragment_clasificacion" />
     <fragment
         android:id="@+id/equipoFragment"
         android:name="uex.aseegps.ga03.tuonce.view.Home.EquipoFragment"
-        android:label="fragment_equipo"
+        android:label="Equipo"
         tools:layout="@layout/fragment_equipo" >
         <action
             android:id="@+id/action_equipoFragment_to_plantillaFragment"
@@ -39,8 +43,21 @@
     <fragment
         android:id="@+id/mercadoFragment"
         android:name="uex.aseegps.ga03.tuonce.view.Home.Mercado.MercadoFragment"
-        android:label="fragment_mercado"
-        tools:layout="@layout/fragment_mercado">
+        android:label="Mercado"
+        tools:layout="@layout/fragment_mercado" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="uex.aseegps.ga03.tuonce.view.Home.SettingsFragment"
+        android:label="Ajustes" >
+        <action
+            android:id="@+id/action_settingsFragment_to_preguntasFrecuentesFragment"
+            app:destination="@id/preguntasFrecuentesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/preguntasFrecuentesFragment"
+        android:name="uex.aseegps.ga03.tuonce.view.Home.PreguntasFrecuentesFragment"
+        android:label="Preguntas Frecuentes"
+        tools:layout="@layout/fragment_preguntas_frecuentes">
         <action
         android:id="@+id/action_mercadoFragment_to_equipoFragment"
         app:destination="@id/equipoFragment" />
@@ -74,5 +91,4 @@
             android:id="@+id/action_moverAl11_to_equipoFragment"
             app:destination="@id/equipoFragment" />
     </fragment>
-
 </navigation>
