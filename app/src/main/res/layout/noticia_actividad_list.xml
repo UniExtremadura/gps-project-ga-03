@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/clNoticiaActividad"
+    android:background="#000000"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvNoticiaActividadComprar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="16dp"
+        android:layout_margin="5dp"
+        android:elevation="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp" >
+
+            <!-- Siempre se muestra -->
+
+            <TextView
+                android:id="@+id/tvUsuarioActividad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Usuario"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/rojo" />
+
+            <!-- Comprar Futbolista -->
+
+            <TextView
+                android:id="@+id/tvHaComprado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" ha comprado a "
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/tvFutbolistaActividadComprar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Futbolista"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/rojo" />
+
+            <!-- Vender Futbolista -->
+
+            <TextView
+                android:id="@+id/tvHaVendido"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" ha vendido a "
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/tvFutbolistaActividadVender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Futbolista"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/rojo" />
+
+            <!-- iniciar Liga -->
+
+            <TextView
+                android:id="@+id/tvHaIniciado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" ha iniciado "
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/tvIniciarLigaActividad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Liga"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/rojo" />
+
+            <!-- Acabar Liga -->
+
+            <TextView
+                android:id="@+id/tvHaAcabadoLiga"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" ha acabado "
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/tvAcabarLigaActividad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Liga"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/rojo" />
+
+            <!-- Iniciar Jornada -->
+
+            <TextView
+                android:id="@+id/tvHaIniciadoJornada"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" ha iniciado la Jornada "
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/tvIniciarJornadaActividad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Jornada"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/rojo" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

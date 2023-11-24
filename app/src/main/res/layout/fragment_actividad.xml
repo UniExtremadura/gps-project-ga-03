@@ -3,12 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
+    android:backgroundTint="#000000"
     tools:context=".view.Home.ActividadFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvActividad"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hello, blank ACTIVIDAD fragment!" />
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:paddingBottom="@dimen/bottom_navigation_height"
+        android:clipToPadding="false"
+        android:background="#000000"
+        android:backgroundTint="#000000"/>
+
 
 </FrameLayout>
