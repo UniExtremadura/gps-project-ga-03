@@ -1,9 +1,7 @@
-package uex.aseegps.ga03.tuonce.view.Home
+package uex.aseegps.ga03.tuonce.adapter
 
 import android.content.Context
-import android.os.Bundle
 import android.content.Intent
-import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,16 +9,13 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
-import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.launch
 import uex.aseegps.ga03.tuonce.R
 import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
-import uex.aseegps.ga03.tuonce.model.Equipo
 import uex.aseegps.ga03.tuonce.model.Futbolista
+import uex.aseegps.ga03.tuonce.view.Home.DetalleFutbolista
 
 class PlantillaAdapter(private var lista: List<Futbolista>, private var contexto: Context?, private val lifecycleScope: CoroutineScope, private val onClick: (show: Futbolista) -> Unit) :
     RecyclerView.Adapter<PlantillaAdapter.PlantillaViewHolder>()
@@ -37,19 +32,16 @@ class PlantillaAdapter(private var lista: List<Futbolista>, private var contexto
             xmlnombreJugador.text = futbolista.nombreJugador
             xmlPuntosJugador.text = futbolista.puntosAportados.toString()
 
-            // Mostrar por consola el nombre del futbolista y sus puntos aportados
-            println("Nombre: ${futbolista.nombreJugador} - Puntos: ${futbolista.puntosAportados}")
-
-            val comprarButton = vista.findViewById<Button>(R.id.comprarBt)
+            val movelAl11Button = vista.findViewById<Button>(R.id.comprarBt)
             val venderButton = vista.findViewById<Button>(R.id.venderBt)
             if(futbolista.estaEnel11 == 1){
-                comprarButton.visibility = View.GONE
+                movelAl11Button.visibility = View.GONE
                 venderButton.visibility = View.GONE
             }else{
-                comprarButton.visibility = View.VISIBLE
+                movelAl11Button.visibility = View.VISIBLE
                 venderButton.visibility = View.VISIBLE
             }
-            comprarButton.setOnClickListener {
+            movelAl11Button.setOnClickListener {
                 lifecycleScope.launch {
                     futbolista.estaEnel11 = 2
                     db?.futbolistaDao()?.update(futbolista)

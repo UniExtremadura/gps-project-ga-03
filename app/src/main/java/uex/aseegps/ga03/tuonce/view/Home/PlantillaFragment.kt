@@ -12,9 +12,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import uex.aseegps.ga03.tuonce.R
+import uex.aseegps.ga03.tuonce.adapter.PlantillaAdapter
 import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
 import uex.aseegps.ga03.tuonce.databinding.FragmentPlantillaBinding
 import uex.aseegps.ga03.tuonce.utils.SortPlayers.clasificarJugadores
+import uex.aseegps.ga03.tuonce.model.AccionActividad
+import uex.aseegps.ga03.tuonce.model.Actividad
 import uex.aseegps.ga03.tuonce.model.Equipo
 import uex.aseegps.ga03.tuonce.model.Futbolista
 import uex.aseegps.ga03.tuonce.model.User
@@ -81,19 +84,12 @@ class PlantillaFragment : Fragment() {
         lifecycleScope?.launch {
             var futbolistas: List<Futbolista>? = db?.futbolistaDao()?.findAll()
 
-            //mostrar los futbolistas por consola
-            futbolistas?.forEach {
-                println(it)
-            }
-            val equipo: Equipo? = recuperarEquipo(recuperarUsuario())
+            val usuarioConectado = recuperarUsuario()
+            val equipo: Equipo? = recuperarEquipo(usuarioConectado)
             futbolistas?.forEach {
                 if (it.equipoId == equipo?.equipoId) {
                     futbolistasDelEquipo.add(it)
                 }
-            }
-            // mostrar los futbolistas del equipo por consola
-            futbolistasDelEquipo.forEach {
-                println(it)
             }
             val futbolistasDelEquipoOrdenados = futbolistasDelEquipo.sortedBy { it.estaEnel11 }
             adapter = PlantillaAdapter(
@@ -113,6 +109,16 @@ class PlantillaFragment : Fragment() {
 
                         db?.equipoDao()?.update(equipo)
 
+                        val actividadVenta = Actividad(
+                            actividadId = null,
+                            accion = AccionActividad.VENDER_FUTBOLISTA,
+                            usuarioActividad = usuarioConectado?.userId,
+                            futbolistaActividad = futbolistaVendido.futbolistaId,
+                            ligaActividad = null,
+                            jornadaActividad = null
+                        )
+                        db?.actividadDao()?.insertar(actividadVenta)
+
                         val navController = findNavController()
                         navController.navigate(R.id.action_plantillaFragment_to_equipoFragment)
                     }
@@ -122,7 +128,7 @@ class PlantillaFragment : Fragment() {
                 rvFutbolistasList.layoutManager = LinearLayoutManager(context)
                 rvFutbolistasList.adapter = adapter
             }
-            binding.tvEncimaRecyclerView.text = "Pulsa en la imagen de cada jugador para ver sus estadistica"
+            binding.tvEncimaRecyclerView.text = "Pulsa en la imagen de cada jugador para ver sus estadísticas"
         }
     }
 

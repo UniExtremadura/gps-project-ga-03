@@ -17,6 +17,9 @@ import kotlinx.coroutines.withContext
 import uex.aseegps.ga03.tuonce.R
 import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
 import uex.aseegps.ga03.tuonce.databinding.FragmentMercadoBinding
+import uex.aseegps.ga03.tuonce.database.dummyFutbolista
+import uex.aseegps.ga03.tuonce.model.AccionActividad
+import uex.aseegps.ga03.tuonce.model.Actividad
 import uex.aseegps.ga03.tuonce.model.Equipo
 import uex.aseegps.ga03.tuonce.model.Futbolista
 import uex.aseegps.ga03.tuonce.model.User
@@ -62,7 +65,8 @@ class MercadoFragment : Fragment() {
                             var futbolistaComprado: Futbolista? = it
 
                             //Obtengo el equipo del usuario
-                            val equipoUsuario: Equipo? = recuperarEquipo(recuperarUsuario())
+                            val usuarioConectado = recuperarUsuario()
+                            val equipoUsuario: Equipo? = recuperarEquipo(usuarioConectado)
 
                             if (equipoUsuario?.presupuesto!! >= futbolistaComprado?.varor!!) {
                                 // Pongo que el futbolista va a tener el equipo del usuario
@@ -73,6 +77,16 @@ class MercadoFragment : Fragment() {
                                 equipoUsuario?.presupuesto =
                                     equipoUsuario.presupuesto!! - futbolistaComprado.varor!!
                                 db?.equipoDao()?.update(equipoUsuario)
+
+                                val actividadCompra = Actividad(
+                                    actividadId = null,
+                                    accion = AccionActividad.COMPRAR_FUTBOLISTA,
+                                    usuarioActividad = usuarioConectado?.userId,
+                                    futbolistaActividad = futbolistaComprado.futbolistaId,
+                                    ligaActividad = null,
+                                    jornadaActividad = null
+                                )
+                                db?.actividadDao()?.insertar(actividadCompra)
                             } else {
                                 Toast.makeText(
                                     requireContext(),
@@ -122,7 +136,8 @@ class MercadoFragment : Fragment() {
                         var futbolistaComprado: Futbolista? = it
 
                         //Obtengo el equipo del usuario
-                        val equipoUsuario: Equipo? = recuperarEquipo(recuperarUsuario())
+                        val usuarioConectado = recuperarUsuario()
+                        val equipoUsuario: Equipo? = recuperarEquipo(usuarioConectado)
 
                         if (equipoUsuario?.presupuesto!! >= futbolistaComprado?.varor!!) {
                             // Pongo que el futbolista va a tener el equipo del usuario
@@ -133,6 +148,16 @@ class MercadoFragment : Fragment() {
                             equipoUsuario?.presupuesto =
                                 equipoUsuario.presupuesto!! - futbolistaComprado.varor!!
                             db?.equipoDao()?.update(equipoUsuario)
+
+                            val actividadCompra = Actividad(
+                                actividadId = null,
+                                accion = AccionActividad.COMPRAR_FUTBOLISTA,
+                                usuarioActividad = usuarioConectado?.userId,
+                                futbolistaActividad = futbolistaComprado.futbolistaId,
+                                ligaActividad = null,
+                                jornadaActividad = null
+                            )
+                            db?.actividadDao()?.insertar(actividadCompra)
                         } else {
                             Toast.makeText(
                                 requireContext(),
