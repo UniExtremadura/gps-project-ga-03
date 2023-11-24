@@ -37,6 +37,9 @@ class PlantillaAdapter(private var lista: List<Futbolista>, private var contexto
             xmlnombreJugador.text = futbolista.nombreJugador
             xmlPuntosJugador.text = futbolista.puntosAportados.toString()
 
+            // Mostrar por consola el nombre del futbolista y sus puntos aportados
+            println("Nombre: ${futbolista.nombreJugador} - Puntos: ${futbolista.puntosAportados}")
+
             val comprarButton = vista.findViewById<Button>(R.id.comprarBt)
             val venderButton = vista.findViewById<Button>(R.id.venderBt)
             if(futbolista.estaEnel11 == 1){
@@ -71,6 +74,12 @@ class PlantillaAdapter(private var lista: List<Futbolista>, private var contexto
             contexto?.startActivity(intent)
         }
     }
+
+    fun updateData(newList: List<Futbolista>) {
+        this.lista = newList
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType:
     Int): PlantillaViewHolder {
         return PlantillaViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.plantilla_item_list,

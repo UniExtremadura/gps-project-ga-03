@@ -5,8 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,27 +13,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import uex.aseegps.ga03.tuonce.R
 import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
-import uex.aseegps.ga03.tuonce.database.dummyFutbolista
 import uex.aseegps.ga03.tuonce.databinding.FragmentPlantillaBinding
 import uex.aseegps.ga03.tuonce.utils.SortPlayers.clasificarJugadores
 import uex.aseegps.ga03.tuonce.model.Equipo
 import uex.aseegps.ga03.tuonce.model.Futbolista
 import uex.aseegps.ga03.tuonce.model.User
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [PlantillaFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class PlantillaFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
     private lateinit var db: TuOnceDatabase
 
     private var _binding: FragmentPlantillaBinding? = null
@@ -44,10 +29,7 @@ class PlantillaFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
         db = TuOnceDatabase.getInstance(requireContext())!!
     }
 
@@ -76,28 +58,14 @@ class PlantillaFragment : Fragment() {
                     }
                 }
                 val futbolistasDelEquipoOrdenados = clasificarJugadores(futbolistasDelEquipo)
-                adapter = PlantillaAdapter(
-                    lista = futbolistasDelEquipoOrdenados,
-                    contexto = context,
-                    viewLifecycleOwner.lifecycleScope,
-                    onClick = {
-                        lifecycleScope.launch {
 
-                            var futbolistaVendido : Futbolista? = db?.futbolistaDao()?.findByName(it.nombreJugador.toString())
-                            val equipoId = futbolistaVendido?.equipoId
-                            futbolistaVendido?.equipoId = null
-                            db?.futbolistaDao()?.update(futbolistaVendido)
+                // mostrar los futbolistas del equipo por consola
+                futbolistasDelEquipoOrdenados.forEach {
+                    println(it)
+                }
 
-                            val equipo : Equipo? = db?.equipoDao()?.findById(equipoId)
-                            equipo?.presupuesto = equipo?.presupuesto!! + futbolistaVendido?.varor!!
-
-                            db?.equipoDao()?.update(equipo)
-
-                            val navController = findNavController()
-                            navController.navigate(R.id.action_plantillaFragment_to_equipoFragment)
-                        }
-                    }
-                )
+                adapter.updateData(futbolistasDelEquipoOrdenados)
+                adapter.notifyDataSetChanged()
             }
         }
     }
@@ -112,11 +80,20 @@ class PlantillaFragment : Fragment() {
         val context = this.context
         lifecycleScope?.launch {
             var futbolistas: List<Futbolista>? = db?.futbolistaDao()?.findAll()
+
+            //mostrar los futbolistas por consola
+            futbolistas?.forEach {
+                println(it)
+            }
             val equipo: Equipo? = recuperarEquipo(recuperarUsuario())
             futbolistas?.forEach {
                 if (it.equipoId == equipo?.equipoId) {
                     futbolistasDelEquipo.add(it)
                 }
+            }
+            // mostrar los futbolistas del equipo por consola
+            futbolistasDelEquipo.forEach {
+                println(it)
             }
             val futbolistasDelEquipoOrdenados = futbolistasDelEquipo.sortedBy { it.estaEnel11 }
             adapter = PlantillaAdapter(
@@ -147,25 +124,6 @@ class PlantillaFragment : Fragment() {
             }
             binding.tvEncimaRecyclerView.text = "Pulsa en la imagen de cada jugador para ver sus estadistica"
         }
-    }
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment PlantillaFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            PlantillaFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 
     private suspend fun recuperarUsuario(): User? {
