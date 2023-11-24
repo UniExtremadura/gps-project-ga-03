@@ -73,18 +73,18 @@ class PlantillaFragment : Fragment() {
 
     private fun setUpRecyclerView() {
         var futbolistasDelEquipo = mutableListOf<Futbolista>()
-        var futbolistasDelEquipo2 = mutableListOf<Futbolista>()
         val context = this.context
         lifecycleScope?.launch {
             var futbolistas: List<Futbolista>? = db?.futbolistaDao()?.findAll()
             val equipo: Equipo? = recuperarEquipo(recuperarUsuario())
             futbolistas?.forEach {
-                if ((it.equipoId == equipo?.equipoId) and (it.estaEnel11 == 0)) {
+                if (it.equipoId == equipo?.equipoId) {
                     futbolistasDelEquipo.add(it)
                 }
             }
+            val futbolistasDelEquipoOrdenados = futbolistasDelEquipo.sortedBy { it.estaEnel11 }
             adapter = PlantillaAdapter(
-                lista = futbolistasDelEquipo,
+                lista = futbolistasDelEquipoOrdenados,
                 contexto = context,
                 viewLifecycleOwner.lifecycleScope,
                 onClick = {
@@ -109,44 +109,7 @@ class PlantillaFragment : Fragment() {
                 rvFutbolistasList.layoutManager = LinearLayoutManager(context)
                 rvFutbolistasList.adapter = adapter
             }
-            binding.tvEncimaRecyclerView.text = "Jugador no alineado"
-        }
-        lifecycleScope?.launch {
-            var futbolistas: List<Futbolista>? = db?.futbolistaDao()?.findAll()
-            val equipo: Equipo? = recuperarEquipo(recuperarUsuario())
-            futbolistas?.forEach {
-                if ((it.equipoId == equipo?.equipoId) and (it.estaEnel11 == 1)) {
-                    futbolistasDelEquipo2.add(it)
-                }
-            }
-            adapter = PlantillaAdapter(
-                lista = futbolistasDelEquipo2,
-                contexto = context,
-                viewLifecycleOwner.lifecycleScope,
-                onClick = {
-                    lifecycleScope.launch {
-
-                        var futbolistaVendido : Futbolista? = db?.futbolistaDao()?.findByName(it.nombreJugador.toString())
-                        val equipoId = futbolistaVendido?.equipoId
-                        futbolistaVendido?.equipoId = null
-                        db?.futbolistaDao()?.update(futbolistaVendido)
-
-                        val equipo : Equipo? = db?.equipoDao()?.findById(equipoId)
-                        equipo?.presupuesto = equipo?.presupuesto!! - futbolistaVendido?.varor!!
-
-                        db?.equipoDao()?.update(equipo)
-
-                        val navController = findNavController()
-                        navController.navigate(R.id.action_plantillaFragment_to_equipoFragment)
-                    }
-
-                }
-            )
-            with(binding) {
-                rvFutbolistasList2.layoutManager = LinearLayoutManager(context)
-                rvFutbolistasList2.adapter = adapter
-            }
-            binding.tvEncimaRecyclerView3.text = "Jugadores Alineados"
+            binding.tvEncimaRecyclerView.text = "Pulsa en la imagen de cada jugador para ver sus estadistica"
         }
     }
     companion object {
