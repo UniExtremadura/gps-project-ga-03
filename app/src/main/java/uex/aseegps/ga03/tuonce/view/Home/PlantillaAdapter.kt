@@ -63,7 +63,6 @@ class PlantillaAdapter(private var lista: List<Futbolista>, private var contexto
             vista.findViewById<ImageView>(R.id.persona_vender_mover).setOnClickListener{
                 verFutbolista(futbolista)
             }
-
         }
 
         private fun verFutbolista(futbolista: Futbolista){
