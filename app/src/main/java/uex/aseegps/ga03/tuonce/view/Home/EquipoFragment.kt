@@ -82,11 +82,30 @@ private fun escribirNombreEquipoEditableDinamico(){
 
         // Cambiar el texto de los TextViews
         var cont = 0
+        var defensa = 0
+        var centrocampista = 4
+        var delantero = 7
         jugadores?.forEachIndexed { index, jugador ->
             if (jugador.estaEnel11 == 1 && cont < 11) {
-                val textView = textViewIds[cont]
-                textView.text = jugador.nombreJugador
-                cont++
+                if (jugador.posicion == "Portero") {
+                    val textView = textViewIds[10]
+                    textView.text = jugador.nombreJugador
+                }
+                if (jugador.posicion == "Defensa") {
+                    val textView = textViewIds[defensa]
+                    defensa++
+                    textView.text = jugador.nombreJugador
+                }
+                if (jugador.posicion == "Centrocampista") {
+                    val textView = textViewIds[centrocampista]
+                    centrocampista++
+                    textView.text = jugador.nombreJugador
+                }
+                if (jugador.posicion == "Delantero") {
+                    val textView = textViewIds[delantero]
+                    delantero++
+                    textView.text = jugador.nombreJugador
+                }
             }
         }
         val nombreEquipo = equipo?.name

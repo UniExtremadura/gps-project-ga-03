@@ -59,10 +59,6 @@ class moverAl11 : Fragment() {
                 if ((it.equipoId == equipo?.equipoId) and (it.estaEnel11 == 1)) {
                     futbolistasDelEquipo.add(it)
                 }
-                if(it.estaEnel11 == 2){
-                    it.estaEnel11 = 1
-                    db?.futbolistaDao()?.update(it)
-                }
             }
             adapter = Al11Adapter(
                 lista = futbolistasDelEquipo,

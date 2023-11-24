@@ -92,15 +92,34 @@ class JoinActivity : AppCompatActivity() {
         )
         lifecycleScope.launch{
             val equipoId = db?.equipoDao()?.insert(nuevoEquipo)
-            var jugadoresSeleccionados = 0
+            var cont = 0
+            var portero = 0
+            var defensa = 0
+            var centrocampista = 0
+            var delantero = 0
             // Inserto todos los jugadores en la base de datos
             dummyFutbolista.shuffled().forEachIndexed{ index, futbolista ->
-                if (index < 11) {
-                    futbolista.equipoId = equipoId
-                    futbolista.estaEnel11 = 1
-                } else {
-                    futbolista.equipoId = null
-                }
+                futbolista.equipoId = null
+                if (futbolista.posicion == "Portero" && portero < 1){
+                        portero++
+                        futbolista.equipoId = equipoId
+                        futbolista.estaEnel11 = 1
+                    }
+                    if (futbolista.posicion == "Defensa" && defensa < 4) {
+                        defensa++
+                        futbolista.equipoId = equipoId
+                        futbolista.estaEnel11 = 1
+                    }
+                    if (futbolista.posicion == "Centrocampista" && centrocampista < 3) {
+                        centrocampista++
+                        futbolista.equipoId = equipoId
+                        futbolista.estaEnel11 = 1
+                    }
+                    if (futbolista.posicion == "Delantero" && delantero < 3) {
+                        delantero++
+                        futbolista.equipoId = equipoId
+                        futbolista.estaEnel11 = 1
+                    }
                 db?.futbolistaDao()?.insert(futbolista)
             }
             var futbolistas: List<Futbolista>? = db?.futbolistaDao()?.findAll()

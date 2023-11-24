@@ -1,10 +1,15 @@
 package uex.aseegps.ga03.tuonce.view.Home
 
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -71,14 +76,45 @@ class PlantillaFragment : Fragment() {
                 adapter.notifyDataSetChanged()
             }
         }
+
+        binding.btnPortero.setOnClickListener {
+            setUpRecyclerView("Portero")
+
+            modficarColorFondo(binding.btnPortero)
+        }
+
+        binding.btnDefensa.setOnClickListener {
+            setUpRecyclerView("Defensa")
+
+            modficarColorFondo(binding.btnDefensa)
+        }
+
+        binding.btnCentrocampista.setOnClickListener {
+            setUpRecyclerView("Centrocampista")
+
+            modficarColorFondo(binding.btnCentrocampista)
+        }
+
+        binding.btnDelantero.setOnClickListener {
+            setUpRecyclerView("Delantero")
+
+            modficarColorFondo(binding.btnDelantero)
+        }
+
+        binding.plantillaBt.setOnClickListener {
+            setUpRecyclerView(null)
+
+            modficarColorFondo(null)
+        }
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpRecyclerView()
+        setUpRecyclerView(null)
         }
 
-    private fun setUpRecyclerView() {
+    private fun setUpRecyclerView(posicion: String?) {
         var futbolistasDelEquipo = mutableListOf<Futbolista>()
         val context = this.context
         lifecycleScope?.launch {
@@ -87,7 +123,11 @@ class PlantillaFragment : Fragment() {
             val usuarioConectado = recuperarUsuario()
             val equipo: Equipo? = recuperarEquipo(usuarioConectado)
             futbolistas?.forEach {
-                if (it.equipoId == equipo?.equipoId) {
+                if (posicion != null) {
+                    if (it.equipoId == equipo?.equipoId && it.posicion == posicion) {
+                        futbolistasDelEquipo.add(it)
+                    }
+                } else if (it.equipoId == equipo?.equipoId) {
                     futbolistasDelEquipo.add(it)
                 }
             }
@@ -142,4 +182,16 @@ class PlantillaFragment : Fragment() {
             db?.equipoDao()?.findByUserId(usuario?.userId)
         }
     }
+
+    private fun modficarColorFondo(selectedButton: Button?) {
+        // Restaurar el color blanco en todos los botones
+        binding.btnPortero.setBackgroundColor(Color.WHITE)
+        binding.btnDefensa.setBackgroundColor(Color.WHITE)
+        binding.btnCentrocampista.setBackgroundColor(Color.WHITE)
+        binding.btnDelantero.setBackgroundColor(Color.WHITE)
+
+        // Establecer el color rojo solo en el botón seleccionado
+        selectedButton?.setBackgroundColor(Color.RED)
+    }
+
 }

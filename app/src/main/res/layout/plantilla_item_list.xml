@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_Item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="16dp"
-        android:layout_margin="5dp"
+        android:layout_margin="10dp"
         android:elevation="10dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -17,15 +19,14 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#000000"
-            android:backgroundTint="#000000"
-            android:backgroundTintMode="screen">
+            android:background="#373737">
 
             <ImageView
                 android:id="@+id/persona_vender_mover"
-                android:layout_width="70dp"
-                android:layout_height="120dp"
-                android:layout_marginStart="24dp"
+                android:layout_width="117dp"
+                android:layout_height="112dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="16dp"
                 android:contentDescription="show cover"
                 android:scaleType="centerCrop"
                 android:src="@drawable/baseline_person_24"
@@ -33,65 +34,94 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/puntosFutbolistaTxt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="18 Puntos"
+                android:id="@+id/posicionFutbolistaTxt"
+                android:layout_width="222dp"
+                android:layout_height="26dp"
+                android:layout_marginTop="68dp"
+                android:text="Portero"
                 android:textColor="#FFFFFF"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.462"
-                app:layout_constraintStart_toEndOf="@+id/nombreFutbolistaTxt"
+                app:layout_constraintHorizontal_bias="0.711"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/nombreFutbolistaTxt"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="48dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:text="Futbolista"
-                android:textColor="#FFFFFF"
+                android:textColor="#00E2FF"
                 android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/persona_vender_mover"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/venderBt"
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/puntosFutbolistaTxt"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="12dp"
-                android:backgroundTint="#D70000"
-                android:text="Vender"
-                app:layout_constraintEnd_toStartOf="@+id/comprarBt"
-                app:layout_constraintHorizontal_bias="0.816"
+                android:layout_marginTop="8dp"
+                android:text="18 Puntos"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/persona_vender_mover"
                 app:layout_constraintTop_toBottomOf="@+id/nombreFutbolistaTxt" />
 
             <Button
+                android:id="@+id/venderBt"
+                android:layout_width="126dp"
+                android:layout_height="47dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="#D70000"
+                android:elevation="2dp"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="8dp"
+                android:text="Vender"
+                android:textColor="#FFFFFF"
+                app:layout_constraintEnd_toStartOf="@+id/comprarBt"
+                app:layout_constraintStart_toEndOf="@+id/persona_vender_mover"
+                app:layout_constraintTop_toBottomOf="@+id/puntosFutbolistaTxt" />
+
+            <Button
                 android:id="@+id/comprarBt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_width="117dp"
+                android:layout_height="49dp"
+                android:layout_marginTop="28dp"
                 android:layout_marginEnd="16dp"
-                android:backgroundTint="#55DC00"
-                android:text="Mover en el 11"
+                android:backgroundTint="#09FF00"
+                android:elevation="2dp"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="8dp"
+                android:text="Al 11"
+                android:textColor="#FFFFFF"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/venderBt"
                 app:layout_constraintTop_toBottomOf="@+id/puntosFutbolistaTxt" />
 
             <TextView
-                android:id="@+id/mensajeEsta11"
-                android:layout_width="155dp"
-                android:layout_height="26dp"
-                android:layout_marginEnd="52dp"
-                android:layout_marginBottom="28dp"
-                android:text="Está en el 11"
-                android:textColor="#FFFFFF"
-                android:visibility="gone"
+                android:id="@+id/Titular"
+                android:layout_width="84dp"
+                android:layout_height="41dp"
+                android:text="Titular"
+                android:textColor="#FFFF00"
+                android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.094"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/persona_vender_mover"
+                app:layout_constraintVertical_bias="1.0" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
