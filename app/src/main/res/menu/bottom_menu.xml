@@ -4,31 +4,31 @@
     <item
         android:id="@+id/misLigasFragment"
         android:enabled="true"
-        android:icon="@drawable/logo"
+        android:icon="@drawable/trofeo"
         android:title="MisLigas"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/clasificacionFragment"
         android:enabled="true"
-        android:icon="@drawable/logo"
+        android:icon="@drawable/podio"
         android:title="Clasificación"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/equipoFragment"
         android:enabled="true"
-        android:icon="@drawable/logo"
+        android:icon="@drawable/campo_de_futbol"
         android:title="Equipo"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/mercadoFragment"
         android:enabled="true"
-        android:icon="@drawable/logo"
+        android:icon="@drawable/maletin"
         android:title="Mercado"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/actividadFragment"
         android:enabled="true"
         android:title="Actividad"
-        android:icon="@drawable/logo"
+        android:icon="@drawable/campana"
         app:showAsAction="ifRoom" />
 </menu>

@@ -2,22 +2,24 @@ package uex.aseegps.ga03.tuonce.view
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Paint
 import android.os.Bundle
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import uex.aseegps.ga03.tuonce.R
 import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
+import uex.aseegps.ga03.tuonce.database.dummyFutbolista
 import uex.aseegps.ga03.tuonce.databinding.ActivityJoinBinding
-import uex.aseegps.ga03.tuonce.databinding.ActivityLoginBinding
 import uex.aseegps.ga03.tuonce.model.Equipo
+import uex.aseegps.ga03.tuonce.model.Futbolista
 import uex.aseegps.ga03.tuonce.model.User
 import uex.aseegps.ga03.tuonce.utils.CredentialCheck
-import uex.aseegps.ga03.tuonce.database.dummyFutbolista
-import uex.aseegps.ga03.tuonce.model.Futbolista
 import kotlin.random.Random
+
 
 class JoinActivity : AppCompatActivity() {
     private lateinit var binding: ActivityJoinBinding
@@ -49,6 +51,15 @@ class JoinActivity : AppCompatActivity() {
             btJoin.setOnClickListener {
                 join()
             }
+
+            val loginText = findViewById<TextView>(uex.aseegps.ga03.tuonce.R.id.loginText)
+            loginText.paintFlags = loginText.paintFlags or Paint.UNDERLINE_TEXT_FLAG // Añade el subrayado.
+
+            loginText.setOnClickListener {
+                val intent = Intent(this@JoinActivity, LoginActivity::class.java)
+                startActivity(intent)
+            }
+
         }
     }
 
