@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
@@ -29,7 +30,7 @@ class PlantillaAdapter(private var lista: List<Futbolista>, private var contexto
             val xmlnombreJugador = vista.findViewById<TextView>(R.id.nombreFutbolistaTxt)
             val xmlPuntosJugador = vista.findViewById<TextView>(R.id.puntosFutbolistaTxt)
             val xmlPosicionJugador = vista.findViewById<TextView>(R.id.posicionFutbolistaTxt)
-            val xmlTitularJugador = vista.findViewById<TextView>(R.id.Titular)
+            val xmlTitularJugador = vista.findViewById<TextView>(R.id.titularTxt)
             // Aquí debes establecer los datos del futbolista en los elementos visuales del diseño
             xmlimgFutbolista.setImageResource(futbolista.image)
             xmlnombreJugador.text = futbolista.nombreJugador
@@ -64,7 +65,7 @@ class PlantillaAdapter(private var lista: List<Futbolista>, private var contexto
                 onClick(futbolista)
             }
 
-            vista.findViewById<ImageView>(R.id.jugadorPlantillaImg).setOnClickListener{
+            vista.findViewById<CardView>(R.id.cv_Item).setOnClickListener{
                 verFutbolista(futbolista)
             }
         }

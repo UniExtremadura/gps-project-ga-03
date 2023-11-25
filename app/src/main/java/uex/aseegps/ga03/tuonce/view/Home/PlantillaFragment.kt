@@ -168,7 +168,7 @@ class PlantillaFragment : Fragment() {
                 rvFutbolistasList.layoutManager = LinearLayoutManager(context)
                 rvFutbolistasList.adapter = adapter
             }
-            binding.tvEncimaRecyclerView.text = "Pulsa en la imagen de cada jugador para ver sus estadísticas"
+            binding.tvEncimaRecyclerView.text = "Pulsa en un jugador para ver sus estadísticas"
         }
     }
 

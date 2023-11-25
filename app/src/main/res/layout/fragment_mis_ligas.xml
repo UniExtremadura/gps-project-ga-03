@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -53,12 +52,9 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_show_list"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:layout_margin="8dp"
-        android:background="@drawable/recyclerview_border"
-        app:layout_constraintTop_toBottomOf="@id/textViewTitle"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingBottom="@dimen/bottom_navigation_height"
+        android:layout_margin="8dp" />
 
 </LinearLayout>
