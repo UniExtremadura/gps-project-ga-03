@@ -22,7 +22,7 @@
             android:background="#373737">
 
             <ImageView
-                android:id="@+id/persona_vender_mover"
+                android:id="@+id/jugadorPlantillaImg"
                 android:layout_width="117dp"
                 android:layout_height="112dp"
                 android:layout_marginStart="4dp"
@@ -55,7 +55,7 @@
                 android:textColor="#00E2FF"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/persona_vender_mover"
+                app:layout_constraintStart_toEndOf="@+id/jugadorPlantillaImg"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -67,7 +67,7 @@
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/persona_vender_mover"
+                app:layout_constraintStart_toEndOf="@+id/jugadorPlantillaImg"
                 app:layout_constraintTop_toBottomOf="@+id/nombreFutbolistaTxt" />
 
             <Button
@@ -85,7 +85,7 @@
                 android:text="Vender"
                 android:textColor="#FFFFFF"
                 app:layout_constraintEnd_toStartOf="@+id/comprarBt"
-                app:layout_constraintStart_toEndOf="@+id/persona_vender_mover"
+                app:layout_constraintStart_toEndOf="@+id/jugadorPlantillaImg"
                 app:layout_constraintTop_toBottomOf="@+id/puntosFutbolistaTxt" />
 
             <Button
@@ -117,7 +117,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.094"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/persona_vender_mover"
+                app:layout_constraintTop_toBottomOf="@+id/jugadorPlantillaImg"
                 app:layout_constraintVertical_bias="1.0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

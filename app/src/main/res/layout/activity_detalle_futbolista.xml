@@ -7,7 +7,7 @@
     android:padding="16dp">
 
     <ImageView
-        android:id="@+id/imageView6"
+        android:id="@+id/imgFutbolistaAlOnce"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:src="@drawable/baseline_person_24" />

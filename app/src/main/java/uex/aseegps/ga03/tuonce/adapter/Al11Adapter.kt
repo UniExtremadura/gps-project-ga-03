@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.Navigation
@@ -27,6 +28,7 @@ class Al11Adapter(private var lista: List<Futbolista>, private var contexto: Con
         fun bind(futbolista: Futbolista, adapter: Al11Adapter) {
             lifecycleScope.launch {
                 db = TuOnceDatabase.getInstance(contexto!!)!!
+                val xmlImgJugador = vista.findViewById<ImageView>(R.id.imgFutbolistaAlOnce)
                 val xmlnombreJugador = vista.findViewById<TextView>(R.id.nombreFutbolistaal11)
                 val xmlPuntosJugador = vista.findViewById<TextView>(R.id.puntosFutbolistaal11)
                 val xmlPosicionJugador = vista.findViewById<TextView>(R.id.posTxt)
@@ -46,6 +48,7 @@ class Al11Adapter(private var lista: List<Futbolista>, private var contexto: Con
                     }
                 }
                 // Establecer los datos del futbolista en los elementos visuales del diseño
+                xmlImgJugador.setImageResource(futbolista.image)
                 xmlnombreJugador.text = futbolista.nombreJugador
                 xmlPuntosJugador.text = futbolista.puntosAportados.toString()
                 xmlPosicionJugador.text = futbolista.posicion.toString()

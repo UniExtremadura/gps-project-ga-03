@@ -9,6 +9,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import kotlinx.coroutines.launch
+import uex.aseegps.ga03.tuonce.R
 import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
 import uex.aseegps.ga03.tuonce.model.User
 import uex.aseegps.ga03.tuonce.utils.CredentialCheck
@@ -43,6 +44,7 @@ class LoginActivity : AppCompatActivity() {
         //view binding and set content view
         binding = ActivityLoginBinding.inflate(layoutInflater)
         db = TuOnceDatabase.getInstance(applicationContext)!!
+
         setContentView(binding.root)
         setUpListeners()
 

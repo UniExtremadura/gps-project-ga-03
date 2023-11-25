@@ -18,9 +18,11 @@ class AdaptadorFutbolista(private var lista: List<Futbolista>,private var contex
 
     class viewHolder(var vista: View, var contexto: Context, private val onClick: (show: Futbolista) -> Unit) : RecyclerView.ViewHolder(vista) {
         fun bind(futbolista: Futbolista) {
+            val xmlFotoJugador = vista.findViewById<ImageView>(R.id.imagenFutbolista)
             val xmlnombreJugador = vista.findViewById<TextView>(R.id.xmlnombreJugador)
             val xmlPrecioJugador = vista.findViewById<TextView>(R.id.xmlPrecioJugador)
             // Aquí debes establecer los datos del futbolista en los elementos visuales del diseño
+            xmlFotoJugador.setImageResource(futbolista.image)
             xmlnombreJugador.text = futbolista.nombreJugador
             xmlPrecioJugador.text = futbolista.varor.toString()
 

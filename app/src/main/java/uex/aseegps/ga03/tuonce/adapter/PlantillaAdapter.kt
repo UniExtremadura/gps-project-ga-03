@@ -25,11 +25,13 @@ class PlantillaAdapter(private var lista: List<Futbolista>, private var contexto
         private lateinit var db: TuOnceDatabase
         fun bind(futbolista: Futbolista) {
             db = TuOnceDatabase.getInstance(contexto!!)!!
+            val xmlimgFutbolista = vista.findViewById<ImageView>(R.id.jugadorPlantillaImg)
             val xmlnombreJugador = vista.findViewById<TextView>(R.id.nombreFutbolistaTxt)
             val xmlPuntosJugador = vista.findViewById<TextView>(R.id.puntosFutbolistaTxt)
             val xmlPosicionJugador = vista.findViewById<TextView>(R.id.posicionFutbolistaTxt)
             val xmlTitularJugador = vista.findViewById<TextView>(R.id.Titular)
             // Aquí debes establecer los datos del futbolista en los elementos visuales del diseño
+            xmlimgFutbolista.setImageResource(futbolista.image)
             xmlnombreJugador.text = futbolista.nombreJugador
             xmlPuntosJugador.text = futbolista.puntosAportados.toString()
             xmlPosicionJugador.text = futbolista.posicion
@@ -62,7 +64,7 @@ class PlantillaAdapter(private var lista: List<Futbolista>, private var contexto
                 onClick(futbolista)
             }
 
-            vista.findViewById<ImageView>(R.id.persona_vender_mover).setOnClickListener{
+            vista.findViewById<ImageView>(R.id.jugadorPlantillaImg).setOnClickListener{
                 verFutbolista(futbolista)
             }
         }

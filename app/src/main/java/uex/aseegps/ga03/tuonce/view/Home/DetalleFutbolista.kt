@@ -2,13 +2,11 @@ package uex.aseegps.ga03.tuonce.view.Home
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+import android.widget.ImageView
 import uex.aseegps.ga03.tuonce.R
 import uex.aseegps.ga03.tuonce.model.Futbolista
 import android.widget.TextView
-import androidx.navigation.findNavController
 import uex.aseegps.ga03.tuonce.databinding.ActivityDetalleFutbolistaBinding
-import androidx.navigation.fragment.findNavController
 
 class DetalleFutbolista : AppCompatActivity() {
     private lateinit var binding: ActivityDetalleFutbolistaBinding
@@ -30,6 +28,8 @@ class DetalleFutbolista : AppCompatActivity() {
     fun escribirFutbolista(){
         val futbolista = intent.getSerializableExtra("nom") as Futbolista
 
+        val imgFutbolista = findViewById<ImageView>(R.id.imgFutbolistaAlOnce)
+        imgFutbolista.setImageResource(futbolista.image)
         val idNombreFutbolista = findViewById<TextView>(R.id.idNombreFutbolista)
         idNombreFutbolista.text = getString(R.string.nombreEtiqueta, futbolista.nombreJugador)
         val idPosicionFutbolista = findViewById<TextView>(R.id.idPosicionFutbolista)

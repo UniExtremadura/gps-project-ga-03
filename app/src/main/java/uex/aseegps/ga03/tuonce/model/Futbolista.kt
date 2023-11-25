@@ -18,6 +18,7 @@ import java.io.Serializable
 )
 data class Futbolista(
     @PrimaryKey(autoGenerate = true) var futbolistaId: Long?,
+    var image: Int,
     var nombreJugador: String,
     var años: String,
     var posicion: String,

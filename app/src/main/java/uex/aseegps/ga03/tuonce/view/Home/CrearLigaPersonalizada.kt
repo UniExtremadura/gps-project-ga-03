@@ -88,9 +88,9 @@ class CrearLigaPersonalizada : Fragment() {
                     equipo?.let { db.equipoDao().update(it) }
 
                     val bots: List<User> = listOf(
-                        User(null, R.drawable.ic_launcher_background, "Bot1", "Bot1", 0),
-                        User(null, R.drawable.ic_launcher_background, "Bot2", "Bot2", 0),
-                        User(null, R.drawable.ic_launcher_background, "Bot3", "Bot3", 0)
+                        User(null, R.drawable.bot1, "Bot1", "Bot1", 0),
+                        User(null, R.drawable.bot2, "Bot2", "Bot2", 0),
+                        User(null, R.drawable.bot3, "Bot3", "Bot3", 0)
                     )
 
                     bots.forEach { bot ->
