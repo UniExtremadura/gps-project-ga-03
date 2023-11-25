@@ -93,7 +93,7 @@ class JoinActivity : AppCompatActivity() {
         // Crear una instancia de la clase Random
         val random = Random
         // Generar un número aleatorio entre 15,000,000 (inclusive) y 20,000,000 (inclusive)
-        val randomNumber = random.nextInt(15_000_000, 20_000_001)
+        val randomNumber = random.nextInt(50_000, 75_000)
         val nuevoEquipo = Equipo(
             null,
             name = user.name,

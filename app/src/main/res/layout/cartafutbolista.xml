@@ -7,55 +7,59 @@
     android:paddingTop="10dp"
     android:paddingBottom="10dp"
     android:layout_marginBottom="10dp"
-    android:background="#5C5C5C">
+    android:background="@drawable/estilo_mercado_background">
 
     <TextView
         android:id="@+id/xmlnombreJugador"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
-        android:textStyle="bold"
+        android:textColor="#FFFFFF"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/botoncomprar"
-        app:layout_constraintHorizontal_bias="0.579"
+        app:layout_constraintHorizontal_bias="0.734"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.243" />
+        app:layout_constraintVertical_bias="0.347" />
 
     <TextView
         android:id="@+id/xmlPrecioJugador"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
+        android:textColor="#FFFFFF"
         android:textSize="15sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/botoncomprar"
-        android:textStyle="bold"
-        app:layout_constraintHorizontal_bias="0.579"
+        app:layout_constraintHorizontal_bias="0.701"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.941" />
+        app:layout_constraintVertical_bias="1.0" />
+
     <Button
         android:id="@+id/botoncomprar"
-        android:layout_width="77dp"
-        android:layout_height="39dp"
-        android:background="#00FF00"
+        android:layout_width="124dp"
+        android:layout_height="35dp"
+        android:background="@drawable/edittext_rounded_background"
+        android:backgroundTint="#3E9B04"
         android:text="Comprar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.778"
+        app:layout_constraintHorizontal_bias="0.846"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.645" />
+        app:layout_constraintVertical_bias="0.457" />
 
     <ImageView
         android:id="@+id/imagenFutbolista"
         android:layout_width="47dp"
         android:layout_height="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.013"
+        app:layout_constraintEnd_toStartOf="@+id/xmlnombreJugador"
+        app:layout_constraintHorizontal_bias="0.36"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/baseline_person_24" />

@@ -8,20 +8,22 @@
     tools:context=".view.Home.Mercado.MercadoFragment">
 
     <!-- Botón en la parte superior -->
+
     <Button
         android:id="@+id/ordenarPorPuntuacion"
         android:layout_width="match_parent"
-        android:layout_margin="6dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:background="#cc0000"
+        android:layout_margin="6dp"
+        android:background="@drawable/edittext_rounded_background"
+        android:backgroundTint="#cc0000"
         android:text="Ordenar por puntuacion"
         android:textColor="#FFFFFF" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/RvFutbolista"
-        android:paddingBottom="@dimen/bottom_navigation_height"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:paddingBottom="@dimen/bottom_navigation_height" />
 </LinearLayout>

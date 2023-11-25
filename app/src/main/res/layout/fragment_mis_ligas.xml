@@ -12,8 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_margin="10dp"
-        android:background="#cc0000"
-        android:text="Crear Liga Personalizada"
+        android:background="@drawable/edittext_rounded_background"
+        android:backgroundTint="#3E9B04"
+        android:text="Crear nueva liga"
         android:textColor="#FFFFFF" />
 
     <Button
@@ -21,8 +22,9 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_margin="10dp"
-        android:background="#cc0000"
-        android:text="Simular Partido"
+        android:background="@drawable/edittext_rounded_background"
+        android:backgroundTint="#0061A9"
+        android:text="Simular jornada"
         android:textColor="#FFFFFF" />
 
     <Button
@@ -30,8 +32,9 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_margin="10dp"
-        android:background="#cc0000"
-        android:text="Terminar Liga"
+        android:background="@drawable/edittext_rounded_background"
+        android:backgroundTint="#B90B0B"
+        android:text="Terminar liga"
         android:textColor="#FFFFFF" />
 
     <!-- Título de Noticias -->

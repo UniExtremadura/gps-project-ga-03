@@ -33,7 +33,7 @@ class LoginActivity : AppCompatActivity() {
 
                     Toast.makeText(
                         this@LoginActivity,
-                        "New user ($name/$password) created",
+                        "Tu usuario ($name/$password) ha sido creado",
                         Toast.LENGTH_SHORT
                     ).show()
                 }

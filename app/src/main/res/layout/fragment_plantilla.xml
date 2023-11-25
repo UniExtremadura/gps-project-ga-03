@@ -12,102 +12,111 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="6dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="#cc0000"
+        android:background="@drawable/edittext_rounded_background"
+        android:backgroundTint="#0C101A"
         android:text="Ordenar por puntuacion"
-        android:textColor="#FFFFFF" />
+        android:textColor="#FFFFFF"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="6dp" />
+
+    <!-- Nuevos botones para filtrar por posición -->
 
     <Button
         android:id="@+id/alineacionBt"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/edittext_rounded_background"
         android:backgroundTint="#FFFFFF"
         android:text="Alineación"
         android:textColor="#000000"
-        app:layout_constraintTop_toBottomOf="@+id/buttonOrdenarPuntos"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/plantillaBt"
-        android:layout_marginTop="6dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonOrdenarPuntos" />
 
     <Button
         android:id="@+id/plantillaBt"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:backgroundTint="#FF0000"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/edittext_rounded_background"
+        android:backgroundTint="#B90B0B"
         android:text="Plantilla"
         android:textColor="#000000"
-        app:layout_constraintTop_toBottomOf="@+id/buttonOrdenarPuntos"
-        app:layout_constraintStart_toEndOf="@+id/alineacionBt"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="6dp" />
+        app:layout_constraintStart_toEndOf="@+id/alineacionBt"
+        app:layout_constraintTop_toBottomOf="@+id/buttonOrdenarPuntos" />
 
-    <!-- Nuevos botones para filtrar por posición -->
     <Button
         android:id="@+id/btnPortero"
-        android:layout_width="0dp"
-        android:layout_height="36dp"
+        android:layout_width="96dp"
+        android:layout_height="52dp"
         android:layout_marginTop="8dp"
-        android:background="@color/white"
+        android:background="#FFFFFF"
         android:text="Portero"
         android:textColor="#000000"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="12sp"
         app:layout_constraintEnd_toStartOf="@+id/btnDefensa"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/alineacionBt" />
 
     <Button
         android:id="@+id/btnDefensa"
-        android:layout_width="0dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="96dp"
+        android:layout_height="52dp"
         android:layout_marginStart="4dp"
-        android:background="@color/white"
+        android:layout_marginTop="8dp"
+        android:background="#FFFFFF"
         android:text="Defensa"
         android:textColor="#000000"
-        app:layout_constraintStart_toEndOf="@+id/btnPortero"
+        android:textSize="12sp"
         app:layout_constraintEnd_toStartOf="@+id/btnCentrocampista"
+        app:layout_constraintStart_toEndOf="@+id/btnPortero"
         app:layout_constraintTop_toBottomOf="@+id/alineacionBt" />
 
     <Button
         android:id="@+id/btnCentrocampista"
-        android:layout_width="0dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="109dp"
+        android:layout_height="52dp"
         android:layout_marginStart="4dp"
-        android:background="@color/white"
+        android:layout_marginTop="8dp"
+        android:background="#FFFFFF"
         android:text="Centro Campista"
         android:textColor="#000000"
-        app:layout_constraintStart_toEndOf="@+id/btnDefensa"
+        android:textSize="12sp"
         app:layout_constraintEnd_toStartOf="@+id/btnDelantero"
+        app:layout_constraintStart_toEndOf="@+id/btnDefensa"
         app:layout_constraintTop_toBottomOf="@+id/alineacionBt" />
 
     <Button
         android:id="@+id/btnDelantero"
-        android:layout_width="0dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="95dp"
+        android:layout_height="52dp"
         android:layout_marginStart="4dp"
-        android:background="@color/white"
+        android:layout_marginTop="8dp"
+        android:background="#FFFFFF"
         android:text="Delantero"
         android:textColor="#000000"
-        app:layout_constraintStart_toEndOf="@+id/btnCentrocampista"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnCentrocampista"
         app:layout_constraintTop_toBottomOf="@+id/alineacionBt" />
-
 
 
     <TextView
         android:id="@+id/tvEncimaRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:gravity="center"
         android:padding="8dp"
         android:text="Cargando plantilla..."
         android:textColor="#FF0000"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnDelantero" />
 
     <androidx.recyclerview.widget.RecyclerView

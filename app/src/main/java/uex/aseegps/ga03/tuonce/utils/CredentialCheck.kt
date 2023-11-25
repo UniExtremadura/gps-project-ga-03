@@ -16,22 +16,22 @@ class CredentialCheck private constructor() {
         private val checks = arrayOf(
             CredentialCheck().apply {
                 fail = false
-                msg = "Your credentials are OK"
+                msg = "Iniciando sesión..."
                 error = CredentialError.Success
             },
             CredentialCheck().apply {
                 fail = true
-                msg = "Invalid username"
+                msg = "Nombre de usuario incorrecto"
                 error = CredentialError.UsernameError
             },
             CredentialCheck().apply {
                 fail = true
-                msg = "Invalid password"
+                msg = "Contraseña incorrecta"
                 error = CredentialError.PasswordError
             },
             CredentialCheck().apply {
                 fail = true
-                msg = "Passwords do not match"
+                msg = "Las contraseñas no coinciden"
                 error = CredentialError.PasswordError
             }
 

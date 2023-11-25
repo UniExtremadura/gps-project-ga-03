@@ -17,7 +17,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:padding="16dp"
+            >
 
             <ImageView
                 android:id="@+id/jugadorPlantillaImg"
@@ -70,7 +71,8 @@
                 android:layout_marginTop="8dp"
                 android:text="Vender"
                 android:textColor="@color/white"
-                android:background="#CC0000"
+                android:background="@drawable/edittext_rounded_background"
+                android:backgroundTint="#B90B0B"
                 app:layout_constraintStart_toStartOf="@id/puntosFutbolistaTxt"
                 app:layout_constraintTop_toBottomOf="@id/puntosFutbolistaTxt"
                 app:layout_constraintEnd_toStartOf="@id/comprarBt"
@@ -83,7 +85,8 @@
                 android:layout_marginStart="8dp"
                 android:text="Al 11"
                 android:textColor="@color/white"
-                android:background="#076308"
+                android:background="@drawable/edittext_rounded_background"
+                android:backgroundTint="#3E9B04"
                 app:layout_constraintStart_toEndOf="@id/venderBt"
                 app:layout_constraintTop_toTopOf="@id/venderBt"
                 app:layout_constraintEnd_toEndOf="parent" />
