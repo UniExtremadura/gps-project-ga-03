@@ -1,5 +1,6 @@
 package uex.aseegps.ga03.tuonce.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -27,6 +28,9 @@ interface FutbolistaDao {
 
     @Query("SELECT * FROM futbolista")
     suspend fun findAll(): List<Futbolista>
+
+    @Query("SELECT * FROM futbolista")
+    fun findAllFutbolistas(): LiveData<List<Futbolista>>
 
     @Delete
     suspend fun delete(futbolista: Futbolista)
