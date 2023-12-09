@@ -1,6 +1,7 @@
 package es.unex.giiis.asee.tiviclone.data
 
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
@@ -21,9 +22,15 @@ class Repository private constructor(
     private val actividadDao: ActividadDao
 ) {
 
-    val futbolistasInMercado = futbolistaDao.findAllFutbolistas()
+    val futbolistas = futbolistaDao.findAllFutbolistas()
 
+    private val userFilter = MutableLiveData<Long>()
 
+    val actividades: LiveData<List<Actividad>> =
+        userFilter.switchMap{ userid -> actividadDao.findAllByUser(userid) }
+    fun setUserid(userid: Long) {
+        userFilter.value = userid
+    }
     suspend fun eliminarFutbolistaDelMercado(futbolistaComprado : Futbolista, equipoUsuario : Equipo?, usuario : User?)
     {
         actualizarValorEquipo(equipoUsuario, futbolistaComprado.varor)

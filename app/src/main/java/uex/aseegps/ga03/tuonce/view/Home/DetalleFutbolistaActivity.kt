@@ -8,7 +8,7 @@ import uex.aseegps.ga03.tuonce.model.Futbolista
 import android.widget.TextView
 import uex.aseegps.ga03.tuonce.databinding.ActivityDetalleFutbolistaBinding
 
-class DetalleFutbolista : AppCompatActivity() {
+class DetalleFutbolistaActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetalleFutbolistaBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

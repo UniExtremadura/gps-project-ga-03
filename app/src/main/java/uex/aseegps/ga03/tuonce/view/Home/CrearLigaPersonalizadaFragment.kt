@@ -29,10 +29,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [CrearLigaPersonalizada.newInstance] factory method to
+ * Use the [CrearLigaPersonalizadaFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class CrearLigaPersonalizada : Fragment() {
+class CrearLigaPersonalizadaFragment : Fragment() {
     private var _binding: FragmentCrearLigaPersonalizadaBinding? = null
     private val binding get() = _binding!!
 

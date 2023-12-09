@@ -1,4 +1,4 @@
-package uex.aseegps.ga03.tuonce.view.Home.Mercado
+package uex.aseegps.ga03.tuonce.view.Home
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +10,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import es.unex.giiis.asee.tiviclone.data.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,19 +17,18 @@ import kotlinx.coroutines.withContext
 import uex.aseegps.ga03.tuonce.R
 import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
 import uex.aseegps.ga03.tuonce.databinding.FragmentMercadoBinding
-import uex.aseegps.ga03.tuonce.model.AccionActividad
-import uex.aseegps.ga03.tuonce.model.Actividad
 import uex.aseegps.ga03.tuonce.model.Equipo
 import uex.aseegps.ga03.tuonce.model.Futbolista
 import uex.aseegps.ga03.tuonce.model.User
 import uex.aseegps.ga03.tuonce.utils.SortPlayers.clasificarJugadores
+import uex.aseegps.ga03.tuonce.adapter.MercadoAdapter
 
 
 class MercadoFragment : Fragment() {
     private lateinit var binding: FragmentMercadoBinding
     private lateinit var db: TuOnceDatabase
     private lateinit var repository: Repository
-    private lateinit var adapter: AdaptadorFutbolista
+    private lateinit var adapter: MercadoAdapter
     private var futbolistasMercado : List<Futbolista> = emptyList()
 
     override fun onAttach(context: android.content.Context) {
@@ -39,8 +37,8 @@ class MercadoFragment : Fragment() {
         repository = Repository.getInstance(db.userDao(),db.futbolistaDao(), db.equipoDao(), db.actividadDao())
     }
 
-    private fun subscribeUi(adapter:AdaptadorFutbolista) {
-        repository.futbolistasInMercado.observe(viewLifecycleOwner) { futbolistasActualesMercado ->
+    private fun subscribeUi(adapter: MercadoAdapter) {
+        repository.futbolistas.observe(viewLifecycleOwner) { futbolistasActualesMercado ->
             futbolistasMercado = futbolistasActualesMercado.filter{
                 it.equipoId == null
             }
@@ -69,7 +67,7 @@ class MercadoFragment : Fragment() {
                 }
                 val jugadoresOrdenados = clasificarJugadores(jugadoresLibres)
                 binding.RvFutbolista.layoutManager = LinearLayoutManager(requireContext())
-                binding.RvFutbolista.adapter = AdaptadorFutbolista(
+                binding.RvFutbolista.adapter = MercadoAdapter(
                     lista = jugadoresOrdenados,
                     contexto = requireContext(),
                     onClick = {
@@ -81,7 +79,7 @@ class MercadoFragment : Fragment() {
     }
 
     private fun setUpRecyclerView() {
-        adapter = AdaptadorFutbolista(
+        adapter = MercadoAdapter(
             lista = futbolistasMercado,
             contexto = requireContext(),
             onClick = {
@@ -97,8 +95,6 @@ class MercadoFragment : Fragment() {
 
         binding.RvFutbolista.layoutManager = LinearLayoutManager(requireContext())
         binding.RvFutbolista.adapter = adapter
-
-
     }
 
     private fun comprarFutbolista(it : Futbolista)

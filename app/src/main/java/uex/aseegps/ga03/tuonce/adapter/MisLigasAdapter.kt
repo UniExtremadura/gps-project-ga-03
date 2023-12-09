@@ -1,4 +1,4 @@
-package uex.aseegps.ga03.tuonce.view.Home
+package uex.aseegps.ga03.tuonce.adapter
 
 import android.content.Intent
 import android.net.Uri

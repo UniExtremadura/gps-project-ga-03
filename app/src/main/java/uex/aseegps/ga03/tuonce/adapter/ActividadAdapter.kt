@@ -15,11 +15,31 @@ import uex.aseegps.ga03.tuonce.R
 import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
 import uex.aseegps.ga03.tuonce.model.AccionActividad
 import uex.aseegps.ga03.tuonce.model.Actividad
+import uex.aseegps.ga03.tuonce.model.Futbolista
 import uex.aseegps.ga03.tuonce.model.User
 
-class ActividadAdapter(private val listaActividades: List<Actividad>, var contexto: Context?, private val lifecycleScope: CoroutineScope) :
+class ActividadAdapter(private var listaActividades: List<Actividad>, var contexto: Context?, private val lifecycleScope: CoroutineScope) :
     RecyclerView.Adapter<ActividadAdapter.ViewHolder>() {
     private lateinit var db: TuOnceDatabase
+
+    class ViewHolder(view: View, var contexto: Context?, private val lifecycleScope: CoroutineScope) : RecyclerView.ViewHolder(view) {
+        val tvUsuarioActividad: TextView = view.findViewById(R.id.tvUsuarioActividad)
+
+        val tvHaComprado: TextView = view.findViewById(R.id.tvHaComprado)
+        val tvFutbolistaActividadComprar: TextView = view.findViewById(R.id.tvFutbolistaActividadComprar)
+
+        val tvHaVendido: TextView = view.findViewById(R.id.tvHaVendido)
+        val tvFutbolistaActividadVender: TextView = view.findViewById(R.id.tvFutbolistaActividadVender)
+
+        val tvHaIniciado: TextView = view.findViewById(R.id.tvHaIniciado)
+        val tvIniciarLigaActividad: TextView = view.findViewById(R.id.tvIniciarLigaActividad)
+
+        val tvHaAcabadoLiga: TextView = view.findViewById(R.id.tvHaAcabadoLiga)
+        val tvAcabarLigaActividad: TextView = view.findViewById(R.id.tvAcabarLigaActividad)
+
+        val tvHaIniciadoJornada: TextView = view.findViewById(R.id.tvHaIniciadoJornada)
+        val tvIniciarJornadaActividad: TextView = view.findViewById(R.id.tvIniciarJornadaActividad)
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.noticia_actividad_list, parent, false)
@@ -132,27 +152,10 @@ class ActividadAdapter(private val listaActividades: List<Actividad>, var contex
             holder.tvAcabarLigaActividad.visibility = View.GONE
 
         }
-
     }
-
+    fun updateData(nuevasActividades: List<Actividad>) {
+        listaActividades = nuevasActividades
+        notifyDataSetChanged()
+    }
     override fun getItemCount() = listaActividades.size
-
-    class ViewHolder(view: View, var contexto: Context?, private val lifecycleScope: CoroutineScope) : RecyclerView.ViewHolder(view) {
-        val tvUsuarioActividad: TextView = view.findViewById(R.id.tvUsuarioActividad)
-
-        val tvHaComprado: TextView = view.findViewById(R.id.tvHaComprado)
-        val tvFutbolistaActividadComprar: TextView = view.findViewById(R.id.tvFutbolistaActividadComprar)
-
-        val tvHaVendido: TextView = view.findViewById(R.id.tvHaVendido)
-        val tvFutbolistaActividadVender: TextView = view.findViewById(R.id.tvFutbolistaActividadVender)
-
-        val tvHaIniciado: TextView = view.findViewById(R.id.tvHaIniciado)
-        val tvIniciarLigaActividad: TextView = view.findViewById(R.id.tvIniciarLigaActividad)
-
-        val tvHaAcabadoLiga: TextView = view.findViewById(R.id.tvHaAcabadoLiga)
-        val tvAcabarLigaActividad: TextView = view.findViewById(R.id.tvAcabarLigaActividad)
-
-        val tvHaIniciadoJornada: TextView = view.findViewById(R.id.tvHaIniciadoJornada)
-        val tvIniciarJornadaActividad: TextView = view.findViewById(R.id.tvIniciarJornadaActividad)
-    }
 }

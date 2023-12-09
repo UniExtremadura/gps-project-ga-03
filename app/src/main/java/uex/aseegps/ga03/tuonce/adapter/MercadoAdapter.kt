@@ -1,4 +1,4 @@
-package uex.aseegps.ga03.tuonce.view.Home.Mercado
+package uex.aseegps.ga03.tuonce.adapter
 
 import android.view.View
 import android.content.Context
@@ -11,10 +11,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import uex.aseegps.ga03.tuonce.R
 import uex.aseegps.ga03.tuonce.model.Futbolista
-import uex.aseegps.ga03.tuonce.view.Home.DetalleFutbolista
+import uex.aseegps.ga03.tuonce.view.Home.DetalleFutbolistaActivity
 
 
-class AdaptadorFutbolista(private var lista: List<Futbolista>,private var contexto: Context, private val onClick: (show: Futbolista) -> Unit) : RecyclerView.Adapter<AdaptadorFutbolista.viewHolder>() {
+class MercadoAdapter(private var lista: List<Futbolista>, private var contexto: Context, private val onClick: (show: Futbolista) -> Unit) : RecyclerView.Adapter<MercadoAdapter.viewHolder>() {
 
     class viewHolder(var vista: View, var contexto: Context, private val onClick: (show: Futbolista) -> Unit) : RecyclerView.ViewHolder(vista) {
         fun bind(futbolista: Futbolista) {
@@ -43,7 +43,7 @@ class AdaptadorFutbolista(private var lista: List<Futbolista>,private var contex
 
         }
         private fun verFutbolista(futbolista: Futbolista){
-            val intent = Intent(contexto, DetalleFutbolista::class.java)
+            val intent = Intent(contexto, DetalleFutbolistaActivity::class.java)
             intent.putExtra("nom", futbolista)
             contexto.startActivity(intent)
         }

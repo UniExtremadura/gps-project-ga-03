@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 import uex.aseegps.ga03.tuonce.R
 import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
 import uex.aseegps.ga03.tuonce.model.Futbolista
-import uex.aseegps.ga03.tuonce.view.Home.DetalleFutbolista
+import uex.aseegps.ga03.tuonce.view.Home.DetalleFutbolistaActivity
 
 class PlantillaAdapter(private var lista: List<Futbolista>, private var contexto: Context?, private val lifecycleScope: CoroutineScope, private val onClick: (show: Futbolista) -> Unit) :
     RecyclerView.Adapter<PlantillaAdapter.PlantillaViewHolder>()
@@ -71,7 +71,7 @@ class PlantillaAdapter(private var lista: List<Futbolista>, private var contexto
         }
 
         private fun verFutbolista(futbolista: Futbolista){
-            val intent = Intent(contexto, DetalleFutbolista::class.java)
+            val intent = Intent(contexto, DetalleFutbolistaActivity::class.java)
             intent.putExtra("nom", futbolista)
             contexto?.startActivity(intent)
         }

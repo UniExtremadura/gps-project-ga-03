@@ -1,11 +1,11 @@
 package uex.aseegps.ga03.tuonce.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Transaction
 import uex.aseegps.ga03.tuonce.model.Actividad
-import uex.aseegps.ga03.tuonce.model.Futbolista
-import uex.aseegps.ga03.tuonce.model.User
 
 @Dao
 interface ActividadDao {
@@ -14,7 +14,9 @@ interface ActividadDao {
     suspend fun insertar(actividad: Actividad)
     @Query("SELECT * FROM Actividad")
     suspend fun findAll(): List<Actividad>
+
+    @Transaction
     @Query("SELECT * FROM Actividad WHERE user_id = :usuarioId")
-    suspend fun findAllByUser(usuarioId : Long): List<Actividad>
+    fun findAllByUser(usuarioId : Long): LiveData<List<Actividad>>
 
 }
