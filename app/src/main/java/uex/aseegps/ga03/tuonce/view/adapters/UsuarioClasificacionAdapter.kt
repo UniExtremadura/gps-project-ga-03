@@ -1,4 +1,4 @@
-package uex.aseegps.ga03.tuonce.adapter
+package uex.aseegps.ga03.tuonce.view.adapters
 
 import android.view.LayoutInflater
 import android.view.View

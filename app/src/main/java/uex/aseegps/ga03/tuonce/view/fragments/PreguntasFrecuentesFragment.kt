@@ -1,4 +1,4 @@
-package uex.aseegps.ga03.tuonce.view.Home
+package uex.aseegps.ga03.tuonce.view.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

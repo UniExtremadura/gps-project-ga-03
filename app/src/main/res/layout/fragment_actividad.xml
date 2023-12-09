@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="#000000"
     android:backgroundTint="#000000"
-    tools:context=".view.Home.ActividadFragment">
+    tools:context=".view.fragments.ActividadFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvActividad"

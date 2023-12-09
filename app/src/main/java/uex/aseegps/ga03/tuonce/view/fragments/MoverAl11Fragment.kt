@@ -1,4 +1,4 @@
-package uex.aseegps.ga03.tuonce.view.Home
+package uex.aseegps.ga03.tuonce.view.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import uex.aseegps.ga03.tuonce.adapter.Al11Adapter
+import uex.aseegps.ga03.tuonce.view.adapters.Al11Adapter
 import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
 import uex.aseegps.ga03.tuonce.databinding.FragmentMoverAl11Binding
 import uex.aseegps.ga03.tuonce.model.Equipo

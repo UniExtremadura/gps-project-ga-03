@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
-    tools:context=".view.JoinActivity">
+    tools:context=".view.activities.JoinActivity">
 
     <!-- ImageView del logo, ajustado para ser igual que el login -->
     <ImageView

@@ -1,4 +1,4 @@
-package uex.aseegps.ga03.tuonce.view.Home
+package uex.aseegps.ga03.tuonce.view.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -27,11 +27,7 @@ import uex.aseegps.ga03.tuonce.model.User
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [CrearLigaPersonalizadaFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class CrearLigaPersonalizadaFragment : Fragment() {
     private var _binding: FragmentCrearLigaPersonalizadaBinding? = null
     private val binding get() = _binding!!

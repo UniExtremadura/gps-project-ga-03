@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#000000"
     android:backgroundTint="#000000"
-    tools:context=".view.Home.ClasificacionFragment">
+    tools:context=".view.fragments.ClasificacionFragment">
 
     <TextView
         android:id="@+id/tvNombreLiga"

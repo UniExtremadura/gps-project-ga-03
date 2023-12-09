@@ -1,4 +1,4 @@
-package uex.aseegps.ga03.tuonce.view.Home
+package uex.aseegps.ga03.tuonce.view.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -21,7 +21,7 @@ import uex.aseegps.ga03.tuonce.model.Equipo
 import uex.aseegps.ga03.tuonce.model.Futbolista
 import uex.aseegps.ga03.tuonce.model.User
 import uex.aseegps.ga03.tuonce.utils.SortPlayers.clasificarJugadores
-import uex.aseegps.ga03.tuonce.adapter.MercadoAdapter
+import uex.aseegps.ga03.tuonce.view.adapters.MercadoAdapter
 
 
 class MercadoFragment : Fragment() {

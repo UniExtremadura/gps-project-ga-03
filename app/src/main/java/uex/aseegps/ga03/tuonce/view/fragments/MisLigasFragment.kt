@@ -1,4 +1,4 @@
-package uex.aseegps.ga03.tuonce.view.Home
+package uex.aseegps.ga03.tuonce.view.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -21,7 +21,7 @@ import uex.aseegps.ga03.tuonce.utils.SortPlayers.calcularPuntuacion
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.Dispatchers
-import uex.aseegps.ga03.tuonce.adapter.MisLigasAdapter
+import uex.aseegps.ga03.tuonce.view.adapters.MisLigasAdapter
 import uex.aseegps.ga03.tuonce.databinding.FragmentMisLigasBinding
 import uex.aseegps.ga03.tuonce.api.RetrofitServiceFactory
 

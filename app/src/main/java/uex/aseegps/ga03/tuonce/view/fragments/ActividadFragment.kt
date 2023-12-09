@@ -1,7 +1,6 @@
-package uex.aseegps.ga03.tuonce.view.Home
+package uex.aseegps.ga03.tuonce.view.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,16 +11,10 @@ import es.unex.giiis.asee.tiviclone.data.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import uex.aseegps.ga03.tuonce.R
-import uex.aseegps.ga03.tuonce.adapter.ActividadAdapter
-import uex.aseegps.ga03.tuonce.adapter.MercadoAdapter
+import uex.aseegps.ga03.tuonce.view.adapters.ActividadAdapter
 import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
 import uex.aseegps.ga03.tuonce.databinding.FragmentActividadBinding
-import uex.aseegps.ga03.tuonce.model.AccionActividad
 import uex.aseegps.ga03.tuonce.model.Actividad
-import uex.aseegps.ga03.tuonce.model.Equipo
-import uex.aseegps.ga03.tuonce.model.Futbolista
-import uex.aseegps.ga03.tuonce.model.Liga
 import uex.aseegps.ga03.tuonce.model.User
 
 class ActividadFragment : Fragment() {

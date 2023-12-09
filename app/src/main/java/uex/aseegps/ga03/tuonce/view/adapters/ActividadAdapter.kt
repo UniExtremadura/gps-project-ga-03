@@ -1,21 +1,16 @@
-package uex.aseegps.ga03.tuonce.adapter
+package uex.aseegps.ga03.tuonce.view.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import uex.aseegps.ga03.tuonce.R
-import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
 import uex.aseegps.ga03.tuonce.model.AccionActividad
 import uex.aseegps.ga03.tuonce.model.Actividad
-import uex.aseegps.ga03.tuonce.model.Futbolista
 import uex.aseegps.ga03.tuonce.model.User
 
 class ActividadAdapter(private var listaActividades: List<Actividad>, var contexto: Context?, private val lifecycleScope: CoroutineScope, val usuarioConectado : User?) :

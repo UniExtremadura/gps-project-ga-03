@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#000000"
     android:visibility="visible"
-    tools:context=".view.LoginActivity">
+    tools:context=".view.activities.LoginActivity">
 
     <!-- ImageView del logo -->
     <ImageView

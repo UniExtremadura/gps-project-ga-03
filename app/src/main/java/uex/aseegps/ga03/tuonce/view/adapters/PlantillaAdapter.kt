@@ -1,4 +1,4 @@
-package uex.aseegps.ga03.tuonce.adapter
+package uex.aseegps.ga03.tuonce.view.adapters
 
 import android.content.Context
 import android.content.Intent
@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 import uex.aseegps.ga03.tuonce.R
 import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
 import uex.aseegps.ga03.tuonce.model.Futbolista
-import uex.aseegps.ga03.tuonce.view.Home.DetalleFutbolistaActivity
+import uex.aseegps.ga03.tuonce.view.activities.DetalleFutbolistaActivity
 
 class PlantillaAdapter(private var lista: List<Futbolista>, private var contexto: Context?, private val lifecycleScope: CoroutineScope, private val onClick: (show: Futbolista) -> Unit) :
     RecyclerView.Adapter<PlantillaAdapter.PlantillaViewHolder>()

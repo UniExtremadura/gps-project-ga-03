@@ -5,6 +5,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import uex.aseegps.ga03.tuonce.database.ActividadDao
 import uex.aseegps.ga03.tuonce.database.EquipoDao
 import uex.aseegps.ga03.tuonce.database.FutbolistaDao
@@ -22,15 +24,37 @@ class Repository private constructor(
     private val actividadDao: ActividadDao
 ) {
 
-    val futbolistas = futbolistaDao.findAllFutbolistas()
 
     private val userFilter = MutableLiveData<Long>()
+    private val equipoFilter = MutableLiveData<Long>()
 
+    // Futbolistas de la base de datos
+    val futbolistas = futbolistaDao.findAllFutbolistas()
+
+
+    // Actividades del usuario, que cuando se compra, vende, crea liga, etc. se actualizan
     val actividades: LiveData<List<Actividad>> =
         userFilter.switchMap{ userid -> actividadDao.findAllByUser(userid) }
+
+    val equipoUsuario: LiveData<Equipo> =
+        userFilter.switchMap{ userid -> equipoDao.findEquipoByUserId(userid) }
+
+    val futbolistasDelEquipoUsuario: LiveData<List<Futbolista>> =
+        equipoFilter.switchMap{ eqId -> futbolistaDao.findFutbolistasByEquipoId(eqId) }
+
     fun setUserid(userid: Long) {
         userFilter.value = userid
     }
+
+    fun setEquipoId(eqId: Long) {
+        equipoFilter.value = eqId
+    }
+
+
+    suspend fun actualizarEquipo(equipo: Equipo?) {
+        equipoDao.update(equipo)
+    }
+
     suspend fun eliminarFutbolistaDelMercado(futbolistaComprado : Futbolista, equipoUsuario : Equipo?, usuario : User?)
     {
         actualizarValorEquipo(equipoUsuario, futbolistaComprado.varor)

@@ -1,4 +1,4 @@
-package uex.aseegps.ga03.tuonce.view
+package uex.aseegps.ga03.tuonce.view.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -9,11 +9,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import kotlinx.coroutines.launch
-import uex.aseegps.ga03.tuonce.R
 import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
 import uex.aseegps.ga03.tuonce.model.User
 import uex.aseegps.ga03.tuonce.utils.CredentialCheck
-import uex.aseegps.ga03.tuonce.view.Home.HomeActivity
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding

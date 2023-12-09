@@ -1,4 +1,4 @@
-package uex.aseegps.ga03.tuonce.view.Home
+package uex.aseegps.ga03.tuonce.view.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

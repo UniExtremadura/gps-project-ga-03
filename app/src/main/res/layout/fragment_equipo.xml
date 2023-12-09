@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
-    tools:context=".view.Home.EquipoFragment"
+    tools:context=".view.fragments.EquipoFragment"
     tools:layout_editor_absoluteX="-41dp"
     tools:layout_editor_absoluteY="-3dp">
 

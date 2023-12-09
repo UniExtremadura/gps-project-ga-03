@@ -1,4 +1,4 @@
-package uex.aseegps.ga03.tuonce.view
+package uex.aseegps.ga03.tuonce.view.activities
 
 import android.content.Context
 import android.content.Intent

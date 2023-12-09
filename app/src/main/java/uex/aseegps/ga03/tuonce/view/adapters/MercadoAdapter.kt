@@ -1,4 +1,4 @@
-package uex.aseegps.ga03.tuonce.adapter
+package uex.aseegps.ga03.tuonce.view.adapters
 
 import android.view.View
 import android.content.Context
@@ -11,7 +11,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import uex.aseegps.ga03.tuonce.R
 import uex.aseegps.ga03.tuonce.model.Futbolista
-import uex.aseegps.ga03.tuonce.view.Home.DetalleFutbolistaActivity
+import uex.aseegps.ga03.tuonce.view.activities.DetalleFutbolistaActivity
 
 
 class MercadoAdapter(private var lista: List<Futbolista>, private var contexto: Context, private val onClick: (show: Futbolista) -> Unit) : RecyclerView.Adapter<MercadoAdapter.viewHolder>() {

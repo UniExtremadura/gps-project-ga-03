@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".view.Home.PreguntasFrecuentesFragment">
+    tools:context=".view.fragments.PreguntasFrecuentesFragment">
 
     <TextView
         android:layout_width="match_parent"
