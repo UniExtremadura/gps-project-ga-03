@@ -10,15 +10,17 @@ import kotlinx.coroutines.withContext
 import uex.aseegps.ga03.tuonce.database.ActividadDao
 import uex.aseegps.ga03.tuonce.database.EquipoDao
 import uex.aseegps.ga03.tuonce.database.FutbolistaDao
+import uex.aseegps.ga03.tuonce.database.LigaDao
 import uex.aseegps.ga03.tuonce.database.UserDao
 import uex.aseegps.ga03.tuonce.model.AccionActividad
 import uex.aseegps.ga03.tuonce.model.Actividad
 import uex.aseegps.ga03.tuonce.model.Equipo
 import uex.aseegps.ga03.tuonce.model.Futbolista
+import uex.aseegps.ga03.tuonce.model.Liga
 import uex.aseegps.ga03.tuonce.model.User
 
 class Repository private constructor(
-    private val userDao: UserDao,
+    private val ligaDao: LigaDao,
     private val futbolistaDao: FutbolistaDao,
     private val equipoDao: EquipoDao,
     private val actividadDao: ActividadDao
@@ -27,10 +29,10 @@ class Repository private constructor(
 
     private val userFilter = MutableLiveData<Long>()
     private val equipoFilter = MutableLiveData<Long>()
+    private val ligaFilter = MutableLiveData<Long>()
 
     // Futbolistas de la base de datos
     val futbolistas = futbolistaDao.findAllFutbolistas()
-
 
     // Actividades del usuario, que cuando se compra, vende, crea liga, etc. se actualizan
     val actividades: LiveData<List<Actividad>> =
@@ -38,6 +40,12 @@ class Repository private constructor(
 
     val equipoUsuario: LiveData<Equipo> =
         userFilter.switchMap{ userid -> equipoDao.findEquipoByUserId(userid) }
+
+    val ligaUsuario: LiveData<Liga> =
+        userFilter.switchMap{ userid -> ligaDao.findLigaPorUsuario(userid) }
+
+    val usuariosLiga: LiveData<List<User>> =
+        ligaFilter.switchMap{ ligaId ->  ligaDao.findUsuariosPorLiga(ligaId) }
 
     val futbolistasDelEquipoUsuario: LiveData<List<Futbolista>> =
         equipoFilter.switchMap{ eqId -> futbolistaDao.findFutbolistasByEquipoId(eqId) }
@@ -48,6 +56,10 @@ class Repository private constructor(
 
     fun setEquipoId(eqId: Long) {
         equipoFilter.value = eqId
+    }
+
+    fun setLigaId(ligaId: Long) {
+        ligaFilter.value = ligaId
     }
 
 
@@ -93,13 +105,13 @@ class Repository private constructor(
         private var INSTANCE: Repository? = null
 
         fun getInstance(
-            userDao: UserDao,
+            ligaDao: LigaDao,
             futbolistaDao: FutbolistaDao,
             equipoDao: EquipoDao,
             actividadDao: ActividadDao
         ): Repository {
             return INSTANCE ?: synchronized(this) {
-                INSTANCE ?: Repository(userDao, futbolistaDao, equipoDao, actividadDao).also { INSTANCE = it }
+                INSTANCE ?: Repository(ligaDao, futbolistaDao, equipoDao, actividadDao).also { INSTANCE = it }
             }
         }
     }

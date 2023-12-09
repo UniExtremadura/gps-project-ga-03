@@ -7,9 +7,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import uex.aseegps.ga03.tuonce.R
+import uex.aseegps.ga03.tuonce.model.Futbolista
 import uex.aseegps.ga03.tuonce.model.User
 
-class UsuarioClasificacionAdapter(private val listaUsuarios: List<User>) :
+class UsuarioClasificacionAdapter(private var listaUsuarios: List<User>) :
     RecyclerView.Adapter<UsuarioClasificacionAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -23,6 +24,11 @@ class UsuarioClasificacionAdapter(private val listaUsuarios: List<User>) :
         holder.ivUsuario.setImageResource(usuario.image)
         holder.tvNombreUsuario.text = usuario.name
         holder.tvPuntosUsuario.text = usuario.points.toString()
+    }
+
+    fun updateData(nuevosUsuarios: List<User>) {
+        listaUsuarios = nuevosUsuarios
+        notifyDataSetChanged()
     }
 
     override fun getItemCount() = listaUsuarios.size

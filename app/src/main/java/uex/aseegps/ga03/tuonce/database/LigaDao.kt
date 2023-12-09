@@ -1,5 +1,6 @@
 package uex.aseegps.ga03.tuonce.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -20,12 +21,27 @@ interface LigaDao {
     suspend fun obtenerLigaPorUsuario(userId: Long): Liga?
 
     @Query("""
+        SELECT * FROM Liga
+        WHERE user_id = :userId AND activa = 1
+    """)
+    fun findLigaPorUsuario(userId: Long): LiveData<Liga>
+
+    @Query("""
         SELECT User.* FROM User
         INNER JOIN Equipo ON User.userId = Equipo.user_id
         INNER JOIN Liga ON Equipo.liga_id = Liga.ligaId
         WHERE Liga.ligaId = :ligaId
     """)
     fun obtenerUsuariosPorLiga(ligaId: Long): List<User>
+
+
+    @Query("""
+        SELECT User.* FROM User
+        INNER JOIN Equipo ON User.userId = Equipo.user_id
+        INNER JOIN Liga ON Equipo.liga_id = Liga.ligaId
+        WHERE Liga.ligaId = :ligaId
+    """)
+    fun findUsuariosPorLiga(ligaId: Long): LiveData<List<User>>
 
     @Update
     suspend fun actualizarLiga(liga: Liga)

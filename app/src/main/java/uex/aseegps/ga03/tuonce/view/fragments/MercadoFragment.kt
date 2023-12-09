@@ -34,7 +34,7 @@ class MercadoFragment : Fragment() {
     override fun onAttach(context: android.content.Context) {
         super.onAttach(context)
         db = TuOnceDatabase.getInstance(context)!!
-        repository = Repository.getInstance(db.userDao(),db.futbolistaDao(), db.equipoDao(), db.actividadDao())
+        repository = Repository.getInstance(db.ligaDao(),db.futbolistaDao(), db.equipoDao(), db.actividadDao())
     }
 
     private fun subscribeUi(adapter: MercadoAdapter) {
