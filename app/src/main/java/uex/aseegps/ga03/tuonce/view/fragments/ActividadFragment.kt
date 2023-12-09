@@ -11,6 +11,7 @@ import es.unex.giiis.asee.tiviclone.data.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import uex.aseegps.ga03.tuonce.TuOnceApplication
 import uex.aseegps.ga03.tuonce.view.adapters.ActividadAdapter
 import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
 import uex.aseegps.ga03.tuonce.databinding.FragmentActividadBinding
@@ -31,7 +32,6 @@ class ActividadFragment : Fragment() {
     override fun onAttach(context: android.content.Context) {
         super.onAttach(context)
         db = TuOnceDatabase.getInstance(context)!!
-        repository = Repository.getInstance(db.ligaDao(),db.futbolistaDao(), db.equipoDao(), db.actividadDao())
     }
 
 
@@ -45,7 +45,8 @@ class ActividadFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+        val appContainer = (this.activity?.application as TuOnceApplication).appContainer
+        repository = appContainer.repository
 
         // Obtengo el usuario conectado y se lo digo al repository
         lifecycleScope.launch(Dispatchers.IO) {

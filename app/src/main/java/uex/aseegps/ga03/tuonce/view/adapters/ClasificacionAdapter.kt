@@ -7,11 +7,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import uex.aseegps.ga03.tuonce.R
-import uex.aseegps.ga03.tuonce.model.Futbolista
 import uex.aseegps.ga03.tuonce.model.User
 
-class UsuarioClasificacionAdapter(private var listaUsuarios: List<User>) :
-    RecyclerView.Adapter<UsuarioClasificacionAdapter.ViewHolder>() {
+class ClasificacionAdapter(private var listaUsuarios: List<User>) :
+    RecyclerView.Adapter<ClasificacionAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)

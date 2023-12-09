@@ -14,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import uex.aseegps.ga03.tuonce.R
+import uex.aseegps.ga03.tuonce.TuOnceApplication
 import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
 import uex.aseegps.ga03.tuonce.databinding.FragmentEquipoBinding
 import uex.aseegps.ga03.tuonce.model.Equipo
@@ -34,7 +35,7 @@ class EquipoFragment : Fragment() {
     override fun onAttach(context: android.content.Context) {
         super.onAttach(context)
         db = TuOnceDatabase.getInstance(context)!!
-        repository = Repository.getInstance(db.ligaDao(),db.futbolistaDao(), db.equipoDao(), db.actividadDao())
+
     }
 
 
@@ -50,6 +51,9 @@ class EquipoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val appContainer = (this.activity?.application as TuOnceApplication).appContainer
+        repository = appContainer.repository
 
         lifecycleScope.launch(Dispatchers.IO) {
             val usuarioInteresado : User? = recuperarUsuario()

@@ -19,7 +19,7 @@ import uex.aseegps.ga03.tuonce.model.Futbolista
 import uex.aseegps.ga03.tuonce.model.Liga
 import uex.aseegps.ga03.tuonce.model.User
 
-class Repository private constructor(
+class Repository(
     private val ligaDao: LigaDao,
     private val futbolistaDao: FutbolistaDao,
     private val equipoDao: EquipoDao,
@@ -99,20 +99,4 @@ class Repository private constructor(
         actividadDao.insertar(actividadCompra)
     }
 
-    companion object {
-
-        @Volatile
-        private var INSTANCE: Repository? = null
-
-        fun getInstance(
-            ligaDao: LigaDao,
-            futbolistaDao: FutbolistaDao,
-            equipoDao: EquipoDao,
-            actividadDao: ActividadDao
-        ): Repository {
-            return INSTANCE ?: synchronized(this) {
-                INSTANCE ?: Repository(ligaDao, futbolistaDao, equipoDao, actividadDao).also { INSTANCE = it }
-            }
-        }
-    }
 }

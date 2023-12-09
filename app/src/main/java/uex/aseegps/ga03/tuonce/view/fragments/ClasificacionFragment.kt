@@ -11,12 +11,12 @@ import es.unex.giiis.asee.tiviclone.data.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import uex.aseegps.ga03.tuonce.view.adapters.UsuarioClasificacionAdapter
+import uex.aseegps.ga03.tuonce.TuOnceApplication
+import uex.aseegps.ga03.tuonce.view.adapters.ClasificacionAdapter
 import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
 import uex.aseegps.ga03.tuonce.databinding.FragmentClasificacionBinding
 import uex.aseegps.ga03.tuonce.model.Liga
 import uex.aseegps.ga03.tuonce.model.User
-import uex.aseegps.ga03.tuonce.view.adapters.MercadoAdapter
 
 class ClasificacionFragment : Fragment() {
 
@@ -24,7 +24,7 @@ class ClasificacionFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var repository: Repository
-    private lateinit var adapter: UsuarioClasificacionAdapter
+    private lateinit var adapter: ClasificacionAdapter
     private lateinit var db: TuOnceDatabase
 
     private var ligaActiva : Liga? = null
@@ -33,7 +33,7 @@ class ClasificacionFragment : Fragment() {
     override fun onAttach(context: android.content.Context) {
         super.onAttach(context)
         db = TuOnceDatabase.getInstance(context)!!
-        repository = Repository.getInstance(db.ligaDao(),db.futbolistaDao(), db.equipoDao(), db.actividadDao())
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -42,13 +42,16 @@ class ClasificacionFragment : Fragment() {
     }
 
     private fun setUpRecyclerView() {
-        adapter = UsuarioClasificacionAdapter(
+        adapter = ClasificacionAdapter(
                 listaUsuarios
         )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val appContainer = (this.activity?.application as TuOnceApplication).appContainer
+        repository = appContainer.repository
 
         lifecycleScope.launch(Dispatchers.IO) {
             var usuarioInteresado = recuperarUsuario()
@@ -63,7 +66,7 @@ class ClasificacionFragment : Fragment() {
         }
     }
 
-    private fun subscribeUi(adapter: UsuarioClasificacionAdapter) {
+    private fun subscribeUi(adapter: ClasificacionAdapter) {
         repository.ligaUsuario.observe(viewLifecycleOwner) { liga ->
             ligaActiva = liga
             if (ligaActiva != null) {

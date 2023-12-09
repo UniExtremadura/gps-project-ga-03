@@ -15,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import uex.aseegps.ga03.tuonce.R
+import uex.aseegps.ga03.tuonce.TuOnceApplication
 import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
 import uex.aseegps.ga03.tuonce.databinding.FragmentMercadoBinding
 import uex.aseegps.ga03.tuonce.model.Equipo
@@ -26,7 +27,10 @@ import uex.aseegps.ga03.tuonce.view.adapters.MercadoAdapter
 
 class MercadoFragment : Fragment() {
     private lateinit var binding: FragmentMercadoBinding
+
+    // Quitar cuando recuperemos bien el usuario:
     private lateinit var db: TuOnceDatabase
+
     private lateinit var repository: Repository
     private lateinit var adapter: MercadoAdapter
     private var futbolistasMercado : List<Futbolista> = emptyList()
@@ -34,7 +38,6 @@ class MercadoFragment : Fragment() {
     override fun onAttach(context: android.content.Context) {
         super.onAttach(context)
         db = TuOnceDatabase.getInstance(context)!!
-        repository = Repository.getInstance(db.ligaDao(),db.futbolistaDao(), db.equipoDao(), db.actividadDao())
     }
 
     private fun subscribeUi(adapter: MercadoAdapter) {
@@ -89,6 +92,9 @@ class MercadoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val appContainer = (this.activity?.application as TuOnceApplication).appContainer
+        repository = appContainer.repository
 
         setUpRecyclerView()
         subscribeUi(adapter)
