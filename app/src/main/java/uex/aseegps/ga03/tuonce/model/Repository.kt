@@ -35,7 +35,7 @@ class Repository private constructor(
     {
         actualizarValorEquipo(equipoUsuario, futbolistaComprado.varor)
         actualizarEquipoDelFutbolista(futbolistaComprado, equipoUsuario)
-        marcarActividadCompra(usuario, futbolistaComprado.futbolistaId)
+        marcarActividadCompra(usuario, futbolistaComprado.nombreJugador)
     }
 
     suspend fun actualizarEquipoDelFutbolista(futbolistaComprado : Futbolista, equipoUsuario : Equipo?)
@@ -50,7 +50,7 @@ class Repository private constructor(
         equipoDao.update(equipoUsuario)
     }
 
-    suspend fun marcarActividadCompra(usuarioConectado : User?, futbolistaId : Long?)
+    suspend fun marcarActividadCompra(usuarioConectado : User?, futbolistaId : String?)
     {
         val actividadCompra = Actividad(
             actividadId = null,

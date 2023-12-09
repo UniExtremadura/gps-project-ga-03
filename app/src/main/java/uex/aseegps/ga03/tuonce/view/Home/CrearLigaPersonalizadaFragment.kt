@@ -78,7 +78,7 @@ class CrearLigaPersonalizadaFragment : Fragment() {
                         accion = AccionActividad.INICIAR_LIGA,
                         usuarioActividad = usuarioConectado?.userId,
                         futbolistaActividad = null,
-                        ligaActividad = idLiga,
+                        ligaActividad = nuevaLiga.name,
                         jornadaActividad = null
                     )
                     db?.actividadDao()?.insertar(actividadIniciarLiga)

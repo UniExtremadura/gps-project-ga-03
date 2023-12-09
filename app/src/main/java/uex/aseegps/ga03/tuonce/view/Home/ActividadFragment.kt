@@ -52,20 +52,19 @@ class ActividadFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setUpRecyclerView()
+
 
         // Obtengo el usuario conectado y se lo digo al repository
         lifecycleScope.launch(Dispatchers.IO) {
             usuarioInteresado = recuperarUsuario()
             withContext(Dispatchers.Main) {
                 repository.setUserid(usuarioInteresado?.userId!!)
+                setUpRecyclerView()
+                subscribeUi(adapter)
+                binding.rvActividad.layoutManager = LinearLayoutManager(requireContext())
+                binding.rvActividad.adapter = adapter
             }
         }
-
-        subscribeUi(adapter)
-
-        binding.rvActividad.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvActividad.adapter = adapter
     }
 
 
@@ -79,7 +78,8 @@ class ActividadFragment : Fragment() {
     private fun setUpRecyclerView() {
         adapter = ActividadAdapter(actividades!!,
             context,
-            lifecycleScope)
+            lifecycleScope,
+            usuarioInteresado)
     }
 
     override fun onDestroyView() {

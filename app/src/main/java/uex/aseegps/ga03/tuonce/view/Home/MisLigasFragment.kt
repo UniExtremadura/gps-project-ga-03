@@ -180,23 +180,23 @@ class MisLigasFragment : Fragment() {
 
             // Borrar Liga
             val ligaid = equipo?.ligaId
+            val liga = ligaid?.let { db.ligaDao().obtenerLigaPorId(it) }
             val actividadAcabarLiga = Actividad(
                 actividadId = null,
                 accion = AccionActividad.ACABAR_LIGA,
                 usuarioActividad = usuarioConectado?.userId,
                 futbolistaActividad = null,
-                ligaActividad = ligaid,
+                ligaActividad = liga?.name,
                 jornadaActividad = null
             )
             db?.actividadDao()?.insertar(actividadAcabarLiga)
 
-            val liga = ligaid?.let { db.ligaDao().obtenerLigaPorId(it) }
+
             if (liga != null) {
                 db.ligaDao().eliminarLiga()
                 equipo.ligaId = null
                 db.equipoDao().update(equipo)
             }
-            Log.d("Jugador: ", db?.equipoDao()?.findById(1).toString())
 
             for (equipo in listOf(equipoBot1, equipoBot2, equipoBot3)) {
                 db.equipoDao().delete(equipo!!)

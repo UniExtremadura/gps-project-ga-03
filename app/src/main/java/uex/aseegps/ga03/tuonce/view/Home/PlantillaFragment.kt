@@ -153,7 +153,7 @@ class PlantillaFragment : Fragment() {
                             actividadId = null,
                             accion = AccionActividad.VENDER_FUTBOLISTA,
                             usuarioActividad = usuarioConectado?.userId,
-                            futbolistaActividad = futbolistaVendido.futbolistaId,
+                            futbolistaActividad = futbolistaVendido.nombreJugador,
                             ligaActividad = null,
                             jornadaActividad = null
                         )

@@ -13,18 +13,6 @@ import java.io.Serializable
             parentColumns = ["userId"],
             childColumns = ["user_id"],
             onDelete = ForeignKey.CASCADE
-        ),
-        ForeignKey(
-            entity = Futbolista::class,
-            parentColumns = ["futbolistaId"],
-            childColumns = ["futbolista_id"],
-            onDelete = ForeignKey.SET_NULL
-        ),
-        ForeignKey(
-            entity = Liga::class,
-            parentColumns = ["ligaId"],
-            childColumns = ["liga_id"],
-            onDelete = ForeignKey.SET_NULL
         )
     ])
 data class Actividad (
@@ -35,11 +23,11 @@ data class Actividad (
     @ColumnInfo(name = "user_id")
     var usuarioActividad: Long?,
 
-    @ColumnInfo(name = "futbolista_id")
-    var futbolistaActividad: Long?,
+    @ColumnInfo(name = "futbolista")
+    var futbolistaActividad: String?,
 
-    @ColumnInfo(name = "liga_id")
-    var ligaActividad: Long?,
+    @ColumnInfo(name = "liga")
+    var ligaActividad: String?,
 
     var jornadaActividad: Int? = null
 

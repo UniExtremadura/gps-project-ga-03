@@ -18,11 +18,10 @@ import uex.aseegps.ga03.tuonce.model.Actividad
 import uex.aseegps.ga03.tuonce.model.Futbolista
 import uex.aseegps.ga03.tuonce.model.User
 
-class ActividadAdapter(private var listaActividades: List<Actividad>, var contexto: Context?, private val lifecycleScope: CoroutineScope) :
+class ActividadAdapter(private var listaActividades: List<Actividad>, var contexto: Context?, private val lifecycleScope: CoroutineScope, val usuarioConectado : User?) :
     RecyclerView.Adapter<ActividadAdapter.ViewHolder>() {
-    private lateinit var db: TuOnceDatabase
 
-    class ViewHolder(view: View, var contexto: Context?, private val lifecycleScope: CoroutineScope) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View, var contexto: Context?, private val lifecycleScope: CoroutineScope, val usuarioConectado : User?) : RecyclerView.ViewHolder(view) {
         val tvUsuarioActividad: TextView = view.findViewById(R.id.tvUsuarioActividad)
 
         val tvHaComprado: TextView = view.findViewById(R.id.tvHaComprado)
@@ -43,36 +42,29 @@ class ActividadAdapter(private var listaActividades: List<Actividad>, var contex
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.noticia_actividad_list, parent, false)
-        return ViewHolder(view, contexto, lifecycleScope)
+        return ViewHolder(view, contexto, lifecycleScope, usuarioConectado)
     }
 
-    private suspend fun recuperarUsuario(): User? {
-        return withContext(Dispatchers.Main) {
-            db.userDao().obtenerUsuarioConectado()
-        }
-    }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        db = TuOnceDatabase.getInstance(contexto!!)!!
         val actividad = listaActividades[position]
         val accion: AccionActividad = listaActividades[position].accion
 
         lifecycleScope.launch {
-            val usuarioConectado = recuperarUsuario()
             holder.tvUsuarioActividad.text = usuarioConectado?.name
 
             when (actividad.accion) {
                 AccionActividad.INICIAR_LIGA -> {
-                    holder.tvIniciarLigaActividad.text = db?.ligaDao()?.obtenerLigaPorId(actividad.ligaActividad!!)?.name.toString()
+                    holder.tvIniciarLigaActividad.text = actividad.ligaActividad
                 }
                 AccionActividad.ACABAR_LIGA -> {
-                    holder.tvAcabarLigaActividad.text = db?.ligaDao()?.obtenerLigaPorId(actividad.ligaActividad!!)?.name.toString()
+                    holder.tvAcabarLigaActividad.text = actividad.ligaActividad
                 }
                 AccionActividad.COMPRAR_FUTBOLISTA -> {
-                    holder.tvFutbolistaActividadComprar.text = db?.futbolistaDao()?.findById(actividad.futbolistaActividad!!)?.nombreJugador.toString()
+                    holder.tvFutbolistaActividadComprar.text = actividad.futbolistaActividad
 
                 }
                 AccionActividad.VENDER_FUTBOLISTA ->{
-                    holder.tvFutbolistaActividadVender.text = db?.futbolistaDao()?.findById(actividad.futbolistaActividad!!)?.nombreJugador.toString()
+                    holder.tvFutbolistaActividadVender.text = actividad.futbolistaActividad
                 }
                 AccionActividad.INICIAR_JORNADA ->{
                     holder.tvIniciarJornadaActividad.text = actividad.jornadaActividad?.toString()
