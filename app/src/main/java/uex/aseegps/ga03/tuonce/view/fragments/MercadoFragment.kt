@@ -1,12 +1,18 @@
 package uex.aseegps.ga03.tuonce.view.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,31 +29,17 @@ import uex.aseegps.ga03.tuonce.model.Futbolista
 import uex.aseegps.ga03.tuonce.model.User
 import uex.aseegps.ga03.tuonce.utils.SortPlayers.clasificarJugadores
 import uex.aseegps.ga03.tuonce.view.adapters.MercadoAdapter
+import uex.aseegps.ga03.tuonce.view.viewmodels.HomeViewModel
+import uex.aseegps.ga03.tuonce.view.viewmodels.MercadoViewModel
 
 
 class MercadoFragment : Fragment() {
     private lateinit var binding: FragmentMercadoBinding
 
-    // Quitar cuando recuperemos bien el usuario:
-    private lateinit var db: TuOnceDatabase
-
-    private lateinit var repository: Repository
     private lateinit var adapter: MercadoAdapter
-    private var futbolistasMercado : List<Futbolista> = emptyList()
 
-    override fun onAttach(context: android.content.Context) {
-        super.onAttach(context)
-        db = TuOnceDatabase.getInstance(context)!!
-    }
-
-    private fun subscribeUi(adapter: MercadoAdapter) {
-        repository.futbolistas.observe(viewLifecycleOwner) { futbolistasActualesMercado ->
-            futbolistasMercado = futbolistasActualesMercado.filter{
-                it.equipoId == null
-            }
-            adapter.updateData(futbolistasMercado)
-        }
-    }
+    private val viewModel : MercadoViewModel by viewModels { MercadoViewModel.Factory }
+    private val homeViewModel: HomeViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,43 +50,13 @@ class MercadoFragment : Fragment() {
         return binding.root
     }
 
-    private fun setUpListeners() {
-        binding.ordenarPorPuntuacion.setOnClickListener {
-            var jugadoresLibres = mutableListOf<Futbolista>()
-            lifecycleScope.launch {
-                var futbolistas: List<Futbolista>? = futbolistasMercado
-                futbolistas?.forEach {
-                    if (it.equipoId == null) {
-                        jugadoresLibres.add(it)
-                    }
-                }
-                val jugadoresOrdenados = clasificarJugadores(jugadoresLibres)
-                binding.RvFutbolista.layoutManager = LinearLayoutManager(requireContext())
-                binding.RvFutbolista.adapter = MercadoAdapter(
-                    lista = jugadoresOrdenados,
-                    contexto = requireContext(),
-                    onClick = {
-                            comprarFutbolista(it)
-                    }
-                )
-            }
-        }
-    }
-
-    private fun setUpRecyclerView() {
-        adapter = MercadoAdapter(
-            lista = futbolistasMercado,
-            contexto = requireContext(),
-            onClick = {
-                comprarFutbolista(it)
-            })
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val appContainer = (this.activity?.application as TuOnceApplication).appContainer
-        repository = appContainer.repository
+        homeViewModel.user.observe(viewLifecycleOwner) { user ->
+            viewModel.user = user
+            viewModel.initialize()
+        }
 
         setUpRecyclerView()
         subscribeUi(adapter)
@@ -103,52 +65,70 @@ class MercadoFragment : Fragment() {
         binding.RvFutbolista.adapter = adapter
     }
 
-    private fun comprarFutbolista(it : Futbolista)
+    private fun subscribeUi(adapter: MercadoAdapter) {
+        viewModel.futbolistas.observe(viewLifecycleOwner) { futbolistasActualesMercado ->
+            adapter.updateData(futbolistasActualesMercado.filter{
+                it.equipoId == null
+            })
+        }
+        viewModel.equipoUsuario.observe(viewLifecycleOwner) {}
+    }
+
+    private fun setUpRecyclerView() {
+        adapter = MercadoAdapter(
+            lista = emptyList(),
+            contexto = requireContext(),
+            onClick = {
+                comprarFutbolistaListener(it)
+            })
+    }
+
+
+
+    private fun setUpListeners() {
+        binding.ordenarPorPuntuacion.setOnClickListener {
+            ordenarPorPuntuacion()
+        }
+    }
+
+    private fun ordenarPorPuntuacion()
     {
-
         lifecycleScope.launch {
+            val jugadoresOrdenados = clasificarJugadores(viewModel.obtenerJugadoresOrdenadosPorPuntuacion())
+            binding.RvFutbolista.layoutManager = LinearLayoutManager(requireContext())
+            binding.RvFutbolista.adapter = MercadoAdapter(
+                lista = jugadoresOrdenados,
+                contexto = requireContext(),
+                onClick = {
+                    comprarFutbolistaListener(it)
+                }
+            )
+        }
+    }
 
-            var futbolistaComprado: Futbolista? = it
 
-            //Obtengo el equipo del usuario
-            val usuarioConectado = recuperarUsuario()
-            val equipoUsuario: Equipo? = recuperarEquipo(usuarioConectado)
-
-            if (equipoUsuario?.presupuesto!! >= futbolistaComprado?.varor!!) {
-                // Si lo compra, se va del mercado (con lo que ello implica)
-                repository.eliminarFutbolistaDelMercado(futbolistaComprado, equipoUsuario, usuarioConectado)
-
-            } else {
+    private fun comprarFutbolistaListener(it : Futbolista)
+    {
+        lifecycleScope.launch {
+            if (!viewModel.comprarFutbolista(it)){
                 Toast.makeText(
                     requireContext(),
                     "No tienes suficiente dinero",
                     Toast.LENGTH_SHORT
                 ).show()
             }
-
-            withContext(Dispatchers.Main) {
-                val navOptions =
-                    NavOptions.Builder().setPopUpTo(R.id.mercadoFragment, true).build()
-                findNavController().navigate(
-                    R.id.action_mercadoFragment_to_equipoFragment,
-                    null,
-                    navOptions
-                )
-            }
-        }
-
-    }
-
-    private suspend fun recuperarUsuario(): User? {
-        return withContext(Dispatchers.IO) {
-            db?.userDao()?.obtenerUsuarioConectado()
+            salirDelMercado()
         }
     }
-    private suspend fun recuperarEquipo(usuario: User?): Equipo? {
-        return withContext(Dispatchers.IO) {
-            db?.equipoDao()?.findByUserId(usuario?.userId)
+    private suspend fun salirDelMercado(){
+        withContext(Dispatchers.Main) {
+            val navOptions =
+                NavOptions.Builder().setPopUpTo(R.id.mercadoFragment, true).build()
+            findNavController().navigate(
+                R.id.action_mercadoFragment_to_equipoFragment,
+                null,
+                navOptions
+            )
         }
     }
 }
-
-

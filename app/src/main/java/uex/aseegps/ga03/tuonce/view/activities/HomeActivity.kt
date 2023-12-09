@@ -11,6 +11,8 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.graphics.Color
 import android.util.AttributeSet
+import android.util.Log
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -21,14 +23,16 @@ import kotlinx.coroutines.launch
 import uex.aseegps.ga03.tuonce.R
 import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
 import uex.aseegps.ga03.tuonce.databinding.ActivityHomeBinding
+import uex.aseegps.ga03.tuonce.model.User
+import uex.aseegps.ga03.tuonce.view.viewmodels.HomeViewModel
 
 class HomeActivity : AppCompatActivity() {
 
+    private val viewModel: HomeViewModel by viewModels()
     private lateinit var binding: ActivityHomeBinding
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var db: TuOnceDatabase
 
-    private val blanco = Color.WHITE
     private val negro = Color.BLACK
 
     private val navController by lazy {
@@ -40,7 +44,11 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         db = TuOnceDatabase.getInstance(applicationContext)!!
         setContentView(binding.root)
-
+        lifecycleScope.launch {
+            val usuarioConectado = db.userDao()?.obtenerUsuarioConectado()
+            viewModel.userInSession = usuarioConectado
+            Log.d("usuario", "Ya lo tiene el viewmodel de Home, es " + usuarioConectado.toString())
+        }
         setUpUI()
     }
 
