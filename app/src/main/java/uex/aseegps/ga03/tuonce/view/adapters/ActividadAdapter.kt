@@ -13,10 +13,10 @@ import uex.aseegps.ga03.tuonce.model.AccionActividad
 import uex.aseegps.ga03.tuonce.model.Actividad
 import uex.aseegps.ga03.tuonce.model.User
 
-class ActividadAdapter(private var listaActividades: List<Actividad>, var contexto: Context?, private val lifecycleScope: CoroutineScope, val usuarioConectado : User?) :
+class ActividadAdapter(private var listaActividades: List<Actividad>, var contexto: Context?, private val lifecycleScope: CoroutineScope, val usuarioConectado : String?) :
     RecyclerView.Adapter<ActividadAdapter.ViewHolder>() {
 
-    class ViewHolder(view: View, var contexto: Context?, private val lifecycleScope: CoroutineScope, val usuarioConectado : User?) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View, var contexto: Context?, private val lifecycleScope: CoroutineScope, val usuarioConectado : String?) : RecyclerView.ViewHolder(view) {
         val tvUsuarioActividad: TextView = view.findViewById(R.id.tvUsuarioActividad)
 
         val tvHaComprado: TextView = view.findViewById(R.id.tvHaComprado)
@@ -45,8 +45,7 @@ class ActividadAdapter(private var listaActividades: List<Actividad>, var contex
         val accion: AccionActividad = listaActividades[position].accion
 
         lifecycleScope.launch {
-            holder.tvUsuarioActividad.text = usuarioConectado?.name
-
+            holder.tvUsuarioActividad.text = usuarioConectado
             when (actividad.accion) {
                 AccionActividad.INICIAR_LIGA -> {
                     holder.tvIniciarLigaActividad.text = actividad.ligaActividad
@@ -68,78 +67,50 @@ class ActividadAdapter(private var listaActividades: List<Actividad>, var contex
         }
 
 
-        if(accion == AccionActividad.COMPRAR_FUTBOLISTA) {
 
-            holder.tvHaComprado.visibility = View.VISIBLE
-            holder.tvFutbolistaActividadComprar.visibility = View.VISIBLE
-
-            holder.tvHaVendido.visibility = View.GONE
-            holder.tvFutbolistaActividadVender.visibility = View.GONE
-            holder.tvHaIniciado.visibility = View.GONE
-            holder.tvIniciarLigaActividad.visibility = View.GONE
-            holder.tvHaAcabadoLiga.visibility = View.GONE
-            holder.tvAcabarLigaActividad.visibility = View.GONE
-            holder.tvHaIniciadoJornada.visibility = View.GONE
-            holder.tvIniciarJornadaActividad.visibility = View.GONE
-
-        } else if(accion == AccionActividad.VENDER_FUTBOLISTA) {
-
-            holder.tvHaVendido.visibility = View.VISIBLE
-            holder.tvFutbolistaActividadVender.visibility = View.VISIBLE
-
-            holder.tvHaComprado.visibility = View.GONE
-            holder.tvFutbolistaActividadComprar.visibility = View.GONE
-            holder.tvHaIniciado.visibility = View.GONE
-            holder.tvIniciarLigaActividad.visibility = View.GONE
-            holder.tvHaAcabadoLiga.visibility = View.GONE
-            holder.tvAcabarLigaActividad.visibility = View.GONE
-            holder.tvHaIniciadoJornada.visibility = View.GONE
-            holder.tvIniciarJornadaActividad.visibility = View.GONE
-
-        } else if(accion == AccionActividad.INICIAR_LIGA) {
-
-            holder.tvHaIniciado.visibility = View.VISIBLE
-            holder.tvIniciarLigaActividad.visibility = View.VISIBLE
-
-            holder.tvHaComprado.visibility = View.GONE
-            holder.tvFutbolistaActividadComprar.visibility = View.GONE
-            holder.tvHaVendido.visibility = View.GONE
-            holder.tvFutbolistaActividadVender.visibility = View.GONE
-            holder.tvHaAcabadoLiga.visibility = View.GONE
-            holder.tvAcabarLigaActividad.visibility = View.GONE
-            holder.tvHaIniciadoJornada.visibility = View.GONE
-            holder.tvIniciarJornadaActividad.visibility = View.GONE
-
-        } else if(accion == AccionActividad.ACABAR_LIGA) {
-
-            holder.tvHaAcabadoLiga.visibility = View.VISIBLE
-            holder.tvAcabarLigaActividad.visibility = View.VISIBLE
-
-            holder.tvHaComprado.visibility = View.GONE
-            holder.tvFutbolistaActividadComprar.visibility = View.GONE
-            holder.tvHaVendido.visibility = View.GONE
-            holder.tvFutbolistaActividadVender.visibility = View.GONE
-            holder.tvHaIniciado.visibility = View.GONE
-            holder.tvIniciarLigaActividad.visibility = View.GONE
-            holder.tvHaIniciadoJornada.visibility = View.GONE
-            holder.tvIniciarJornadaActividad.visibility = View.GONE
-
-        } else if(accion == AccionActividad.INICIAR_JORNADA) {
-
-            holder.tvHaIniciadoJornada.visibility = View.VISIBLE
-            holder.tvIniciarJornadaActividad.visibility = View.VISIBLE
-
-            holder.tvHaComprado.visibility = View.GONE
-            holder.tvFutbolistaActividadComprar.visibility = View.GONE
-            holder.tvHaVendido.visibility = View.GONE
-            holder.tvFutbolistaActividadVender.visibility = View.GONE
-            holder.tvHaIniciado.visibility = View.GONE
-            holder.tvIniciarLigaActividad.visibility = View.GONE
-            holder.tvHaAcabadoLiga.visibility = View.GONE
-            holder.tvAcabarLigaActividad.visibility = View.GONE
-
+        when (accion) {
+            AccionActividad.COMPRAR_FUTBOLISTA -> {
+                showView(View.VISIBLE, holder.tvHaComprado, holder.tvFutbolistaActividadComprar)
+                showView(View.GONE, holder.tvHaVendido, holder.tvFutbolistaActividadVender,
+                    holder.tvHaIniciado, holder.tvIniciarLigaActividad,
+                    holder.tvHaAcabadoLiga, holder.tvAcabarLigaActividad,
+                    holder.tvHaIniciadoJornada, holder.tvIniciarJornadaActividad)
+            }
+            AccionActividad.VENDER_FUTBOLISTA -> {
+                showView(View.VISIBLE, holder.tvHaVendido, holder.tvFutbolistaActividadVender)
+                showView(View.GONE, holder.tvHaComprado, holder.tvFutbolistaActividadComprar,
+                    holder.tvHaIniciado, holder.tvIniciarLigaActividad,
+                    holder.tvHaAcabadoLiga, holder.tvAcabarLigaActividad,
+                    holder.tvHaIniciadoJornada, holder.tvIniciarJornadaActividad)
+            }
+            AccionActividad.INICIAR_LIGA -> {
+                showView(View.VISIBLE, holder.tvHaIniciado, holder.tvIniciarLigaActividad)
+                showView(View.GONE, holder.tvHaComprado, holder.tvFutbolistaActividadComprar,
+                    holder.tvHaVendido, holder.tvFutbolistaActividadVender,
+                    holder.tvHaAcabadoLiga, holder.tvAcabarLigaActividad,
+                    holder.tvHaIniciadoJornada, holder.tvIniciarJornadaActividad)
+            }
+            AccionActividad.ACABAR_LIGA -> {
+                showView(View.VISIBLE, holder.tvHaAcabadoLiga, holder.tvAcabarLigaActividad)
+                showView(View.GONE, holder.tvHaComprado, holder.tvFutbolistaActividadComprar,
+                    holder.tvHaVendido, holder.tvFutbolistaActividadVender,
+                    holder.tvHaIniciado, holder.tvIniciarLigaActividad,
+                    holder.tvHaIniciadoJornada, holder.tvIniciarJornadaActividad)
+            }
+            AccionActividad.INICIAR_JORNADA -> {
+                showView(View.VISIBLE, holder.tvHaIniciadoJornada, holder.tvIniciarJornadaActividad)
+                showView(View.GONE, holder.tvHaComprado, holder.tvFutbolistaActividadComprar,
+                    holder.tvHaVendido, holder.tvFutbolistaActividadVender,
+                    holder.tvHaIniciado, holder.tvIniciarLigaActividad,
+                    holder.tvHaAcabadoLiga, holder.tvAcabarLigaActividad)
+            }
         }
     }
+
+    fun showView(visibility: Int, vararg views: View) {
+        views.forEach { it.visibility = visibility }
+    }
+
     fun updateData(nuevasActividades: List<Actividad>) {
         listaActividades = nuevasActividades
         notifyDataSetChanged()

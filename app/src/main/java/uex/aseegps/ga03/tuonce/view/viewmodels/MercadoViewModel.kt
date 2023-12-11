@@ -51,7 +51,6 @@ class MercadoViewModel(
     {
         Log.d("comprar", futbolistaComprado.toString())
         if (equipoUsuario.value?.presupuesto!! >= futbolistaComprado?.varor!!) {
-            Log.d("comprar", futbolistas.value.toString())
             if (equipoUsuario.value?.presupuesto!! >= futbolistaComprado?.varor!!) {
                 // Si lo compra, se va del mercado (con lo que ello implica)
                 repository.eliminarFutbolistaDelMercado(

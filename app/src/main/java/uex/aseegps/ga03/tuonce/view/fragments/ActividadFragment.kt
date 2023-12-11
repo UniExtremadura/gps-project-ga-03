@@ -5,39 +5,26 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import es.unex.giiis.asee.tiviclone.data.Repository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import uex.aseegps.ga03.tuonce.TuOnceApplication
 import uex.aseegps.ga03.tuonce.view.adapters.ActividadAdapter
-import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
 import uex.aseegps.ga03.tuonce.databinding.FragmentActividadBinding
-import uex.aseegps.ga03.tuonce.model.Actividad
-import uex.aseegps.ga03.tuonce.model.User
+import uex.aseegps.ga03.tuonce.view.viewmodels.ActividadViewModel
+import uex.aseegps.ga03.tuonce.view.viewmodels.HomeViewModel
 
 class ActividadFragment : Fragment() {
     private var _binding: FragmentActividadBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var repository: Repository
-    private lateinit var db: TuOnceDatabase
+    private val viewModel : ActividadViewModel by viewModels { ActividadViewModel.Factory }
+    private val homeViewModel: HomeViewModel by activityViewModels()
 
     private lateinit var adapter: ActividadAdapter
-    private var usuarioInteresado : User? = null
-    private var actividades : List<Actividad> = emptyList()
-
-    override fun onAttach(context: android.content.Context) {
-        super.onAttach(context)
-        db = TuOnceDatabase.getInstance(context)!!
-    }
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentActividadBinding.inflate(inflater, container, false)
-
 
         return binding.root
     }
@@ -45,46 +32,35 @@ class ActividadFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val appContainer = (this.activity?.application as TuOnceApplication).appContainer
-        repository = appContainer.repository
-
-        // Obtengo el usuario conectado y se lo digo al repository
-        lifecycleScope.launch(Dispatchers.IO) {
-            usuarioInteresado = recuperarUsuario()
-            withContext(Dispatchers.Main) {
-                repository.setUserid(usuarioInteresado?.userId!!)
-                setUpRecyclerView()
-                subscribeUi(adapter)
-                binding.rvActividad.layoutManager = LinearLayoutManager(requireContext())
-                binding.rvActividad.adapter = adapter
-            }
+        homeViewModel.user.observe(viewLifecycleOwner) { user ->
+            viewModel.user = user
+            viewModel.initialize()
         }
+
+        setUpRecyclerView()
+        subscribeUi(adapter)
+
+        binding.rvActividad.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvActividad.adapter = adapter
     }
 
 
     private fun subscribeUi(adapter: ActividadAdapter) {
-        repository.actividades.observe(viewLifecycleOwner) { actividadesTotales ->
-            actividades = actividadesTotales
-            adapter.updateData(actividades)
+        viewModel.actividades.observe(viewLifecycleOwner) { actividadesTotales ->
+            adapter.updateData(actividadesTotales)
         }
     }
 
     private fun setUpRecyclerView() {
-        adapter = ActividadAdapter(actividades!!,
+        adapter = ActividadAdapter(emptyList(),
             context,
             lifecycleScope,
-            usuarioInteresado)
+            viewModel.user?.name )
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private suspend fun recuperarUsuario(): User? {
-        return withContext(Dispatchers.Main) {
-            db.userDao().obtenerUsuarioConectado()
-        }
     }
 
 }
