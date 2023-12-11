@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,22 +23,16 @@ import uex.aseegps.ga03.tuonce.model.Equipo
 import uex.aseegps.ga03.tuonce.model.Futbolista
 import uex.aseegps.ga03.tuonce.model.User
 import uex.aseegps.ga03.tuonce.view.adapters.ActividadAdapter
+import uex.aseegps.ga03.tuonce.view.viewmodels.EquipoViewModel
+import uex.aseegps.ga03.tuonce.view.viewmodels.HomeViewModel
+import uex.aseegps.ga03.tuonce.view.viewmodels.MercadoViewModel
 
 class EquipoFragment : Fragment() {
     private var _binding: FragmentEquipoBinding? = null
     private val binding get() = _binding!!
-    private lateinit var db: TuOnceDatabase
-    private lateinit var repository: Repository
 
-    private var jugadoresEquipo: List<Futbolista>? = emptyList()
-    private var equipoUsuario : Equipo? = null
-
-
-    override fun onAttach(context: android.content.Context) {
-        super.onAttach(context)
-        db = TuOnceDatabase.getInstance(context)!!
-
-    }
+    private val viewModel : EquipoViewModel by viewModels { EquipoViewModel.Factory }
+    private val homeViewModel: HomeViewModel by activityViewModels()
 
 
     override fun onCreateView(
@@ -52,29 +48,24 @@ class EquipoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val appContainer = (this.activity?.application as TuOnceApplication).appContainer
-        repository = appContainer.repository
-
-        lifecycleScope.launch(Dispatchers.IO) {
-            val usuarioInteresado : User? = recuperarUsuario()
-            withContext(Dispatchers.Main) {
-                repository.setUserid(usuarioInteresado?.userId!!)
-            }
+        homeViewModel.user.observe(viewLifecycleOwner) { user ->
+            viewModel.user = user
+            viewModel.initialize()
         }
+
         subscribeUi()
     }
 
 
     private fun subscribeUi() {
-        repository.equipoUsuario.observe(viewLifecycleOwner) { equipo ->
-            equipoUsuario = equipo
-            repository.setEquipoId(equipoUsuario?.equipoId!!)
+        viewModel.equipoUsuario.observe(viewLifecycleOwner) { equipo ->
+            viewModel.initializeEquipo(equipo.equipoId!!)
             setUpListeners()
             mostrarEquipo()
         }
 
-        repository.futbolistasDelEquipoUsuario.observe(viewLifecycleOwner) { futbolistas ->
-            jugadoresEquipo = futbolistas
+        viewModel.futbolistasDelEquipoUsuario.observe(viewLifecycleOwner) { futbolistas ->
+
             mostrarEquipo()
         }
     }
@@ -83,10 +74,10 @@ class EquipoFragment : Fragment() {
         with(binding){
             cambiarNombreBt.setOnClickListener{
                 lifecycleScope.launch {
-                    var equipo: Equipo? = equipoUsuario
+                    var equipo: Equipo? = viewModel.equipoUsuario.value
                     equipo?.name = binding.etEquipo.text.toString().replace(" ", "")
                     nombreEquipo.text = "Equipo ${equipo?.name?.replace(" ", "")}"
-                    repository.actualizarEquipo(equipo)
+                    viewModel.actualizarEquipo(equipo)
                 }
             }
             plantillaBt.setOnClickListener {
@@ -116,7 +107,7 @@ private fun mostrarEquipo(){
     var defensa = 0
     var centrocampista = 4
     var delantero = 7
-    jugadoresEquipo?.forEachIndexed { index, jugador ->
+    viewModel.futbolistasDelEquipoUsuario?.value?.forEachIndexed { index, jugador ->
         if (jugador.estaEnel11 == 1 && cont < 11) {
             if (jugador.posicion == "Portero") {
                 val textView = textViewIds[10]
@@ -139,21 +130,11 @@ private fun mostrarEquipo(){
             }
         }
     }
-    val nombreEquipo = equipoUsuario?.name
+    val nombreEquipo = viewModel.equipoUsuario?.value?.name
     binding.etEquipo.text = Editable.Factory.getInstance().newEditable(nombreEquipo)
-    binding.nombreEquipo.text = "Equipo ${equipoUsuario?.name?.replace(" ", "")}"
-    binding.presupuestoText.text = "Presupuesto (euros): ${equipoUsuario?.presupuesto}"
+    binding.nombreEquipo.text = "Equipo ${nombreEquipo?.replace(" ", "")}"
+    binding.presupuestoText.text = "Presupuesto (euros): ${viewModel.equipoUsuario?.value?.presupuesto}"
 }
-
-    private suspend fun recuperarUsuario(): User? {
-        return withContext(Dispatchers.IO) {
-            db?.userDao()?.obtenerUsuarioConectado()
-        }
-    }
-
-
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()
