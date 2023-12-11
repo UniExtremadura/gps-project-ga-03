@@ -50,7 +50,7 @@ class MercadoViewModel(
     : Boolean
     {
         Log.d("comprar", futbolistaComprado.toString())
-        if (equipoUsuario.value?.presupuesto!! >= futbolistaComprado?.varor!!) {
+        return if (equipoUsuario.value?.presupuesto!! >= futbolistaComprado?.varor!!) {
             if (equipoUsuario.value?.presupuesto!! >= futbolistaComprado?.varor!!) {
                 // Si lo compra, se va del mercado (con lo que ello implica)
                 repository.eliminarFutbolistaDelMercado(
@@ -59,10 +59,9 @@ class MercadoViewModel(
                     user
                 )
             }
-            return true
-        }
-        else
-            return false
+            true
+        } else
+            false
     }
 
     companion object {
