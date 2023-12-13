@@ -20,6 +20,7 @@ import uex.aseegps.ga03.tuonce.model.Liga
 import uex.aseegps.ga03.tuonce.model.User
 
 class Repository(
+    private val userDao: UserDao,
     private val ligaDao: LigaDao,
     private val futbolistaDao: FutbolistaDao,
     private val equipoDao: EquipoDao,
@@ -99,4 +100,34 @@ class Repository(
         actividadDao.insertar(actividadCompra)
     }
 
+    suspend fun insertarLiga(nuevaLiga : Liga) : Long
+    {
+        return ligaDao.insertarLiga(nuevaLiga)
+    }
+
+    suspend fun marcarActividadNuevaLiga(usuarioConectado : User?, liga : String?)
+    {
+        val actividadIniciarLiga = Actividad(
+            actividadId = null,
+            accion = uex.aseegps.ga03.tuonce.model.AccionActividad.INICIAR_LIGA,
+            usuarioActividad = usuarioConectado?.userId,
+            futbolistaActividad = null,
+            ligaActividad = liga,
+            jornadaActividad = null
+        )
+        actividadDao.insertar(actividadIniciarLiga)
+    }
+
+    suspend fun insertarBot(bot : User) : Long
+    {
+        return userDao.insert(bot)
+    }
+
+    suspend fun insertarFutbolista(nuevoFutbolista: Futbolista){
+        futbolistaDao.insert(nuevoFutbolista)
+    }
+
+    suspend fun insertarEquipo(nuevoEquipo : Equipo) : Long{
+        return equipoDao.insert(nuevoEquipo)
+    }
 }

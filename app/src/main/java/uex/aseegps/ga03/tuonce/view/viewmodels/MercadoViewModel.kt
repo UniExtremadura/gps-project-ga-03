@@ -49,7 +49,6 @@ class MercadoViewModel(
     suspend fun comprarFutbolista(futbolistaComprado : Futbolista)
     : Boolean
     {
-        Log.d("comprar", futbolistaComprado.toString())
         return if (equipoUsuario.value?.presupuesto!! >= futbolistaComprado?.varor!!) {
             if (equipoUsuario.value?.presupuesto!! >= futbolistaComprado?.varor!!) {
                 // Si lo compra, se va del mercado (con lo que ello implica)
