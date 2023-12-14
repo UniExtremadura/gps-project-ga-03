@@ -145,6 +145,6 @@ class CrearLigaPersonalizadaFragment : Fragment() {
         view.findViewById<View>(R.id.btnAtrasLigaP).setOnClickListener {
             // Navega hacia atrás cuando se hace clic en el botón
             navController.navigateUp()
+            }
         }
-    }
 }

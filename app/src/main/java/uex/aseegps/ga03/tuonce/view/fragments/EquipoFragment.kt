@@ -35,7 +35,6 @@ class EquipoFragment : Fragment() {
     override fun onAttach(context: android.content.Context) {
         super.onAttach(context)
         db = TuOnceDatabase.getInstance(context)!!
-
     }
 
 

@@ -1,7 +1,6 @@
 package es.unex.giiis.asee.tiviclone.data
 
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
@@ -67,6 +66,11 @@ class Repository(
         equipoDao.update(equipo)
     }
 
+    suspend fun venderFutbolistaDelequipo(futbolistaVendido : Futbolista, equipoUsuario : Equipo?, usuario : User?){
+        actualizarValorEquipoSumar(equipoUsuario, futbolistaVendido.varor)
+        actualizarFutbolistaSinEquipo(futbolistaVendido)
+        marcarActividadVenta(usuario, futbolistaVendido.nombreJugador)
+    }
     suspend fun eliminarFutbolistaDelMercado(futbolistaComprado : Futbolista, equipoUsuario : Equipo?, usuario : User?)
     {
         actualizarValorEquipo(equipoUsuario, futbolistaComprado.varor)
@@ -74,12 +78,19 @@ class Repository(
         marcarActividadCompra(usuario, futbolistaComprado.nombreJugador)
     }
 
+    suspend fun actualizarFutbolistaSinEquipo(futbolistaVendido: Futbolista){
+        futbolistaVendido?.equipoId = null
+        futbolistaDao.update(futbolistaVendido)
+    }
     suspend fun actualizarEquipoDelFutbolista(futbolistaComprado : Futbolista, equipoUsuario : Equipo?)
     {
         futbolistaComprado?.equipoId = equipoUsuario?.equipoId
         futbolistaDao.update(futbolistaComprado)
     }
-
+    suspend fun actualizarValorEquipoSumar(equipoUsuario: Equipo?, valorFutbolista: Int){
+        equipoUsuario?.presupuesto = equipoUsuario?.presupuesto!! + valorFutbolista!!
+        equipoDao.update(equipoUsuario)
+    }
     suspend fun actualizarValorEquipo(equipoUsuario : Equipo?, valorFutbolista : Int)
     {
         equipoUsuario?.presupuesto = equipoUsuario?.presupuesto!! - valorFutbolista!!
@@ -99,4 +110,16 @@ class Repository(
         actividadDao.insertar(actividadCompra)
     }
 
+    suspend fun marcarActividadVenta(usuarioConectado: User?,futbolistaId: String?)
+    {
+        val actividadVenta = Actividad(
+            actividadId = null,
+            accion = AccionActividad.VENDER_FUTBOLISTA,
+            usuarioActividad = usuarioConectado?.userId,
+            futbolistaActividad = futbolistaId,
+            ligaActividad = null,
+            jornadaActividad = null
+        )
+        actividadDao.insertar(actividadVenta)
+    }
 }

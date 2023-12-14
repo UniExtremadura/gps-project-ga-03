@@ -15,7 +15,7 @@ import java.io.Serializable
             onDelete = ForeignKey.CASCADE
         )
     ])
-data class Actividad (
+data class Actividad(
     @PrimaryKey(autoGenerate = true) var actividadId: Long?,
 
     var accion: AccionActividad,
@@ -26,7 +26,7 @@ data class Actividad (
     @ColumnInfo(name = "futbolista")
     var futbolistaActividad: String?,
 
-    @ColumnInfo(name = "liga")
+    @ColumnInfo(name = "liga_id")
     var ligaActividad: String?,
 
     var jornadaActividad: Int? = null
