@@ -64,6 +64,10 @@ class Repository(
     }
 
 
+    suspend fun actualizarFutbolista(futbolista: Futbolista){
+        futbolistaDao.update(futbolista)
+    }
+
     suspend fun actualizarEquipo(equipo: Equipo?) {
         equipoDao.update(equipo)
     }
@@ -129,5 +133,10 @@ class Repository(
 
     suspend fun insertarEquipo(nuevoEquipo : Equipo) : Long{
         return equipoDao.insert(nuevoEquipo)
+    }
+
+    suspend fun insertarUsuario(usuario : User) : Long
+    {
+        return userDao.insert(usuario)
     }
 }

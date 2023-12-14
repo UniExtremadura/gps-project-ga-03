@@ -82,7 +82,7 @@ class LoginActivity : AppCompatActivity() {
                         navigateToHomeActivity(user!!, check.msg)
                     }
                 }
-                else notifyInvalidCredentials("Invalid username")
+                else notifyInvalidCredentials("Nombre de usuario incorrecto")
             }
         }
         else notifyInvalidCredentials(check.msg)
