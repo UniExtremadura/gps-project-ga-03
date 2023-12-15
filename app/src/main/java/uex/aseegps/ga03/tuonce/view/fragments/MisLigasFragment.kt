@@ -102,144 +102,20 @@ class MisLigasFragment : Fragment() {
             findNavController().navigate(R.id.action_misLigasFragment_to_crearLigaPersonalizada)
         }
         binding.btnSimularPartido.setOnClickListener {
-            simularPartidosYActualizar()
+            jornada += 1
+            viewModel.simularPartidosYActualizar(jornada)
+            Toast.makeText(requireContext(), "Jornada simulada", Toast.LENGTH_SHORT).show()
+            mostrarBotonLiga()
         }
         binding.btnTerminarLiga.setOnClickListener {
-            terminarLiga()
-        }
-    }
-
-    private fun simularPartidosYActualizar() {
-        lifecycleScope.launch {
-            val usuarioConectado = viewModel.user
-            val bot1 = viewModel.bot1.value
-            val bot2 = viewModel.bot2.value
-            val bot3 = viewModel.bot3.value
-
-            val equipoUsuario = viewModel.equipoUsuario.value
-            val equipoBot1 = viewModel.equipoBot1.value
-            val equipoBot2 = viewModel.equipoBot2.value
-            val equipoBot3 = viewModel.equipoBot3.value
-
-            if (equipoUsuario != null && equipoBot1 != null && equipoBot2 != null && equipoBot3 != null) {
-                val equipos = listOf(equipoBot1, equipoBot2, equipoBot3)
-
-                val equiposMezclados = equipos.shuffled()
-
-                val equipoBotContraUsuario = equiposMezclados.first()
-                val partidoRestante = equiposMezclados.drop(1)
-
-
-                simularPartido(
-                    viewModel.futbolistasDelEquipoUsuario.value!!,
-                    viewModel.futbolistasEquipoBot1.value!!
-                )
-                simularPartido(
-                    viewModel.futbolistasEquipoBot2.value!!,
-                    viewModel.futbolistasEquipoBot3.value!!
-                )
-
-                if (usuarioConectado != null && bot1 != null && bot2 != null && bot3 != null) {
-                    calcularPuntuacionUsuario(usuarioConectado)
-                    calcularPuntuacionUsuario(bot1)
-                    calcularPuntuacionUsuario(bot2)
-                    calcularPuntuacionUsuario(bot3)
-                }
-
-                // Crear notificacion de que se ha simulado la jornada
-                Toast.makeText(requireContext(), "Jornada simulada", Toast.LENGTH_SHORT).show()
-
-                // Actualizar jornada
-                jornada += 1
-
-                viewModel.marcarActividadCrearLiga(jornada)
-                // Actualizar boton de liga
-                mostrarBotonLiga()
-            }
-        }
-    }
-
-    private fun terminarLiga() {
-        lifecycleScope.launch {
-            val usuarioConectado = viewModel.user
-            // recuperar bots
-            val bot1 = viewModel.bot1.value
-            val bot2 = viewModel.bot2.value
-            val bot3 = viewModel.bot3.value
-            // recuperar equipos
-            val equipo = viewModel.equipoUsuario.value
-            val equipoBot1 = viewModel.equipoBot1.value
-            val equipoBot2 = viewModel.equipoBot2.value
-            val equipoBot3 = viewModel.equipoBot3.value
-
-            // Recuperar futbolistas
-            val futbolistasUsuario = viewModel.futbolistasDelEquipoUsuario.value
-            val futbolistasBot1 = viewModel.futbolistasEquipoBot1.value
-            val futbolistasBot2 = viewModel.futbolistasEquipoBot2.value
-            val futbolistasBot3 = viewModel.futbolistasEquipoBot3.value
-
-            // Actualizar puntos de usuario conectado en la base de datos
-            usuarioConectado?.points = 0
-            viewModel.actualizarPuntos(usuarioConectado?.points)
-
-            // Borrar bots
-            for (bot in listOf(bot1, bot2, bot3)) {
-                if (bot != null) {
-                    viewModel.eliminarUsuario(bot.userId!!)
-                }
-            }
-
-            // Borrar Liga
-            val liga = viewModel.ligaUsuario
-            viewModel.marcarActividadTerminarLiga(liga?.value?.name)
-
-            if (liga != null) {
-                viewModel.eliminarLiga()
-                equipo?.ligaId = null
-                viewModel.actualizarEquipo(equipo)
-            }
-
-            for (equipo in listOf(equipoBot1, equipoBot2, equipoBot3)) {
-                viewModel.eliminarEquipo(equipo!!)
-            }
-
-
-            // Borrar referencias a equipo en futbolistas
-            for (futbolista in listOf(futbolistasUsuario, futbolistasBot1, futbolistasBot2, futbolistasBot3)) {
-                if (futbolista != null) {
-                    for (fut in futbolista) {
-                        fut.goles = 0
-                        fut.asistencias = 0
-                        fut.tarjetaRoja = 0
-                        fut.tarjetaAmarilla = 0
-                        fut.parada = 0
-                        fut.balonAlArea = 0
-                        fut.faltacometidas = 0
-                        fut.minutoJugados = 0
-                        fut.puntosAportados = 0
-                        viewModel.actualizarFutbolista(fut)
-                    }
-                }
-            }
-            for (futbolista in listOf(futbolistasBot1, futbolistasBot2, futbolistasBot3)) {
-                if (futbolista != null) {
-                    for (fut in futbolista) {
-                        fut.equipoId = null
-                        viewModel.actualizarFutbolista(fut)
-                    }
-                }
-            }
-
-
-            // Restablecer jornada
+            viewModel.terminarLiga()
             jornada = 1
-
-            // Crear notificacion de que se ha terminado la liga
             Toast.makeText(requireContext(), "Liga terminada", Toast.LENGTH_SHORT).show()
-
             mostrarBotonLiga()
         }
     }
+
+
 
     private fun fetchArticles() {
         lifecycleScope.launch {
@@ -247,9 +123,6 @@ class MisLigasFragment : Fragment() {
                 val service = RetrofitServiceFactory.makeRetrofitService()
                 val remoteResource = service.listNoticias("sports", "ar", "49aa5dc1188e4486810c0f8cf239bc00")
                 val notices = remoteResource.articles
-
-                // Mostrar el numero de noticias por consola
-                Log.d("MisLigasFragment", "Numero de noticias: ${notices.size}")
 
                 withContext(Dispatchers.Main) {
                     val adapter = MisLigasAdapter(notices)
@@ -286,87 +159,8 @@ class MisLigasFragment : Fragment() {
         }
     }
 
-    private fun simularPartido(equipoLocal: List<Futbolista>, equipoVisitante: List<Futbolista>) {
 
-        // Mensaje de equipos recibidos en consola y cuales son
-        Log.d("MisLigasFragment", "4. Equipos recibidos: $equipoLocal y $equipoVisitante")
-        var listaLocal = mutableListOf<Futbolista>()
-        val listaVisitante = mutableListOf<Futbolista>()
-        for (futbolista in equipoLocal) {
-            if(futbolista.estaEnel11 == 1){
-                listaLocal.add(futbolista)
-            }
-        }
-        for (futbolista in equipoVisitante) {
-            if(futbolista.estaEnel11 == 1){
-                listaVisitante.add(futbolista)
-            }
-        }
 
-        for (futbolista in listaLocal) {
-            futbolista.goles += (0..2).random()
-            futbolista.asistencias += (0..2).random()
-            futbolista.tarjetaRoja += (0..1).random()
-            futbolista.tarjetaAmarilla += (0..2).random()
-            futbolista.parada += (0..1).random()
-            futbolista.balonAlArea += (0..3).random()
-            futbolista.faltacometidas += (0..3).random()
-            futbolista.minutoJugados = (70..90).random()
-
-            futbolista.puntosAportados += calcularPuntuacion(futbolista)
-
-            // Mensaje de puntos locales calculados en consola y el valor de los puntos
-            Log.d("MisLigasFragment", "4. Puntos locales calculados: ${futbolista.puntosAportados}")
-        }
-
-        for (futbolista in listaVisitante) {
-            futbolista.goles += (0..2).random()
-            futbolista.asistencias += (0..2).random()
-            futbolista.tarjetaRoja += (0..1).random()
-            futbolista.tarjetaAmarilla += (0..2).random()
-            futbolista.parada += (0..1).random()
-            futbolista.balonAlArea += (0..3).random()
-            futbolista.faltacometidas += (0..3).random()
-            futbolista.minutoJugados += (5..90).random()
-
-            futbolista.puntosAportados += calcularPuntuacion(futbolista)
-
-            // Mensaje de puntos visitantes calculados escrito en consola y el valor de los puntos
-            Log.d("MisLigasFragment", "4. Puntos visitantes calculados: ${futbolista.puntosAportados}")
-        }
-
-        val futbolistas = listaLocal + listaVisitante
-
-        for(futbolista in futbolistas) {
-            viewModel.actualizarFutbolista(futbolista)
-        }
-
-        // Mensaje de puntos de futbolistas actualizados escrito en consola y el valor de los puntos
-        Log.d("MisLigasFragment", "4. Puntos de futbolistas actualizados: ${futbolistas}")
-    }
-
-    private suspend fun calcularPuntuacionUsuario(usuario: User){
-        lifecycleScope.launch {
-            val futbolistas = viewModel.futbolistasDelEquipoUsuario.value
-
-            if (futbolistas != null) {
-                for (futbolista in futbolistas) {
-                    usuario.points += futbolista.puntosAportados
-                }
-            }
-
-            // Mensaje de puntos de usuario actualizados escrito en consola y el valor de los puntos
-            Log.d("MisLigasFragment", "7. Puntos de usuario actualizados: ${usuario.points}")
-
-            val id = usuario.userId
-            if (id != null) {
-                viewModel.actualizarPuntos(usuario.points)
-            }
-
-            // Mensaje de puntos de usuario actualizados en la base de datos escrito en consola y el valor de los puntos
-            Log.d("MisLigasFragment", "7. Puntos de usuario actualizados en la base de datos: ${usuario.points}")
-        }
-    }
 
 
 

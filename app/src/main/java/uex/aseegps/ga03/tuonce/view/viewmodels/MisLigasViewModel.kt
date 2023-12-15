@@ -1,15 +1,20 @@
 package uex.aseegps.ga03.tuonce.view.viewmodels
 
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
+import androidx.lifecycle.viewmodel.compose.viewModel
 import es.unex.giiis.asee.tiviclone.data.Repository
 import kotlinx.coroutines.launch
 import uex.aseegps.ga03.tuonce.TuOnceApplication
 import uex.aseegps.ga03.tuonce.model.Equipo
 import uex.aseegps.ga03.tuonce.model.Futbolista
 import uex.aseegps.ga03.tuonce.model.User
+import uex.aseegps.ga03.tuonce.utils.SortPlayers
 
 class MisLigasViewModel (
     private val repository: Repository
@@ -93,6 +98,183 @@ class MisLigasViewModel (
     fun actualizarPuntos(puntos : Int?){
         viewModelScope.launch {
             repository.actualizarPuntos(user?.userId!!, puntos)
+        }
+    }
+
+    fun terminarLiga() {
+        viewModelScope.launch {
+            val usuarioConectado = user
+            // recuperar bots
+            val bot1 = bot1.value
+            val bot2 = bot2.value
+            val bot3 = bot3.value
+            // recuperar equipos
+            val equipo = equipoUsuario.value
+            val equipoBot1 = equipoBot1.value
+            val equipoBot2 = equipoBot2.value
+            val equipoBot3 = equipoBot3.value
+
+            // Recuperar futbolistas
+            val futbolistasUsuario = futbolistasDelEquipoUsuario.value
+            val futbolistasBot1 = futbolistasEquipoBot1.value
+            val futbolistasBot2 = futbolistasEquipoBot2.value
+            val futbolistasBot3 = futbolistasEquipoBot3.value
+
+            // Actualizar puntos de usuario conectado en la base de datos
+            usuarioConectado?.points = 0
+            actualizarPuntos(usuarioConectado?.points)
+
+            // Borrar bots
+            for (bot in listOf(bot1, bot2, bot3)) {
+                if (bot != null) {
+                    eliminarUsuario(bot.userId!!)
+                }
+            }
+
+            // Borrar Liga
+            val liga = ligaUsuario
+            marcarActividadTerminarLiga(liga?.value?.name)
+
+            if (liga != null) {
+                eliminarLiga()
+                equipo?.ligaId = null
+                actualizarEquipo(equipo)
+            }
+
+            for (equipo in listOf(equipoBot1, equipoBot2, equipoBot3)) {
+                eliminarEquipo(equipo!!)
+            }
+
+
+            // Borrar referencias a equipo en futbolistas
+            for (futbolista in listOf(futbolistasUsuario, futbolistasBot1, futbolistasBot2, futbolistasBot3)) {
+                if (futbolista != null) {
+                    for (fut in futbolista) {
+                        fut.goles = 0
+                        fut.asistencias = 0
+                        fut.tarjetaRoja = 0
+                        fut.tarjetaAmarilla = 0
+                        fut.parada = 0
+                        fut.balonAlArea = 0
+                        fut.faltacometidas = 0
+                        fut.minutoJugados = 0
+                        fut.puntosAportados = 0
+                        actualizarFutbolista(fut)
+                    }
+                }
+            }
+            for (futbolista in listOf(futbolistasBot1, futbolistasBot2, futbolistasBot3)) {
+                if (futbolista != null) {
+                    for (fut in futbolista) {
+                        fut.equipoId = null
+                        actualizarFutbolista(fut)
+                    }
+                }
+            }
+
+
+        }
+    }
+
+
+    fun simularPartidosYActualizar(jornada: Int) {
+        viewModelScope.launch {
+            val usuarioConectado = user
+            val bot1 = bot1.value
+            val bot2 = bot2.value
+            val bot3 = bot3.value
+
+            val equipoUsuario = equipoUsuario.value
+            val equipoBot1 = equipoBot1.value
+            val equipoBot2 = equipoBot2.value
+            val equipoBot3 = equipoBot3.value
+
+            if (equipoUsuario != null && equipoBot1 != null && equipoBot2 != null && equipoBot3 != null) {
+                simularPartido(
+                    futbolistasDelEquipoUsuario.value!!,
+                    futbolistasEquipoBot1.value!!
+                )
+                simularPartido(
+                    futbolistasEquipoBot2.value!!,
+                    futbolistasEquipoBot3.value!!
+                )
+
+                if (usuarioConectado != null && bot1 != null && bot2 != null && bot3 != null) {
+                    calcularPuntuacionUsuario(usuarioConectado)
+                    calcularPuntuacionUsuario(bot1)
+                    calcularPuntuacionUsuario(bot2)
+                    calcularPuntuacionUsuario(bot3)
+                }
+
+
+                marcarActividadCrearLiga(jornada)
+            }
+        }
+    }
+
+
+    private fun simularPartido(equipoLocal: List<Futbolista>, equipoVisitante: List<Futbolista>) {
+        var listaLocal = mutableListOf<Futbolista>()
+        val listaVisitante = mutableListOf<Futbolista>()
+        for (futbolista in equipoLocal) {
+            if(futbolista.estaEnel11 == 1){
+                listaLocal.add(futbolista)
+            }
+        }
+        for (futbolista in equipoVisitante) {
+            if(futbolista.estaEnel11 == 1){
+                listaVisitante.add(futbolista)
+            }
+        }
+
+        for (futbolista in listaLocal) {
+            futbolista.goles += (0..2).random()
+            futbolista.asistencias += (0..2).random()
+            futbolista.tarjetaRoja += (0..1).random()
+            futbolista.tarjetaAmarilla += (0..2).random()
+            futbolista.parada += (0..1).random()
+            futbolista.balonAlArea += (0..3).random()
+            futbolista.faltacometidas += (0..3).random()
+            futbolista.minutoJugados = (70..90).random()
+            futbolista.puntosAportados += SortPlayers.calcularPuntuacion(futbolista)
+        }
+
+        for (futbolista in listaVisitante) {
+            futbolista.goles += (0..2).random()
+            futbolista.asistencias += (0..2).random()
+            futbolista.tarjetaRoja += (0..1).random()
+            futbolista.tarjetaAmarilla += (0..2).random()
+            futbolista.parada += (0..1).random()
+            futbolista.balonAlArea += (0..3).random()
+            futbolista.faltacometidas += (0..3).random()
+            futbolista.minutoJugados += (5..90).random()
+            futbolista.puntosAportados += SortPlayers.calcularPuntuacion(futbolista)
+        }
+
+        val futbolistas = listaLocal + listaVisitante
+
+        for(futbolista in futbolistas) {
+            actualizarFutbolista(futbolista)
+        }
+
+    }
+
+
+    private fun calcularPuntuacionUsuario(usuario: User){
+        viewModelScope.launch {
+            val futbolistas = futbolistasDelEquipoUsuario.value
+
+            if (futbolistas != null) {
+                for (futbolista in futbolistas) {
+                    usuario.points += futbolista.puntosAportados
+                }
+            }
+
+            val id = usuario.userId
+            if (id != null) {
+                actualizarPuntos(usuario.points)
+            }
+
         }
     }
 
