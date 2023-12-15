@@ -56,7 +56,7 @@ class CrearLigaPersonalizadaFragment : Fragment() {
                             uex.aseegps.ga03.tuonce.R.drawable.bot3
                         )))
                 {
-                    findNavController().navigate(uex.aseegps.ga03.tuonce.R.id.action_crearLigaPersonalizada_to_clasificacionFragment)
+                    findNavController().navigate(uex.aseegps.ga03.tuonce.R.id.action_crearLigaPersonalizada_to_misLigasFragment)
                 }else
                     Toast.makeText(context, "Por favor, ingresa un nombre y un número de jornadas correctamente.", android.widget.Toast.LENGTH_LONG).show()
             }

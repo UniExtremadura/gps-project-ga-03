@@ -1,5 +1,6 @@
 package uex.aseegps.ga03.tuonce.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -13,6 +14,9 @@ interface UserDao {
 
     @Query("SELECT * FROM user WHERE name LIKE :first LIMIT 1")
     suspend fun findByName(first: String): User
+
+    @Query("SELECT * FROM user WHERE name LIKE :first LIMIT 1")
+    fun findByNameLD(first: String): LiveData<User?>
 
     @Insert
     suspend fun insert(user: User): Long

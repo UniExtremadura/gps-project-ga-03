@@ -19,47 +19,76 @@ import uex.aseegps.ga03.tuonce.model.Futbolista
 import uex.aseegps.ga03.tuonce.model.User
 import uex.aseegps.ga03.tuonce.utils.SortPlayers.calcularPuntuacion
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.Dispatchers
 import uex.aseegps.ga03.tuonce.view.adapters.MisLigasAdapter
 import uex.aseegps.ga03.tuonce.databinding.FragmentMisLigasBinding
 import uex.aseegps.ga03.tuonce.api.RetrofitServiceFactory
+import uex.aseegps.ga03.tuonce.view.adapters.ClasificacionAdapter
+import uex.aseegps.ga03.tuonce.view.viewmodels.ClasificacionViewModel
+import uex.aseegps.ga03.tuonce.view.viewmodels.HomeViewModel
+import uex.aseegps.ga03.tuonce.view.viewmodels.MisLigasViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [MisLigasFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class MisLigasFragment : Fragment() {
-    // ... [otras variables] ...
 
     private var _binding: FragmentMisLigasBinding? = null
     private val binding get() = _binding!!
-    private lateinit var db: TuOnceDatabase
+
+    private val viewModel : MisLigasViewModel by viewModels { MisLigasViewModel.Factory }
+    private val homeViewModel: HomeViewModel by activityViewModels()
+
     private var jornada = 1
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        db = TuOnceDatabase.getInstance(requireContext())!!
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        homeViewModel.user.observe(viewLifecycleOwner) { user ->
+            viewModel.user = user
+            viewModel.initialize()
+        }
+
+        subscribeUi()
+        mostrarBotonLiga()
+        fetchArticles()
+    }
+
+    private fun subscribeUi() {
+        viewModel.ligaUsuario.observe(viewLifecycleOwner) { ligaActiva ->
+            if (ligaActiva != null) {
+                viewModel.initializeLiga(ligaActiva.ligaId!!)
+            }
+        }
+        viewModel.equipoUsuario.observe(viewLifecycleOwner) {eq -> viewModel.initializeEquipo(eq.equipoId!!)}
+        viewModel.futbolistasDelEquipoUsuario.observe(viewLifecycleOwner) {}
+        viewModel.ligaUsuario.observe(viewLifecycleOwner) {mostrarBotonLiga()}
+        viewModel.usuariosLiga.observe(viewLifecycleOwner) {mostrarBotonLiga()}
+        viewModel.bot1.observe(viewLifecycleOwner) {}
+        viewModel.bot2.observe(viewLifecycleOwner) {}
+        viewModel.bot3.observe(viewLifecycleOwner) {}
+        viewModel.equipoBot1.observe(viewLifecycleOwner) {}
+        viewModel.equipoBot2.observe(viewLifecycleOwner) {}
+        viewModel.equipoBot3.observe(viewLifecycleOwner) {}
+        viewModel.futbolistasEquipoBot1.observe(viewLifecycleOwner) {}
+        viewModel.futbolistasEquipoBot2.observe(viewLifecycleOwner) {}
+        viewModel.futbolistasEquipoBot3.observe(viewLifecycleOwner) {}
 
     }
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentMisLigasBinding.inflate(inflater, container, false)
         binding.rvShowList.layoutManager = LinearLayoutManager(context)
-        cargarDatos()
+        mostrarBotonLiga()
         setUpListeners()
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
-        cargarDatos()  // Recargar datos al regresar al fragmento
+        mostrarBotonLiga()
     }
 
     override fun onDestroyView() {
@@ -67,14 +96,6 @@ class MisLigasFragment : Fragment() {
         _binding = null
     }
 
-    private fun cargarDatos() {
-        lifecycleScope.launch {
-            val usuarioConectado = recuperarUsuario()
-            val equipo = recuperarEquipo(usuarioConectado)
-            val ligaid = equipo?.ligaId
-            mostrarBotonLiga(ligaid)
-        }
-    }
 
     private fun setUpListeners() {
         binding.btnCrearLiga.setOnClickListener {
@@ -90,16 +111,15 @@ class MisLigasFragment : Fragment() {
 
     private fun simularPartidosYActualizar() {
         lifecycleScope.launch {
-            val usuarioConectado = recuperarUsuario()
-            val bot1 = recuperarUsuarioPorNombre("Bot1")
-            val bot2 = recuperarUsuarioPorNombre("Bot2")
-            val bot3 = recuperarUsuarioPorNombre("Bot3")
+            val usuarioConectado = viewModel.user
+            val bot1 = viewModel.bot1.value
+            val bot2 = viewModel.bot2.value
+            val bot3 = viewModel.bot3.value
 
-            val equipoUsuario = recuperarEquipo(usuarioConectado)
-            val equipoBot1 = recuperarEquipo(bot1)
-            val equipoBot2 = recuperarEquipo(bot2)
-            val equipoBot3 = recuperarEquipo(bot3)
-
+            val equipoUsuario = viewModel.equipoUsuario.value
+            val equipoBot1 = viewModel.equipoBot1.value
+            val equipoBot2 = viewModel.equipoBot2.value
+            val equipoBot3 = viewModel.equipoBot3.value
 
             if (equipoUsuario != null && equipoBot1 != null && equipoBot2 != null && equipoBot3 != null) {
                 val equipos = listOf(equipoBot1, equipoBot2, equipoBot3)
@@ -111,12 +131,12 @@ class MisLigasFragment : Fragment() {
 
 
                 simularPartido(
-                    recuperarFutbolistas(equipoUsuario),
-                    recuperarFutbolistas(equipoBotContraUsuario)
+                    viewModel.futbolistasDelEquipoUsuario.value!!,
+                    viewModel.futbolistasEquipoBot1.value!!
                 )
                 simularPartido(
-                    recuperarFutbolistas(partidoRestante[0]),
-                    recuperarFutbolistas(partidoRestante[1])
+                    viewModel.futbolistasEquipoBot2.value!!,
+                    viewModel.futbolistasEquipoBot3.value!!
                 )
 
                 if (usuarioConectado != null && bot1 != null && bot2 != null && bot3 != null) {
@@ -132,96 +152,81 @@ class MisLigasFragment : Fragment() {
                 // Actualizar jornada
                 jornada += 1
 
-                val actividadIniciarJornada = Actividad(
-                    actividadId = null,
-                    accion = AccionActividad.INICIAR_JORNADA,
-                    usuarioActividad = usuarioConectado?.userId,
-                    futbolistaActividad = null,
-                    ligaActividad = null,
-                    jornadaActividad = jornada - 1
-                )
-                db?.actividadDao()?.insertar(actividadIniciarJornada)
-
+                viewModel.marcarActividadCrearLiga(jornada)
                 // Actualizar boton de liga
-                cargarDatos()
+                mostrarBotonLiga()
             }
         }
     }
 
     private fun terminarLiga() {
         lifecycleScope.launch {
-            val usuarioConectado = recuperarUsuario()
+            val usuarioConectado = viewModel.user
             // recuperar bots
-            val bot1 = recuperarUsuarioPorNombre("Bot1")
-            val bot2 = recuperarUsuarioPorNombre("Bot2")
-            val bot3 = recuperarUsuarioPorNombre("Bot3")
+            val bot1 = viewModel.bot1.value
+            val bot2 = viewModel.bot2.value
+            val bot3 = viewModel.bot3.value
             // recuperar equipos
-            val equipo = recuperarEquipo(usuarioConectado)
-            val equipoBot1 = recuperarEquipo(bot1)
-            val equipoBot2 = recuperarEquipo(bot2)
-            val equipoBot3 = recuperarEquipo(bot3)
+            val equipo = viewModel.equipoUsuario.value
+            val equipoBot1 = viewModel.equipoBot1.value
+            val equipoBot2 = viewModel.equipoBot2.value
+            val equipoBot3 = viewModel.equipoBot3.value
 
             // Recuperar futbolistas
-            val futbolistasUsuario = recuperarFutbolistas(equipo)
-            val futbolistasBot1 = recuperarFutbolistas(equipoBot1)
-            val futbolistasBot2 = recuperarFutbolistas(equipoBot2)
-            val futbolistasBot3 = recuperarFutbolistas(equipoBot3)
+            val futbolistasUsuario = viewModel.futbolistasDelEquipoUsuario.value
+            val futbolistasBot1 = viewModel.futbolistasEquipoBot1.value
+            val futbolistasBot2 = viewModel.futbolistasEquipoBot2.value
+            val futbolistasBot3 = viewModel.futbolistasEquipoBot3.value
 
             // Actualizar puntos de usuario conectado en la base de datos
             usuarioConectado?.points = 0
-            db.userDao().updatePoints(usuarioConectado!!.userId!!, usuarioConectado.points)
+            viewModel.actualizarPuntos(usuarioConectado?.points)
 
             // Borrar bots
             for (bot in listOf(bot1, bot2, bot3)) {
                 if (bot != null) {
-                    db.userDao().delete(bot.userId!!)
+                    viewModel.eliminarUsuario(bot.userId!!)
                 }
             }
 
             // Borrar Liga
-            val ligaid = equipo?.ligaId
-            val liga = ligaid?.let { db.ligaDao().obtenerLigaPorId(it) }
-            val actividadAcabarLiga = Actividad(
-                actividadId = null,
-                accion = AccionActividad.ACABAR_LIGA,
-                usuarioActividad = usuarioConectado?.userId,
-                futbolistaActividad = null,
-                ligaActividad = liga?.name,
-                jornadaActividad = null
-            )
-            db?.actividadDao()?.insertar(actividadAcabarLiga)
-
+            val liga = viewModel.ligaUsuario
+            viewModel.marcarActividadTerminarLiga(liga?.value?.name)
 
             if (liga != null) {
-                db.ligaDao().eliminarLiga()
-                equipo.ligaId = null
-                db.equipoDao().update(equipo)
+                viewModel.eliminarLiga()
+                equipo?.ligaId = null
+                viewModel.actualizarEquipo(equipo)
             }
 
             for (equipo in listOf(equipoBot1, equipoBot2, equipoBot3)) {
-                db.equipoDao().delete(equipo!!)
+                viewModel.eliminarEquipo(equipo!!)
             }
 
 
             // Borrar referencias a equipo en futbolistas
             for (futbolista in listOf(futbolistasUsuario, futbolistasBot1, futbolistasBot2, futbolistasBot3)) {
-                for (fut in futbolista) {
-                    fut.goles = 0
-                    fut.asistencias = 0
-                    fut.tarjetaRoja = 0
-                    fut.tarjetaAmarilla = 0
-                    fut.parada = 0
-                    fut.balonAlArea = 0
-                    fut.faltacometidas = 0
-                    fut.minutoJugados = 0
-                    fut.puntosAportados = 0
-                    db.futbolistaDao().update(fut)
+                if (futbolista != null) {
+                    for (fut in futbolista) {
+                        fut.goles = 0
+                        fut.asistencias = 0
+                        fut.tarjetaRoja = 0
+                        fut.tarjetaAmarilla = 0
+                        fut.parada = 0
+                        fut.balonAlArea = 0
+                        fut.faltacometidas = 0
+                        fut.minutoJugados = 0
+                        fut.puntosAportados = 0
+                        viewModel.actualizarFutbolista(fut)
+                    }
                 }
             }
             for (futbolista in listOf(futbolistasBot1, futbolistasBot2, futbolistasBot3)) {
-                for (fut in futbolista) {
-                    fut.equipoId = null
-                    db.futbolistaDao().update(fut)
+                if (futbolista != null) {
+                    for (fut in futbolista) {
+                        fut.equipoId = null
+                        viewModel.actualizarFutbolista(fut)
+                    }
                 }
             }
 
@@ -232,12 +237,8 @@ class MisLigasFragment : Fragment() {
             // Crear notificacion de que se ha terminado la liga
             Toast.makeText(requireContext(), "Liga terminada", Toast.LENGTH_SHORT).show()
 
-            cargarDatos()
+            mostrarBotonLiga()
         }
-    }
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        fetchArticles()
     }
 
     private fun fetchArticles() {
@@ -261,41 +262,9 @@ class MisLigasFragment : Fragment() {
         }
     }
 
-    private suspend fun recuperarUsuario(): User? {
-        return withContext(Dispatchers.Main) {
-            db.userDao().obtenerUsuarioConectado()
-        }
-    }
-
-    private suspend fun recuperarUsuarioPorNombre(nombre: String): User? {
-        return withContext(Dispatchers.Main) {
-            db.userDao().findByName(nombre)
-        }
-    }
-
-    private suspend fun recuperarEquipo(usuario: User?): Equipo? {
-        return withContext(Dispatchers.Main) {
-            usuario?.userId?.let { db.equipoDao().findByUserId(it) }
-        }
-    }
-
-    private suspend fun recuperarFutbolistas(equipo: Equipo?): List<Futbolista> {
-        return withContext(Dispatchers.Main) {
-            equipo?.equipoId?.let { equipoId ->
-                db?.futbolistaDao()?.findByEquipoId(equipoId) ?: emptyList()
-            } ?: emptyList()
-        }
-    }
-
-    private suspend fun mostrarBotonLiga(liga: Long?) {
-        var liga = db.ligaDao().obtenerLigaPorId(liga ?: 0)
+    private fun mostrarBotonLiga() {
+        var liga = viewModel.ligaUsuario.value
         var numPartidos = liga?.partidos ?: 0
-
-        //Mostrar por consola el id de la liga y el numero de partidos
-        Log.d("MisLigasFragment", "Liga: $liga y numero de partidos: $numPartidos")
-
-        //Mostrar por consola el numero de jornada
-        Log.d("MisLigasFragment", "Jornada: $jornada")
 
         with(binding) {
             if (liga == null) {
@@ -317,7 +286,7 @@ class MisLigasFragment : Fragment() {
         }
     }
 
-    private suspend fun simularPartido(equipoLocal: List<Futbolista>, equipoVisitante: List<Futbolista>) {
+    private fun simularPartido(equipoLocal: List<Futbolista>, equipoVisitante: List<Futbolista>) {
 
         // Mensaje de equipos recibidos en consola y cuales son
         Log.d("MisLigasFragment", "4. Equipos recibidos: $equipoLocal y $equipoVisitante")
@@ -369,7 +338,7 @@ class MisLigasFragment : Fragment() {
         val futbolistas = listaLocal + listaVisitante
 
         for(futbolista in futbolistas) {
-                db?.futbolistaDao()?.update(futbolista)
+            viewModel.actualizarFutbolista(futbolista)
         }
 
         // Mensaje de puntos de futbolistas actualizados escrito en consola y el valor de los puntos
@@ -378,11 +347,12 @@ class MisLigasFragment : Fragment() {
 
     private suspend fun calcularPuntuacionUsuario(usuario: User){
         lifecycleScope.launch {
-            val equipo = recuperarEquipo(usuario)
-            val futbolistas = recuperarFutbolistas(equipo)
+            val futbolistas = viewModel.futbolistasDelEquipoUsuario.value
 
-            for (futbolista in futbolistas) {
-                usuario.points += futbolista.puntosAportados
+            if (futbolistas != null) {
+                for (futbolista in futbolistas) {
+                    usuario.points += futbolista.puntosAportados
+                }
             }
 
             // Mensaje de puntos de usuario actualizados escrito en consola y el valor de los puntos
@@ -390,7 +360,7 @@ class MisLigasFragment : Fragment() {
 
             val id = usuario.userId
             if (id != null) {
-                db?.userDao()?.updatePoints(id, usuario.points)
+                viewModel.actualizarPuntos(usuario.points)
             }
 
             // Mensaje de puntos de usuario actualizados en la base de datos escrito en consola y el valor de los puntos

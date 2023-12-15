@@ -18,6 +18,9 @@ interface EquipoDao {
     suspend fun findByUserId(userId: Long?): Equipo?
 
     @Query("SELECT * FROM equipo WHERE user_id = :userId LIMIT 1")
+    fun findByUserIdLD(userId: Long?): LiveData<Equipo?>
+
+    @Query("SELECT * FROM equipo WHERE user_id = :userId LIMIT 1")
     fun findEquipoByUserId(userId: Long?): LiveData<Equipo>?
 
     @Query("SELECT * FROM equipo WHERE equipoId = :eqid LIMIT 1")

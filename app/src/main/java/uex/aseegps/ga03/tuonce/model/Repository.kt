@@ -51,6 +51,44 @@ class Repository(
     val futbolistasDelEquipoUsuario: LiveData<List<Futbolista>> =
         equipoFilter.switchMap{ eqId -> futbolistaDao.findFutbolistasByEquipoId(eqId) }
 
+
+    val bot1 = userDao.findByNameLD("Bot1")
+    val bot2 = userDao.findByNameLD("Bot2")
+    val bot3 = userDao.findByNameLD("Bot3")
+
+    val equipoBot1: LiveData<Equipo?> = bot1.switchMap { bot1 ->
+        if (bot1 != null) {
+            equipoDao.findByUserIdLD(bot1.userId)
+        } else {
+            MutableLiveData<Equipo?>() // LiveData vacío si bot1 es nulo
+        }
+    }
+
+    val equipoBot2: LiveData<Equipo?> = bot2.switchMap { bot2 ->
+        if (bot2 != null) {
+            equipoDao.findByUserIdLD(bot2.userId)
+        } else {
+            MutableLiveData<Equipo?>() // LiveData vacío si bot2 es nulo
+        }
+    }
+
+    val equipoBot3: LiveData<Equipo?> = bot3.switchMap { bot3 ->
+        if (bot3 != null) {
+            equipoDao.findByUserIdLD(bot3.userId)
+        } else {
+            MutableLiveData<Equipo?>() // LiveData vacío si bot3 es nulo
+        }
+    }
+
+    val futbolistasEquipoBot1 : LiveData<List<Futbolista>> =
+        equipoBot1.switchMap { eq -> futbolistaDao.findByEquipoIdLD(eq?.equipoId) }
+
+    val futbolistasEquipoBot2 : LiveData<List<Futbolista>> =
+        equipoBot2.switchMap { eq -> futbolistaDao.findByEquipoIdLD(eq?.equipoId) }
+
+    val futbolistasEquipoBot3 : LiveData<List<Futbolista>> =
+        equipoBot3.switchMap { eq -> futbolistaDao.findByEquipoIdLD(eq?.equipoId) }
+
     fun setUserid(userid: Long) {
         userFilter.value = userid
     }
@@ -70,6 +108,19 @@ class Repository(
 
     suspend fun actualizarEquipo(equipo: Equipo?) {
         equipoDao.update(equipo)
+    }
+
+    suspend fun eliminarUsuario(id : Long)
+    {
+        userDao.delete(id)
+    }
+
+    suspend fun eliminarEquipo(eq : Equipo){
+        equipoDao.delete(eq)
+    }
+
+    suspend fun eliminarLiga(){
+        ligaDao.eliminarLiga()
     }
 
     suspend fun eliminarFutbolistaDelMercado(futbolistaComprado : Futbolista, equipoUsuario : Equipo?, usuario : User?)
@@ -102,6 +153,37 @@ class Repository(
             jornadaActividad = null
         )
         actividadDao.insertar(actividadCompra)
+    }
+
+    suspend  fun actualizarPuntos(usuarioId : Long, puntos : Int?){
+        userDao.updatePoints(usuarioId, puntos!!)
+    }
+
+
+    suspend fun marcarActividadCrearLiga(usuarioConectado : User?, jornada : Int?)
+    {
+        val actividad = Actividad(
+            actividadId = null,
+            accion = AccionActividad.INICIAR_JORNADA,
+            usuarioActividad = usuarioConectado?.userId,
+            futbolistaActividad = null,
+            ligaActividad = null,
+            jornadaActividad = jornada!! - 1
+        )
+        actividadDao.insertar(actividad)
+    }
+
+    suspend fun marcarActividadTerminarLiga(usuarioConectado : User?, nombre : String?)
+    {
+        val actividadAcabarLiga = Actividad(
+            actividadId = null,
+            accion = AccionActividad.ACABAR_LIGA,
+            usuarioActividad = usuarioConectado?.userId,
+            futbolistaActividad = null,
+            ligaActividad = nombre,
+            jornadaActividad = null
+        )
+        actividadDao.insertar(actividadAcabarLiga)
     }
 
     suspend fun insertarLiga(nuevaLiga : Liga) : Long
