@@ -29,7 +29,6 @@ class Repository(
     private val userFilter = MutableLiveData<Long>()
     private val equipoFilter = MutableLiveData<Long>()
     private val ligaFilter = MutableLiveData<Long>()
-
     // Futbolistas de la base de datos
     val futbolistas = futbolistaDao.findAllFutbolistas()
 
@@ -86,6 +85,22 @@ class Repository(
     {
         futbolistaComprado?.equipoId = equipoUsuario?.equipoId
         futbolistaDao.update(futbolistaComprado)
+    }
+    suspend fun moveral11(futbolista : Futbolista){
+        futbolista?.estaEnel11 = 2
+        futbolistaDao.update(futbolista)
+    }
+    suspend fun modificarDatos(futbolista: Futbolista, jugador : Futbolista){
+        futbolista?.estaEnel11 = 0
+        jugador?.estaEnel11 = 1
+        futbolistaDao.update(futbolista)
+        futbolistaDao.update(jugador)
+    }
+    suspend fun noCambio(futbolista: Futbolista,jugador: Futbolista){
+        futbolista?.estaEnel11 = 1
+        jugador?.estaEnel11 = 0
+        futbolistaDao.update(futbolista)
+        futbolistaDao.update(jugador)
     }
     suspend fun actualizarValorEquipoSumar(equipoUsuario: Equipo?, valorFutbolista: Int){
         equipoUsuario?.presupuesto = equipoUsuario?.presupuesto!! + valorFutbolista!!
