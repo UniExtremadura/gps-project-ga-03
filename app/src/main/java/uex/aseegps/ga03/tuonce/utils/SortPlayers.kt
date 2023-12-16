@@ -19,7 +19,7 @@ object SortPlayers {
         return puntuacion/11
     }
 
-    fun clasificarJugadores(listaFutbolistas: List<Futbolista>): List<Futbolista> {
+    fun  clasificarJugadores(listaFutbolistas: List<Futbolista>): List<Futbolista> {
         return listaFutbolistas.sortedByDescending { calcularPuntuacion(it) }
     }
 
