@@ -27,6 +27,9 @@ interface FutbolistaDao {
     suspend fun findByEquipoId(equipoId: Long?): List<Futbolista>
 
     @Query("SELECT * FROM futbolista WHERE equipo_id = :equipoId")
+    fun findByEquipoIdLD(equipoId: Long?): LiveData<List<Futbolista>>
+
+    @Query("SELECT * FROM futbolista WHERE equipo_id = :equipoId")
     fun findFutbolistasByEquipoId(equipoId: Long?): LiveData<List<Futbolista>>
 
     @Query("SELECT * FROM futbolista")

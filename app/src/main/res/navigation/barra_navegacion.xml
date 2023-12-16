@@ -81,9 +81,12 @@
         android:name="uex.aseegps.ga03.tuonce.view.fragments.CrearLigaPersonalizadaFragment"
         android:label="Crear Liga"
         tools:layout="@layout/fragment_crear_liga_personalizada">
-    <action
+        <action
         android:id="@+id/action_crearLigaPersonalizada_to_misLigasFragment"
         app:destination="@id/misLigasFragment" />
+        <action
+            android:id="@+id/action_crearLigaPersonalizada_to_clasificacionFragment"
+            app:destination="@id/clasificacionFragment" />
     </fragment>
     <fragment
         android:id="@+id/moverAl11"

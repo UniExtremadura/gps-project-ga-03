@@ -1,18 +1,20 @@
 package uex.aseegps.ga03.tuonce.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import uex.aseegps.ga03.tuonce.model.User
 
 @Dao
 interface UserDao {
 
-    @Query("SELECT * FROM user")
-    suspend fun getAllUsers(): List<User>
-
     @Query("SELECT * FROM user WHERE name LIKE :first LIMIT 1")
     suspend fun findByName(first: String): User
+
+    @Query("SELECT * FROM user WHERE name LIKE :first LIMIT 1")
+    fun findByNameLD(first: String): LiveData<User?>
 
     @Insert
     suspend fun insert(user: User): Long
@@ -31,4 +33,7 @@ interface UserDao {
 
     @Query("UPDATE user SET points = :pointsUser WHERE userId = :userId")
     suspend fun updatePoints(userId: Long, pointsUser: Int)
+
+    @Update
+    suspend fun update(user : User)
 }

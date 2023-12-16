@@ -19,6 +19,7 @@ import uex.aseegps.ga03.tuonce.model.Liga
 import uex.aseegps.ga03.tuonce.model.User
 
 class Repository(
+    private val userDao: UserDao,
     private val ligaDao: LigaDao,
     private val futbolistaDao: FutbolistaDao,
     private val equipoDao: EquipoDao,
@@ -29,6 +30,11 @@ class Repository(
     private val userFilter = MutableLiveData<Long>()
     private val equipoFilter = MutableLiveData<Long>()
     private val ligaFilter = MutableLiveData<Long>()
+    private val userName = MutableLiveData<String>()
+
+    val usuarioConectado : LiveData<User?> =
+        userName.switchMap {nombre -> userDao.findByNameLD(nombre) }
+
     // Futbolistas de la base de datos
     val futbolistas = futbolistaDao.findAllFutbolistas()
 
@@ -48,8 +54,49 @@ class Repository(
     val futbolistasDelEquipoUsuario: LiveData<List<Futbolista>> =
         equipoFilter.switchMap{ eqId -> futbolistaDao.findFutbolistasByEquipoId(eqId) }
 
+    val bot1 = userDao.findByNameLD("Bot1")
+    val bot2 = userDao.findByNameLD("Bot2")
+    val bot3 = userDao.findByNameLD("Bot3")
+
+    val equipoBot1: LiveData<Equipo?> = bot1.switchMap { bot1 ->
+        if (bot1 != null) {
+            equipoDao.findByUserIdLD(bot1.userId)
+        } else {
+            MutableLiveData<Equipo?>() // LiveData vacío si bot1 es nulo
+        }
+    }
+
+    val equipoBot2: LiveData<Equipo?> = bot2.switchMap { bot2 ->
+        if (bot2 != null) {
+            equipoDao.findByUserIdLD(bot2.userId)
+        } else {
+            MutableLiveData<Equipo?>() // LiveData vacío si bot2 es nulo
+        }
+    }
+
+    val equipoBot3: LiveData<Equipo?> = bot3.switchMap { bot3 ->
+        if (bot3 != null) {
+            equipoDao.findByUserIdLD(bot3.userId)
+        } else {
+            MutableLiveData<Equipo?>() // LiveData vacío si bot3 es nulo
+        }
+    }
+
+    val futbolistasEquipoBot1 : LiveData<List<Futbolista>> =
+        equipoBot1.switchMap { eq -> futbolistaDao.findByEquipoIdLD(eq?.equipoId) }
+
+    val futbolistasEquipoBot2 : LiveData<List<Futbolista>> =
+        equipoBot2.switchMap { eq -> futbolistaDao.findByEquipoIdLD(eq?.equipoId) }
+
+    val futbolistasEquipoBot3 : LiveData<List<Futbolista>> =
+        equipoBot3.switchMap { eq -> futbolistaDao.findByEquipoIdLD(eq?.equipoId) }
+
     fun setUserid(userid: Long) {
         userFilter.value = userid
+    }
+
+    fun setUserName(nombre : String){
+        userName.value = nombre
     }
 
     fun setEquipoId(eqId: Long) {
@@ -61,6 +108,10 @@ class Repository(
     }
 
 
+    suspend fun actualizarFutbolista(futbolista: Futbolista){
+        futbolistaDao.update(futbolista)
+    }
+
     suspend fun actualizarEquipo(equipo: Equipo?) {
         equipoDao.update(equipo)
     }
@@ -70,6 +121,19 @@ class Repository(
         actualizarFutbolistaSinEquipo(futbolistaVendido)
         marcarActividadVenta(usuario, futbolistaVendido.nombreJugador)
     }
+    suspend fun eliminarUsuario(id : Long)
+    {
+        userDao.delete(id)
+    }
+
+    suspend fun eliminarEquipo(eq : Equipo){
+        equipoDao.delete(eq)
+    }
+
+    suspend fun eliminarLiga(){
+        ligaDao.eliminarLiga()
+    }
+
     suspend fun eliminarFutbolistaDelMercado(futbolistaComprado : Futbolista, equipoUsuario : Equipo?, usuario : User?)
     {
         actualizarValorEquipo(equipoUsuario, futbolistaComprado.varor)
@@ -136,5 +200,71 @@ class Repository(
             jornadaActividad = null
         )
         actividadDao.insertar(actividadVenta)
+    }
+    suspend  fun actualizarPuntos(usuarioId : Long, puntos : Int?){
+        userDao.updatePoints(usuarioId, puntos!!)
+    }
+
+
+    suspend fun marcarActividadCrearLiga(usuarioConectado : User?, jornada : Int?)
+    {
+        val actividad = Actividad(
+            actividadId = null,
+            accion = AccionActividad.INICIAR_JORNADA,
+            usuarioActividad = usuarioConectado?.userId,
+            futbolistaActividad = null,
+            ligaActividad = null,
+            jornadaActividad = jornada!! - 1
+        )
+        actividadDao.insertar(actividad)
+    }
+
+    suspend fun marcarActividadTerminarLiga(usuarioConectado : User?, nombre : String?)
+    {
+        val actividadAcabarLiga = Actividad(
+            actividadId = null,
+            accion = AccionActividad.ACABAR_LIGA,
+            usuarioActividad = usuarioConectado?.userId,
+            futbolistaActividad = null,
+            ligaActividad = nombre,
+            jornadaActividad = null
+        )
+        actividadDao.insertar(actividadAcabarLiga)
+    }
+
+    suspend fun insertarLiga(nuevaLiga : Liga) : Long
+    {
+        return ligaDao.insertarLiga(nuevaLiga)
+    }
+
+    suspend fun marcarActividadNuevaLiga(usuarioConectado : User?, liga : String?)
+    {
+        val actividadIniciarLiga = Actividad(
+            actividadId = null,
+            accion = uex.aseegps.ga03.tuonce.model.AccionActividad.INICIAR_LIGA,
+            usuarioActividad = usuarioConectado?.userId,
+            futbolistaActividad = null,
+            ligaActividad = liga,
+            jornadaActividad = null
+        )
+        actividadDao.insertar(actividadIniciarLiga)
+    }
+
+    suspend fun insertarBot(bot : User) : Long
+    {
+        return userDao.insert(bot)
+    }
+
+    suspend fun insertarFutbolista(nuevoFutbolista: Futbolista){
+        futbolistaDao.insert(nuevoFutbolista)
+    }
+
+    suspend fun insertarEquipo(nuevoEquipo : Equipo) : Long{
+        return equipoDao.insert(nuevoEquipo)
+    }
+
+    suspend fun insertarUsuario(usuario : User) : Long
+    {
+        return userDao.insert(usuario)
     }
 }

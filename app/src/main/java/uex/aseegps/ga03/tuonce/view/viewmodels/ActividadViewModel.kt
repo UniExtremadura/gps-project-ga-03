@@ -1,8 +1,5 @@
 package uex.aseegps.ga03.tuonce.view.viewmodels
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
@@ -10,27 +7,16 @@ import es.unex.giiis.asee.tiviclone.data.Repository
 import uex.aseegps.ga03.tuonce.TuOnceApplication
 import uex.aseegps.ga03.tuonce.model.User
 
-class HomeViewModel (
+class ActividadViewModel (
     private val repository: Repository
 ) : ViewModel() {
-    private val _user = MutableLiveData<User>(null)
+    var user : User? = null
 
-    var user = repository.usuarioConectado
-    /*
-    val user: LiveData<User>
-        get() = _user
+    var actividades = repository.actividades
 
-    var userInSession: User? = null
-        set(value) {
-            Log.d("usuariosss", "Me llegaa"+value.toString())
-            field = value
-            _user.value = value!!
-        }
-        /
-     */
 
-    init{
-        Log.d("usuariosss", "Me creo con "+user.value.toString())
+    fun initialize(){
+        repository.setUserid(user?.userId!!)
     }
 
     companion object {
@@ -42,7 +28,7 @@ class HomeViewModel (
             ): T {
                 val application =
                     checkNotNull(extras[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY])
-                return HomeViewModel(
+                return ActividadViewModel(
                     (application as TuOnceApplication).appContainer.repository,
                 ) as T
             }
