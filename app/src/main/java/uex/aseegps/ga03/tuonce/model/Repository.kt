@@ -31,6 +31,10 @@ class Repository(
     private val userFilter = MutableLiveData<Long>()
     private val equipoFilter = MutableLiveData<Long>()
     private val ligaFilter = MutableLiveData<Long>()
+    private val userName = MutableLiveData<String>()
+
+    val usuarioConectado : LiveData<User?> =
+        userName.switchMap {nombre -> userDao.findByNameLD(nombre) }
 
     // Futbolistas de la base de datos
     val futbolistas = futbolistaDao.findAllFutbolistas()
@@ -50,7 +54,6 @@ class Repository(
 
     val futbolistasDelEquipoUsuario: LiveData<List<Futbolista>> =
         equipoFilter.switchMap{ eqId -> futbolistaDao.findFutbolistasByEquipoId(eqId) }
-
 
     val bot1 = userDao.findByNameLD("Bot1")
     val bot2 = userDao.findByNameLD("Bot2")
@@ -91,6 +94,10 @@ class Repository(
 
     fun setUserid(userid: Long) {
         userFilter.value = userid
+    }
+
+    fun setUserName(nombre : String){
+        userName.value = nombre
     }
 
     fun setEquipoId(eqId: Long) {

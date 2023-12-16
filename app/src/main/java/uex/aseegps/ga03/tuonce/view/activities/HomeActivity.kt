@@ -33,6 +33,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var db: TuOnceDatabase
 
+
     private val negro = Color.BLACK
 
     private val navController by lazy {
@@ -44,10 +45,10 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         db = TuOnceDatabase.getInstance(applicationContext)!!
         setContentView(binding.root)
+
         lifecycleScope.launch {
-            val usuarioConectado = db.userDao()?.obtenerUsuarioConectado()
-            viewModel.userInSession = usuarioConectado
-            Log.d("usuario", "Ya lo tiene el viewmodel de Home, es " + usuarioConectado.toString())
+            //val usuarioConectado = db.userDao()?.obtenerUsuarioConectado()
+            //viewModel.userInSession = usuarioConectado
         }
         setUpUI()
     }

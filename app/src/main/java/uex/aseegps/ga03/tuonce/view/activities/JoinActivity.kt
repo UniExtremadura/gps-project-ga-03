@@ -22,7 +22,6 @@ class JoinActivity : AppCompatActivity() {
 
     private val viewModel : JoinViewModel by viewModels { JoinViewModel.Factory }
 
-
     companion object {
 
         const val USERNAME = "JOIN_USERNAME"

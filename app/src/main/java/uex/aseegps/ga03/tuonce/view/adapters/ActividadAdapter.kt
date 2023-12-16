@@ -13,7 +13,7 @@ import uex.aseegps.ga03.tuonce.model.AccionActividad
 import uex.aseegps.ga03.tuonce.model.Actividad
 import uex.aseegps.ga03.tuonce.model.User
 
-class ActividadAdapter(private var listaActividades: List<Actividad>, var contexto: Context?, private val lifecycleScope: CoroutineScope, val usuarioConectado : String?) :
+class ActividadAdapter(private var listaActividades: List<Actividad>, var contexto: Context?, private val lifecycleScope: CoroutineScope, var usuarioConectado : String?) :
     RecyclerView.Adapter<ActividadAdapter.ViewHolder>() {
 
     class ViewHolder(view: View, var contexto: Context?, private val lifecycleScope: CoroutineScope, val usuarioConectado : String?) : RecyclerView.ViewHolder(view) {
@@ -116,4 +116,8 @@ class ActividadAdapter(private var listaActividades: List<Actividad>, var contex
         notifyDataSetChanged()
     }
     override fun getItemCount() = listaActividades.size
+    fun updateDataUser(user: User?) {
+        usuarioConectado = user?.name.toString()
+        notifyDataSetChanged()
+    }
 }

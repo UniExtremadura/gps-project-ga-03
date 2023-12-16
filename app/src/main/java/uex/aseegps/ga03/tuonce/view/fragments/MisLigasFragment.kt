@@ -37,7 +37,7 @@ class MisLigasFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel : MisLigasViewModel by viewModels { MisLigasViewModel.Factory }
-    private val homeViewModel: HomeViewModel by activityViewModels()
+    private val homeViewModel: HomeViewModel by activityViewModels(){HomeViewModel.Factory}
 
     private var jornada = 1
 

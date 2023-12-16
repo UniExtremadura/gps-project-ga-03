@@ -4,18 +4,29 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import uex.aseegps.ga03.tuonce.databinding.ActivityLoginBinding
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import kotlinx.coroutines.launch
 import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
 import uex.aseegps.ga03.tuonce.model.User
 import uex.aseegps.ga03.tuonce.utils.CredentialCheck
+import uex.aseegps.ga03.tuonce.view.viewmodels.HomeViewModel
+import uex.aseegps.ga03.tuonce.view.viewmodels.LoginViewModel
+import uex.aseegps.ga03.tuonce.view.viewmodels.MisLigasViewModel
+import java.lang.Thread.sleep
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
-    private lateinit var db: TuOnceDatabase
+
+    private val viewModel : LoginViewModel by viewModels { LoginViewModel.Factory }
+    private val homeViewModel: HomeViewModel by viewModels() {HomeViewModel.Factory}
+
     private val responseLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
@@ -37,17 +48,28 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //view binding and set content view
         binding = ActivityLoginBinding.inflate(layoutInflater)
-        db = TuOnceDatabase.getInstance(applicationContext)!!
 
         setContentView(binding.root)
         setUpListeners()
-
+        viewModel.usuario.observe(this) {     user->
+            if (user != null) {
+            val check =
+                CredentialCheck.passwordOk(binding.etPassword.text.toString(),
+                    user.password)
+            if (check.fail) notifyInvalidCredentials(check.msg)
+            else{
+                navigateToHomeActivity(user!!, check.msg)
+            }
+        }
+            else notifyInvalidCredentials("Nombre de usuario incorrecto")
+        }
         readSettings()
     }
+
 
     private fun setUpListeners() {
         with(binding) {
@@ -69,20 +91,9 @@ class LoginActivity : AppCompatActivity() {
         val check = CredentialCheck.login(binding.etUsername.text.toString(),
             binding.etPassword.text.toString())
         if (!check.fail){
+            Toast.makeText(this, "Comprobando credenciales...", Toast.LENGTH_SHORT).show()
             lifecycleScope.launch{
-                db?.userDao()?.desconectarTodos()
-                val user = db?.userDao()?.findByName(binding.etUsername.text.toString())
-                if (user != null) {
-                    val check =
-                        CredentialCheck.passwordOk(binding.etPassword.text.toString(),
-                            user.password)
-                    if (check.fail) notifyInvalidCredentials(check.msg)
-                    else{
-                        db?.userDao()?.conectar(binding.etUsername.text.toString())
-                        navigateToHomeActivity(user!!, check.msg)
-                    }
-                }
-                else notifyInvalidCredentials("Nombre de usuario incorrecto")
+                viewModel.initializeNombre(binding.etUsername.text.toString())
             }
         }
         else notifyInvalidCredentials(check.msg)

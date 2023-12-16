@@ -19,7 +19,7 @@ class ClasificacionFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel : ClasificacionViewModel by viewModels { ClasificacionViewModel.Factory }
-    private val homeViewModel: HomeViewModel by activityViewModels()
+    private val homeViewModel: HomeViewModel by activityViewModels(){HomeViewModel.Factory}
 
     private lateinit var adapter: ClasificacionAdapter
 

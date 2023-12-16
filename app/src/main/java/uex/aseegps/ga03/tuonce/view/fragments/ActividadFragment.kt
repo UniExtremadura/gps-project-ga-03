@@ -35,6 +35,7 @@ class ActividadFragment : Fragment() {
         homeViewModel.user.observe(viewLifecycleOwner) { user ->
             viewModel.user = user
             viewModel.initialize()
+            adapter.updateDataUser(user)
         }
 
         setUpRecyclerView()
