@@ -35,6 +35,12 @@ class Al11Adapter(private var lista: List<Futbolista>, private var contexto: Con
                     jugador = it
                 }
             }
+            if (futbolista.estaEnel11 == 2) {
+                vista.visibility = View.GONE // Esto ocultará el elemento en el RecyclerView
+                return // Salir de la función para no seguir configurando la vista
+            } else {
+                vista.visibility = View.VISIBLE // Asegurarse de que la vista sea visible para otros elementos
+            }
             // Establecer los datos del futbolista en los elementos visuales del diseño
             xmlImgJugador.setImageResource(futbolista.image)
             xmlnombreJugador.text = futbolista.nombreJugador

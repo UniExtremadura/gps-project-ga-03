@@ -31,11 +31,17 @@ class MoverAl11ViewNodel(
         var futbolistasDelEquipo = mutableListOf<Futbolista>()
         initializeEquipo()
         futbolistasDelEquipoUsuario?.value?.forEach {
-            if (it.estaEnel11 == 2 || it.estaEnel11 == 1 ) {
+            if (it.estaEnel11 == 1 ) {
                     futbolistasDelEquipo.add(it)
                 }
-            }
-        return futbolistasDelEquipo.sortedBy { it.posicion }
+        }
+        (futbolistasDelEquipoUsuario?.value?.filter { it.estaEnel11 == 2 }?.get(0) ?: null)?.let {
+            futbolistasDelEquipo.add(
+                it
+            )
+        }
+
+        return futbolistasDelEquipo
     }
    fun modificarDatos(futbolista: Futbolista, jugador: Futbolista){
        viewModelScope.launch {
