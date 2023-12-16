@@ -1,15 +1,12 @@
 package uex.aseegps.ga03.tuonce.view.viewmodels
 
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
-import es.unex.giiis.asee.tiviclone.data.Repository
+import uex.aseegps.ga03.tuonce.model.Repository
 import kotlinx.coroutines.launch
 import uex.aseegps.ga03.tuonce.TuOnceApplication
-import uex.aseegps.ga03.tuonce.model.Equipo
 import uex.aseegps.ga03.tuonce.model.Futbolista
 import uex.aseegps.ga03.tuonce.model.User
 
