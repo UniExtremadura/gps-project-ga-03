@@ -39,8 +39,9 @@ class MisLigasViewModel (
     val futbolistasEquipoBot3 = repository.futbolistasEquipoBot3
 
     fun initialize(){
-        if(user != null)
-        repository.setUserid(user?.userId!!)
+        if(user != null) {
+            repository.setUserid(user?.userId!!)
+        }
     }
 
     fun initializeLiga(ligaId : Long){
@@ -95,9 +96,9 @@ class MisLigasViewModel (
         }
     }
 
-    fun actualizarPuntos(puntos : Int?){
+    fun actualizarPuntos(userId : Long, puntos : Int?){
         viewModelScope.launch {
-            repository.actualizarPuntos(user?.userId!!, puntos)
+            repository.actualizarPuntos(userId, puntos)
         }
     }
 
@@ -122,7 +123,7 @@ class MisLigasViewModel (
 
             // Actualizar puntos de usuario conectado en la base de datos
             usuarioConectado?.points = 0
-            actualizarPuntos(usuarioConectado?.points)
+            actualizarPuntos(usuarioConectado?.userId!!, usuarioConectado?.points)
 
             // Borrar bots
             for (bot in listOf(bot1, bot2, bot3)) {
@@ -200,10 +201,10 @@ class MisLigasViewModel (
                 )
 
                 if (usuarioConectado != null && bot1 != null && bot2 != null && bot3 != null) {
-                    calcularPuntuacionUsuario(usuarioConectado)
-                    calcularPuntuacionUsuario(bot1)
-                    calcularPuntuacionUsuario(bot2)
-                    calcularPuntuacionUsuario(bot3)
+                    calcularPuntuacionUsuario(usuarioConectado, futbolistasDelEquipoUsuario.value!!)
+                    calcularPuntuacionUsuario(bot1, futbolistasEquipoBot1.value!!)
+                    calcularPuntuacionUsuario(bot2, futbolistasEquipoBot2.value!!)
+                    calcularPuntuacionUsuario(bot3, futbolistasEquipoBot3.value!!)
                 }
 
 
@@ -252,7 +253,6 @@ class MisLigasViewModel (
         }
 
         val futbolistas = listaLocal + listaVisitante
-
         for(futbolista in futbolistas) {
             actualizarFutbolista(futbolista)
         }
@@ -260,19 +260,17 @@ class MisLigasViewModel (
     }
 
 
-    private fun calcularPuntuacionUsuario(usuario: User){
+    private fun calcularPuntuacionUsuario(usuario: User, pfutbolistas: List<Futbolista>){
         viewModelScope.launch {
-            val futbolistas = futbolistasDelEquipoUsuario.value
-
+            val futbolistas = pfutbolistas
             if (futbolistas != null) {
                 for (futbolista in futbolistas) {
                     usuario.points += futbolista.puntosAportados
                 }
             }
-
             val id = usuario.userId
             if (id != null) {
-                actualizarPuntos(usuario.points)
+                actualizarPuntos(usuario.userId!!, usuario.points)
             }
 
         }
