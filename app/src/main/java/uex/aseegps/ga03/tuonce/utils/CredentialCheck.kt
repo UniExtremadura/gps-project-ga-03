@@ -2,7 +2,7 @@ package uex.aseegps.ga03.tuonce.utils
 
 
 
-class CredentialCheck private constructor() {
+class CredentialCheck() {
 
     var fail: Boolean = false
     var msg: String = ""
