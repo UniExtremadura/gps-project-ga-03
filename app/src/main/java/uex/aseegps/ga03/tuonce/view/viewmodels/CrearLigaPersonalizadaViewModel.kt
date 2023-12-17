@@ -31,7 +31,7 @@ class CrearLigaPersonalizadaViewModel (
         if (nombreLiga.isNotBlank() && numJornadasInt != null) {
             val nuevaLiga = Liga(null, nombreLiga, numJornadasInt, user?.userId, 1)
 
-            viewModelScope.launch {
+            viewModelScope.launch(Dispatchers.Default) {
                 withContext(Dispatchers.Default) {
                     // Creamos la liga
                     val idLiga = repository.insertarLiga(nuevaLiga)
@@ -50,13 +50,13 @@ class CrearLigaPersonalizadaViewModel (
         }
     }
 
-    private suspend fun asignarLigaAlEquipo(idLiga: Long?){
+    suspend fun asignarLigaAlEquipo(idLiga: Long?){
         val equipo: Equipo? = equipoUsuario.value
         equipo?.ligaId = idLiga
         repository.actualizarEquipo(equipo)
     }
 
-    private suspend fun gestionarBots(imagenesBots: MutableList<Int>, idLiga: Long?){
+    suspend fun gestionarBots(imagenesBots: MutableList<Int>, idLiga: Long?){
         val bots: List<User> = listOf(
             User(null, imagenesBots[0], "Bot1", "Bot1", 0),
             User(null, imagenesBots[1], "Bot2", "Bot2", 0),
@@ -69,7 +69,7 @@ class CrearLigaPersonalizadaViewModel (
         }
     }
 
-    private suspend fun crearEquipoEnLiga(user : User, id : Long?, idLiga: Long?){
+    suspend fun crearEquipoEnLiga(user : User, id : Long?, idLiga: Long?){
         val nuevoEquipo = Equipo(
             null,
             name = user.name,
