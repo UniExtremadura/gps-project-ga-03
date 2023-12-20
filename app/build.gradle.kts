@@ -130,4 +130,9 @@ dependencies {
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0")
     testImplementation ("org.mockito:mockito-core:5.8.0")
     androidTestImplementation ("org.mockito:mockito-android:5.8.0")
+
+
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("androidx.test:runner:1.5.1")
+    androidTestImplementation("androidx.test:rules:1.5.0")
 }

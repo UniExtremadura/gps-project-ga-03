@@ -41,7 +41,7 @@ class JoinViewModel (
 
     fun crearEquipo(user : User, id : Long?){
         val random = Random
-        val randomNumber = random.nextInt(50_000, 75_000)
+        val randomNumber = random.nextInt(200_000, 275_000)
 
         viewModelScope.launch{
             insertarEquipoUsuario(Equipo(
