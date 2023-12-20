@@ -100,7 +100,6 @@ class JoinViewModel (
     }
 
     suspend fun credencialesCorrectas(fondo : Int, nombreUsuario: String, passOne : String) : Long{
-
             val user = User(
                 null,
                 fondo,
