@@ -10,22 +10,12 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import es.unex.giiis.asee.tiviclone.data.Repository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import uex.aseegps.ga03.tuonce.R
-import uex.aseegps.ga03.tuonce.TuOnceApplication
-import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
 import uex.aseegps.ga03.tuonce.databinding.FragmentEquipoBinding
 import uex.aseegps.ga03.tuonce.model.Equipo
-import uex.aseegps.ga03.tuonce.model.Futbolista
-import uex.aseegps.ga03.tuonce.model.User
-import uex.aseegps.ga03.tuonce.view.adapters.ActividadAdapter
 import uex.aseegps.ga03.tuonce.view.viewmodels.EquipoViewModel
 import uex.aseegps.ga03.tuonce.view.viewmodels.HomeViewModel
-import uex.aseegps.ga03.tuonce.view.viewmodels.MercadoViewModel
 
 class EquipoFragment : Fragment() {
     private var _binding: FragmentEquipoBinding? = null
