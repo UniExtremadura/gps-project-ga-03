@@ -1,37 +1,42 @@
 package uex.aseegps.ga03.tuonce.utils
 
 import org.junit.Test
-import org.junit.jupiter.api.Assertions.*
-import uex.aseegps.ga03.tuonce.R
+import org.junit.Assert.assertEquals
 import uex.aseegps.ga03.tuonce.model.Futbolista
-import uex.aseegps.ga03.tuonce.utils.SortPlayers.clasificarJugadores
+import uex.aseegps.ga03.tuonce.utils.SortPlayers.calcularPuntuacion
 
-class SortPlayersTest {
-    @Test
-    fun `clasificarJugadores ordena correctamente jugadores con diferentes puntuaciones`() {
-        val futbolista1 = Futbolista(null, R.drawable.messi, "Lionel Messi", "34", "Delantero", 1500, 0, 0, 0, 0, 0, 0, 0, 0, 99, 15,0,null) // Puntuación 15
-        val futbolista2 = Futbolista(null, R.drawable.cristiano,"Cristiano Ronaldo", "36", "Delantero", 12000, 0, 0, 0, 0, 0, 0, 0, 0, 98,50, 0,null) // Puntuación 50
-        val futbolista3 = Futbolista(null, R.drawable.neymar,"Neymar Jr.", "29", "Centrocampista", 1000, 0, 0, 0, 0, 0, 0, 0, 0, 97,100,0, null) // Puntuación 100
-
-        val listaFutbolistas = listOf(futbolista3, futbolista2, futbolista1)
-        val listaClasificada = clasificarJugadores(listaFutbolistas)
-
-        // Comprobamos que el orden es correcto
-        assertTrue(listaClasificada[0] == futbolista3)
-        assertTrue(listaClasificada[1] == futbolista2)
-        assertTrue(listaClasificada[2] == futbolista1)
-    }
+class CalculoPuntuacionTest {
 
     @Test
-    fun `clasificarJugadores maneja correctamente jugadores con puntuaciones iguales`() {
-        val futbolista1 = Futbolista(null, R.drawable.messi, "Lionel Messi", "34", "Delantero", 1500, 0, 0, 0, 0, 0, 0, 0, 0, 99, 100,0,null)
-        val futbolista2 = Futbolista(null, R.drawable.cristiano,"Cristiano Ronaldo", "36", "Delantero", 12000, 0, 0, 0, 0, 0, 0, 0, 0, 98,100, 0,null)
-        val futbolista3 = Futbolista(null, R.drawable.neymar,"Neymar Jr.", "29", "Centrocampista", 1000, 0, 0, 0, 0, 0, 0, 0, 0, 97,100,0, null)
+    fun `calcularPuntuacion retorna el valor correcto`() {
+        // Crear un futbolista con estadísticas específicas
+        val futbolista = Futbolista(futbolistaId = 2,
+            image = 0,
+            nombreJugador = "Lionel Messi",
+            años = "34",
+            posicion = "Centrocampista",
+            varor = 100,
+            minutoJugados = 90, // 90 / 10 = 9
+            goles = 2, // 2 * 5 = 10
+            asistencias = 1, // 1 * 3 = 3
+            balonAlArea = 5, // 5 * 2 = 10
+            parada = 0, // 0 * 4 = 0
+            tarjetaAmarilla = 0, // 0 * 2 = 0
+            tarjetaRoja = 0, // 0 * 5 = 0
+            estaEnel11 = 1,
+            media = 85,
+            puntosAportados = 4,
+            faltacometidas = 3, // 3 * 1 = 3
+            equipoId = null
+        )
 
-        val listaFutbolistas = listOf(futbolista2, futbolista1, futbolista3)
-        val listaClasificada = clasificarJugadores(listaFutbolistas)
+        // Calcular la puntuación esperada
+        val puntuacionEsperada = (10 + 3 + 9 + 10 - 3 + 85 + 4) / 11
 
-        // Comprobamos que al ser los mismos puntos se ordenan por nombre
-        assertEquals(listaFutbolistas, listaClasificada)
+        // Ejecutar el método a probar
+        val puntuacionCalculada = calcularPuntuacion(futbolista)
+
+        // Verificar que la puntuación calculada sea igual a la esperada
+        assertEquals(puntuacionEsperada, puntuacionCalculada)
     }
 }
