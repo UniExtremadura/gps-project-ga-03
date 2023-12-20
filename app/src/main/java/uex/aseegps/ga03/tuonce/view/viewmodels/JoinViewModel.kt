@@ -1,5 +1,6 @@
 package uex.aseegps.ga03.tuonce.view.viewmodels
 
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -42,7 +43,6 @@ class JoinViewModel (
     fun crearEquipo(user : User, id : Long?){
         val random = Random
         val randomNumber = random.nextInt(50_000, 75_000)
-
         viewModelScope.launch{
             insertarEquipoUsuario(Equipo(
                 null,
@@ -54,7 +54,7 @@ class JoinViewModel (
         }
     }
 
-    private suspend fun insertarEquipoUsuario(nuevoEquipo : Equipo){
+     suspend fun insertarEquipoUsuario(nuevoEquipo : Equipo){
         val equipoId = insertarEquipo(nuevoEquipo)
         var portero = 0
         var defensa = 0
@@ -89,7 +89,7 @@ class JoinViewModel (
         ponerFutbolistasAlEquipo(equipoId)
     }
 
-    private suspend fun ponerFutbolistasAlEquipo(equipoId : Long){
+    suspend fun ponerFutbolistasAlEquipo(equipoId : Long){
         var futbolistas: List<Futbolista>? = futbolistas.value
         futbolistas?.shuffled()?.take(7)?.forEachIndexed{ index, futbolista ->
             if (futbolista.estaEnel11 == 0 && futbolista.equipoId == null) {
@@ -100,7 +100,6 @@ class JoinViewModel (
     }
 
     suspend fun credencialesCorrectas(fondo : Int, nombreUsuario: String, passOne : String) : Long{
-
             val user = User(
                 null,
                 fondo,
@@ -111,6 +110,8 @@ class JoinViewModel (
             crearEquipo(user, id)
             return id
     }
+
+
 
     companion object {
         val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
