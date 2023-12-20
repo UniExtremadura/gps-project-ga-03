@@ -9,26 +9,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import es.unex.giiis.asee.tiviclone.data.Repository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import uex.aseegps.ga03.tuonce.R
-import uex.aseegps.ga03.tuonce.TuOnceApplication
 import uex.aseegps.ga03.tuonce.view.adapters.Al11Adapter
-import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
 import uex.aseegps.ga03.tuonce.databinding.FragmentMoverAl11Binding
-import uex.aseegps.ga03.tuonce.model.Equipo
 import uex.aseegps.ga03.tuonce.model.Futbolista
-import uex.aseegps.ga03.tuonce.model.User
-import uex.aseegps.ga03.tuonce.view.adapters.PlantillaAdapter
 import uex.aseegps.ga03.tuonce.view.viewmodels.HomeViewModel
 import uex.aseegps.ga03.tuonce.view.viewmodels.MoverAl11ViewNodel
-import uex.aseegps.ga03.tuonce.view.viewmodels.PlantillaViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

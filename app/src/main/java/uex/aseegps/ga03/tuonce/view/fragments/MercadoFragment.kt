@@ -1,7 +1,6 @@
 package uex.aseegps.ga03.tuonce.view.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,24 +8,16 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import es.unex.giiis.asee.tiviclone.data.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import uex.aseegps.ga03.tuonce.R
-import uex.aseegps.ga03.tuonce.TuOnceApplication
-import uex.aseegps.ga03.tuonce.database.TuOnceDatabase
 import uex.aseegps.ga03.tuonce.databinding.FragmentMercadoBinding
-import uex.aseegps.ga03.tuonce.model.Equipo
 import uex.aseegps.ga03.tuonce.model.Futbolista
-import uex.aseegps.ga03.tuonce.model.User
 import uex.aseegps.ga03.tuonce.utils.SortPlayers.clasificarJugadores
 import uex.aseegps.ga03.tuonce.view.adapters.MercadoAdapter
 import uex.aseegps.ga03.tuonce.view.viewmodels.HomeViewModel

@@ -1,14 +1,10 @@
 package uex.aseegps.ga03.tuonce.view.viewmodels
 
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
-import androidx.lifecycle.viewmodel.compose.viewModel
-import es.unex.giiis.asee.tiviclone.data.Repository
+import uex.aseegps.ga03.tuonce.model.Repository
 import kotlinx.coroutines.launch
 import uex.aseegps.ga03.tuonce.TuOnceApplication
 import uex.aseegps.ga03.tuonce.model.Equipo
@@ -26,17 +22,17 @@ class MisLigasViewModel (
     var ligaUsuario = repository.ligaUsuario
     var usuariosLiga = repository.usuariosLiga
 
-    val bot1 = repository.bot1
-    val bot2 = repository.bot2
-    val bot3 = repository.bot3
+    var bot1 = repository.bot1
+    var bot2 = repository.bot2
+    var bot3 = repository.bot3
 
-    val equipoBot1 = repository.equipoBot1
-    val equipoBot2 = repository.equipoBot2
-    val equipoBot3 = repository.equipoBot3
+    var equipoBot1 = repository.equipoBot1
+    var equipoBot2 = repository.equipoBot2
+    var equipoBot3 = repository.equipoBot3
 
-    val futbolistasEquipoBot1 = repository.futbolistasEquipoBot1
-    val futbolistasEquipoBot2 = repository.futbolistasEquipoBot2
-    val futbolistasEquipoBot3 = repository.futbolistasEquipoBot3
+    var futbolistasEquipoBot1 = repository.futbolistasEquipoBot1
+    var futbolistasEquipoBot2 = repository.futbolistasEquipoBot2
+    var futbolistasEquipoBot3 = repository.futbolistasEquipoBot3
 
     fun initialize(){
         if(user != null) {
