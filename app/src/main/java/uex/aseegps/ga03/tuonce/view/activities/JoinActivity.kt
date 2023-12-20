@@ -4,6 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
+import android.view.View
+import android.widget.GridView
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
@@ -21,6 +25,8 @@ class JoinActivity : AppCompatActivity() {
     private lateinit var binding: ActivityJoinBinding
 
     private val viewModel : JoinViewModel by viewModels { JoinViewModel.Factory }
+
+    private var escudoSeleccionado: Int = R.drawable.escudo1
 
     companion object {
 
@@ -41,7 +47,38 @@ class JoinActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
+        val escudos = viewModel.obtenerEscudos()
+
+        val llEscudos = binding.llEscudos
+
+        escudos.forEach { escudo ->
+            val imageView = ImageView(this).apply {
+                layoutParams = LinearLayout.LayoutParams(200, 200)
+                scaleType = ImageView.ScaleType.CENTER_CROP
+                setPadding(8, 8, 8, 8)
+                setImageResource(escudo)
+                setOnClickListener {
+                    // Manejar clic en el escudo
+                    resaltarEscudoSeleccionado(this)
+                    escudoSeleccionado = escudo
+                }
+            }
+            llEscudos.addView(imageView)
+        }
+
         setUpListeners()
+    }
+
+    private fun resaltarEscudoSeleccionado(view: View) {
+        val llEscudos: LinearLayout = binding.llEscudos
+
+        // Eliminar el recuadro verde de todos los elementos del LinearLayout
+        for (i in 0 until llEscudos.childCount) {
+            llEscudos.getChildAt(i).setBackgroundResource(0)
+        }
+
+        // Agregar recuadro verde al elemento seleccionado
+        view.setBackgroundResource(R.drawable.border_green) // Asegúrate de tener un drawable con un borde verde
     }
 
     private fun setUpListeners() {
@@ -70,13 +107,13 @@ class JoinActivity : AppCompatActivity() {
             if (check.fail) notificarCredencialesIncorrectas(check.msg)
             else {
                 lifecycleScope.launch{
-                    val id = viewModel.credencialesCorrectas(R.drawable.ic_launcher_background,
+                    val id = viewModel.credencialesCorrectas(escudoSeleccionado,
                         etUsername.text.toString(),
                         etPasswordOne.text.toString())
                     navigateBackWithResult(
                         User(
                             id,
-                            R.drawable.ic_launcher_background,
+                            escudoSeleccionado,
                             etUsername.text.toString(),
                             etPasswordOne.text.toString()
                         )
@@ -89,7 +126,7 @@ class JoinActivity : AppCompatActivity() {
         with(binding) {
             val user = User(
                 null,
-                R.drawable.ic_launcher_background,
+                escudoSeleccionado,
                 etUsername.text.toString(),
                 etPasswordOne.text.toString()
             )
