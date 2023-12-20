@@ -28,6 +28,8 @@ class JoinActivity : AppCompatActivity() {
 
     private var escudoSeleccionado: Int = R.drawable.escudo1
 
+    private var equipacionSeleccionada: Int = R.drawable.equipacion1
+
     companion object {
 
         const val USERNAME = "JOIN_USERNAME"
@@ -66,6 +68,25 @@ class JoinActivity : AppCompatActivity() {
             llEscudos.addView(imageView)
         }
 
+        val equipaciones = viewModel.obtenerEquipaciones()
+
+        val llEquipaciones = binding.llEquipaciones
+
+        equipaciones.forEach { equipacion ->
+            val imageView = ImageView(this).apply {
+                layoutParams = LinearLayout.LayoutParams(200, 500)
+                scaleType = ImageView.ScaleType.CENTER_CROP
+                setPadding(8, 8, 8, 8)
+                setImageResource(equipacion)
+                setOnClickListener {
+                    // Manejar clic en el escudo
+                    resaltarEquipacionSeleccionada(this)
+                    equipacionSeleccionada = equipacion
+                }
+            }
+            llEquipaciones.addView(imageView)
+        }
+
         setUpListeners()
     }
 
@@ -75,6 +96,18 @@ class JoinActivity : AppCompatActivity() {
         // Eliminar el recuadro verde de todos los elementos del LinearLayout
         for (i in 0 until llEscudos.childCount) {
             llEscudos.getChildAt(i).setBackgroundResource(0)
+        }
+
+        // Agregar recuadro verde al elemento seleccionado
+        view.setBackgroundResource(R.drawable.border_green) // Asegúrate de tener un drawable con un borde verde
+    }
+
+    private fun resaltarEquipacionSeleccionada(view: View) {
+        val llEquipaciones: LinearLayout = binding.llEquipaciones
+
+        // Eliminar el recuadro verde de todos los elementos del LinearLayout
+        for (i in 0 until llEquipaciones.childCount) {
+            llEquipaciones.getChildAt(i).setBackgroundResource(0)
         }
 
         // Agregar recuadro verde al elemento seleccionado

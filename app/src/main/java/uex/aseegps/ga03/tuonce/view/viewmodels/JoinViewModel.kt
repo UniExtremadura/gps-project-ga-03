@@ -116,6 +116,10 @@ class JoinViewModel (
         return repository.escudos
     }
 
+    fun obtenerEquipaciones(): List<Int> {
+        return repository.equipaciones
+    }
+
     companion object {
         val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
