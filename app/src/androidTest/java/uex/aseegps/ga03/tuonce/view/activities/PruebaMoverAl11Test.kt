@@ -21,14 +21,14 @@ import uex.aseegps.ga03.tuonce.R
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class PruebaCrearEquipoTest {
+class PruebaMoverAl11Test {
 
     @Rule
     @JvmField
     var mActivityScenarioRule = ActivityScenarioRule(LoginActivity::class.java)
 
     @Test
-    fun pruebaCrearEquipoTest() {
+    fun pruebaMoverAl11Test() {
         val appCompatButton = onView(
             allOf(
                 withId(R.id.btJoin), withText("Registrate"),
@@ -104,18 +104,114 @@ class PruebaCrearEquipoTest {
         )
         appCompatButton2.perform(click())
 
-        val viewGroup = onView(
+        val appCompatButton3 = onView(
             allOf(
-                withParent(
-                    allOf(
+                withId(R.id.btLogin), withText("Iniciar Sesión"),
+                childAtPosition(
+                    childAtPosition(
                         withId(android.R.id.content),
-                        withParent(withId(androidx.appcompat.R.id.action_bar_root))
-                    )
+                        0
+                    ),
+                    3
                 ),
                 isDisplayed()
             )
         )
-        viewGroup.check(matches(isDisplayed()))
+        appCompatButton3.perform(click())
+
+        val bottomNavigationItemView = onView(
+            allOf(
+                withId(R.id.mercadoFragment), withContentDescription("Mercado"),
+                childAtPosition(
+                    childAtPosition(
+                        withId(R.id.bottom_navigation),
+                        0
+                    ),
+                    3
+                ),
+                isDisplayed()
+            )
+        )
+        bottomNavigationItemView.perform(click())
+
+        val appCompatButton4 = onView(
+            allOf(
+                withId(R.id.botoncomprar), withText("Comprar"),
+                childAtPosition(
+                    childAtPosition(
+                        withId(R.id.RvFutbolista),
+                        0
+                    ),
+                    2
+                ),
+                isDisplayed()
+            )
+        )
+        appCompatButton4.perform(click())
+
+        val appCompatButton5 = onView(
+            allOf(
+                withId(R.id.plantillaBt), withText("Plantilla"),
+                childAtPosition(
+                    childAtPosition(
+                        withId(R.id.nav_host_fragment),
+                        0
+                    ),
+                    1
+                ),
+                isDisplayed()
+            )
+        )
+        appCompatButton5.perform(click())
+
+        val button = onView(
+            allOf(
+                withId(R.id.comprarBt), withText("Al 11"),
+                childAtPosition(
+                    childAtPosition(
+                        withId(R.id.cv_Item),
+                        0
+                    ),
+                    5
+                ),
+                isDisplayed()
+            )
+        )
+        button.check(matches(isDisplayed()))
+
+        val button2 = onView(
+            allOf(
+                withId(R.id.plantillaBt), withText("PLANTILLA"),
+                withParent(withParent(withId(R.id.nav_host_fragment))),
+                isDisplayed()
+            )
+        )
+        button2.check(matches(isDisplayed()))
+
+        val appCompatButton6 = onView(
+            allOf(
+                withId(R.id.comprarBt), withText("Al 11"),
+                childAtPosition(
+                    childAtPosition(
+                        withId(R.id.cv_Item),
+                        0
+                    ),
+                    5
+                ),
+                isDisplayed()
+            )
+        )
+        appCompatButton6.perform(click())
+
+        val recyclerView = onView(
+            allOf(
+                withId(R.id.RvAl11),
+                withParent(withParent(withId(R.id.nav_host_fragment))),
+                isDisplayed()
+            )
+        )
+        recyclerView.check(matches(isDisplayed()))
+
     }
 
     private fun childAtPosition(
