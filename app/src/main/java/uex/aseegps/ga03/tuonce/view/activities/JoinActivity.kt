@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.GridView
 import android.widget.ImageView
@@ -44,15 +45,14 @@ class JoinActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityJoinBinding.inflate(layoutInflater)
-
         setContentView(binding.root)
 
         val escudos = viewModel.obtenerEscudos()
-
         val llEscudos = binding.llEscudos
 
-        escudos.forEach { escudo ->
+        escudos.forEachIndexed { index, escudo ->
             val imageView = ImageView(this).apply {
+                id = 1000 + index
                 layoutParams = LinearLayout.LayoutParams(200, 200)
                 scaleType = ImageView.ScaleType.CENTER_CROP
                 setPadding(8, 8, 8, 8)
@@ -64,8 +64,9 @@ class JoinActivity : AppCompatActivity() {
                 }
             }
             llEscudos.addView(imageView)
+            //Mostrar en el logcat el id de todos los escudos
+            Log.d("JoinActivity", "Escudo ${imageView.id}")
         }
-
         setUpListeners()
     }
 
