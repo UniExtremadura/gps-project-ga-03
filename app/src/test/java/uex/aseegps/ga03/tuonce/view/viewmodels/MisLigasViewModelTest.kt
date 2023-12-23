@@ -313,27 +313,27 @@ class MisLigasViewModelTest {
 
         assertNull(misLigasViewModel.equipoUsuario.value)
         assertNull(misLigasViewModel.ligaUsuario.value)
-    @Test
-    fun `test llamadas del sistema de puntuacion liga`() = runBlocking {
-        misLigasViewModel.initializeLiga(1L)
-        misLigasViewModel.initialize()
+        @Test
+        fun `test llamadas del sistema de puntuacion liga`() = runBlocking {
+            misLigasViewModel.initializeLiga(1L)
+            misLigasViewModel.initialize()
 
-        misLigasViewModel.simularPartidosYActualizar(1)
+            misLigasViewModel.simularPartidosYActualizar(1)
 
-        // Verifico que se haya simulado el partido de verdad y haya tenido cambios en la base de datos
-        Mockito.verify(mockRepository).setLigaId(1L);
-        Mockito.verify(mockRepository).setUserid(1L);
-        Mockito.verify(mockRepository).marcarActividadCrearLiga(
-            User(
-                userId = 1,
-                image = 0,
-                name = usuario.name,
-                password = "12345",
-                points = 180,
-                conectado = 1
-            ),
-            1
-        );
+            // Verifico que se haya simulado el partido de verdad y haya tenido cambios en la base de datos
+            Mockito.verify(mockRepository).setLigaId(1L);
+            Mockito.verify(mockRepository).setUserid(1L);
+            Mockito.verify(mockRepository).marcarActividadCrearLiga(
+                User(
+                    userId = 1,
+                    image = 0,
+                    name = usuario.name,
+                    password = "12345",
+                    points = 180,
+                    conectado = 1
+                ),
+                1
+            );
+        }
     }
-
 }
