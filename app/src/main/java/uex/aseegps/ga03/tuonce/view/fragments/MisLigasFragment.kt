@@ -117,7 +117,7 @@ class MisLigasFragment : Fragment() {
 
 
 
-    private fun fetchArticles() {
+    fun fetchArticles() {
         lifecycleScope.launch {
             try {
                 val service = RetrofitServiceFactory.makeRetrofitService()

@@ -21,11 +21,15 @@ import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnit
 import org.mockito.junit.MockitoRule
 import org.mockito.kotlin.any
+import uex.aseegps.ga03.tuonce.api.RetrofitServiceFactory
 import uex.aseegps.ga03.tuonce.model.Equipo
 import uex.aseegps.ga03.tuonce.model.Futbolista
 import uex.aseegps.ga03.tuonce.model.Liga
 import uex.aseegps.ga03.tuonce.model.Repository
 import uex.aseegps.ga03.tuonce.model.User
+import uex.aseegps.ga03.tuonce.model.api.Article
+import uex.aseegps.ga03.tuonce.model.api.Source
+import uex.aseegps.ga03.tuonce.view.fragments.MisLigasFragment
 
 
 @ExperimentalCoroutinesApi
@@ -42,6 +46,12 @@ class MisLigasViewModelTest {
 
     private lateinit var misLigasViewModel: MisLigasViewModel
 
+    @Mock
+    private lateinit var fragmentoMisLigas : MisLigasFragment
+
+    @Mock
+    private lateinit var retrofitServiceFactory : RetrofitServiceFactory
+
     private val usuario = User(
         userId = 1L,
         image = 0,
@@ -49,6 +59,39 @@ class MisLigasViewModelTest {
         password = "12345",
         points = 100,
         conectado = 1
+    )
+
+    val noticias = listOf(
+        Article(
+            author = "Sports Journalist 1",
+            content = "Lionel Messi scores a hat-trick as Argentina secures a victory in the international friendly.",
+            description = "Argentina wins in a thrilling football match.",
+            publishedAt = "2023-02-15T20:00:00Z",
+            source = Source("Sports News Argentina", "https://www.sportsnewsargentina.com"),
+            title = "Messi's Hat-trick Leads Argentina to Victory",
+            url = "https://www.example.com/messi-hat-trick",
+            urlToImage = "https://www.example.com/messi-image.jpg"
+        ),
+        Article(
+            author = "Football Analyst 2",
+            content = "River Plate emerges as the champion of the national football league after a nail-biting final.",
+            description = "Exciting moments as River Plate clinches the title.",
+            publishedAt = "2023-02-20T18:30:00Z",
+            source = Source("Football Gazette Argentina", "https://www.footballgazetteargentina.com"),
+            title = "River Plate Wins National Football League Title",
+            url = "https://www.example.com/river-plate-champion",
+            urlToImage = "https://www.example.com/river-plate-image.jpg"
+        ),
+        Article(
+            author = "Soccer Reporter 3",
+            content = "Boca Juniors signs a promising young talent, boosting their squad for the upcoming season.",
+            description = "Excitement grows as Boca Juniors makes a strategic signing.",
+            publishedAt = "2023-02-25T14:45:00Z",
+            source = Source("Soccer Times Argentina", "https://www.soccertimesargentina.com"),
+            title = "Boca Juniors Signs Young Star for Bright Future",
+            url = "https://www.example.com/boca-juniors-signing",
+            urlToImage = "https://www.example.com/boca-juniors-image.jpg"
+        )
     )
 
     fun createBot(userId: Long?, name: String, password: String): User {
@@ -313,27 +356,74 @@ class MisLigasViewModelTest {
 
         assertNull(misLigasViewModel.equipoUsuario.value)
         assertNull(misLigasViewModel.ligaUsuario.value)
-        @Test
-        fun `test llamadas del sistema de puntuacion liga`() = runBlocking {
-            misLigasViewModel.initializeLiga(1L)
-            misLigasViewModel.initialize()
 
-            misLigasViewModel.simularPartidosYActualizar(1)
+    }
 
-            // Verifico que se haya simulado el partido de verdad y haya tenido cambios en la base de datos
-            Mockito.verify(mockRepository).setLigaId(1L);
-            Mockito.verify(mockRepository).setUserid(1L);
-            Mockito.verify(mockRepository).marcarActividadCrearLiga(
-                User(
-                    userId = 1,
-                    image = 0,
-                    name = usuario.name,
-                    password = "12345",
-                    points = 180,
-                    conectado = 1
+    @Test
+    fun `test llamadas del sistema de puntuacion liga`() = runBlocking {
+        misLigasViewModel.initializeLiga(1L)
+        misLigasViewModel.initialize()
+
+        misLigasViewModel.simularPartidosYActualizar(1)
+
+        // Verifico que se haya simulado el partido de verdad y haya tenido cambios en la base de datos
+        Mockito.verify(mockRepository).setLigaId(1L);
+        Mockito.verify(mockRepository).setUserid(1L);
+        Mockito.verify(mockRepository).marcarActividadCrearLiga(
+            User(
+                userId = 1,
+                image = 0,
+                name = usuario.name,
+                password = "12345",
+                points = 180,
+                conectado = 1
+            ),
+            1
+        );
+    }
+    @Test
+    fun `test incremento de jornada en puntuacion liga con actividades`() = runBlocking {
+        var articles = emptyList<Article>()
+        doAnswer {
+            retrofitServiceFactory.makeRetrofitService()
+            articles = listOf(
+                Article(
+                    author = "Sports Journalist 1",
+                    content = "Lionel Messi scores a hat-trick as Argentina secures a victory in the international friendly.",
+                    description = "Argentina wins in a thrilling football match.",
+                    publishedAt = "2023-02-15T20:00:00Z",
+                    source = Source("Sports News Argentina", "https://www.sportsnewsargentina.com"),
+                    title = "Messi's Hat-trick Leads Argentina to Victory",
+                    url = "https://www.example.com/messi-hat-trick",
+                    urlToImage = "https://www.example.com/messi-image.jpg"
                 ),
-                1
-            );
-        }
+                Article(
+                    author = "Football Analyst 2",
+                    content = "River Plate emerges as the champion of the national football league after a nail-biting final.",
+                    description = "Exciting moments as River Plate clinches the title.",
+                    publishedAt = "2023-02-20T18:30:00Z",
+                    source = Source("Football Gazette Argentina", "https://www.footballgazetteargentina.com"),
+                    title = "River Plate Wins National Football League Title",
+                    url = "https://www.example.com/river-plate-champion",
+                    urlToImage = "https://www.example.com/river-plate-image.jpg"
+                ),
+                Article(
+                    author = "Soccer Reporter 3",
+                    content = "Boca Juniors signs a promising young talent, boosting their squad for the upcoming season.",
+                    description = "Excitement grows as Boca Juniors makes a strategic signing.",
+                    publishedAt = "2023-02-25T14:45:00Z",
+                    source = Source("Soccer Times Argentina", "https://www.soccertimesargentina.com"),
+                    title = "Boca Juniors Signs Young Star for Bright Future",
+                    url = "https://www.example.com/boca-juniors-signing",
+                    urlToImage = "https://www.example.com/boca-juniors-image.jpg"
+                )
+            )
+            null
+        }.`when`(fragmentoMisLigas).fetchArticles()
+
+        fragmentoMisLigas.fetchArticles()
+
+        Mockito.verify(retrofitServiceFactory).makeRetrofitService()
+        assertEquals(noticias, articles)
     }
 }
