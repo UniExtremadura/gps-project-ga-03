@@ -1,12 +1,8 @@
 package uex.aseegps.ga03.tuonce.view.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.CreationExtras
-import uex.aseegps.ga03.tuonce.model.Repository
-import androidx.recyclerview.widget.LinearLayoutManager
 import uex.aseegps.ga03.tuonce.model.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
