@@ -42,10 +42,10 @@ class Repository(
     val actividades: LiveData<List<Actividad>> =
         userFilter.switchMap{ userid -> actividadDao.findAllByUser(userid) }
 
-    val equipoUsuario: LiveData<Equipo> =
+    var equipoUsuario: LiveData<Equipo> =
         userFilter.switchMap{ userid -> equipoDao.findEquipoByUserId(userid) }
 
-    val ligaUsuario: LiveData<Liga> =
+    var ligaUsuario: LiveData<Liga> =
         userFilter.switchMap{ userid -> ligaDao.findLigaPorUsuario(userid) }
 
     val usuariosLiga: LiveData<List<User>> =

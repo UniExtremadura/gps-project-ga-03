@@ -30,6 +30,7 @@ import uex.aseegps.ga03.tuonce.model.User
 
 @ExperimentalCoroutinesApi
 class MisLigasViewModelTest {
+
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
@@ -268,6 +269,50 @@ class MisLigasViewModelTest {
         assertNotNull(misLigasViewModel.ligaUsuario.value)
     }
 
+    @Test
+    fun `test setear se llama correctamente al inicializar viewModel`() =
+        runBlocking {
+            val userId = usuario.userId!!
+
+            misLigasViewModel.initialize()
+
+            Mockito.verify(mockRepository).setUserid(userId)
+        }
+
+    @Test
+    fun `test setear la liga se llama correctamente al inicializar viewModel`() =
+        runBlocking {
+            misLigasViewModel.initializeLiga(1)
+
+            Mockito.verify(mockRepository).setLigaId(1)
+        }
+
+    @Test
+    fun `test setear inicializa el usuario al inicializar viewModel`() =
+        runBlocking {
+
+            misLigasViewModel.initialize()
+
+            assertEquals(1L, mockRepository.usuarioConectado.value?.userId)
+        }
+
+    @Test
+    fun `test terminar liga`() = runBlocking {
+        doAnswer {
+            misLigasViewModel.equipoUsuario = MutableLiveData(null)
+            misLigasViewModel.ligaUsuario = MutableLiveData(null)
+            null // Devuelve null, ya que doAnswer requiere un tipo de retorno
+        }.`when`(mockRepository).eliminarLiga()
+
+
+        misLigasViewModel.initializeLiga(1L)
+        misLigasViewModel.initialize()
+
+        misLigasViewModel.eliminarLiga()
+        misLigasViewModel.terminarLiga()
+
+        assertNull(misLigasViewModel.equipoUsuario.value)
+        assertNull(misLigasViewModel.ligaUsuario.value)
     @Test
     fun `test llamadas del sistema de puntuacion liga`() = runBlocking {
         misLigasViewModel.initializeLiga(1L)
