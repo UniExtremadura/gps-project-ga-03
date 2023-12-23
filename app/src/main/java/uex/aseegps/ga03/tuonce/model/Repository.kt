@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import uex.aseegps.ga03.tuonce.R
 import uex.aseegps.ga03.tuonce.database.ActividadDao
 import uex.aseegps.ga03.tuonce.database.EquipoDao
 import uex.aseegps.ga03.tuonce.database.FutbolistaDao
@@ -90,6 +91,8 @@ class Repository(
 
     val futbolistasEquipoBot3 : LiveData<List<Futbolista>> =
         equipoBot3.switchMap { eq -> futbolistaDao.findByEquipoIdLD(eq?.equipoId) }
+
+    val escudos = listOf(R.drawable.escudo1, R.drawable.escudo2, R.drawable.escudo3, R.drawable.escudo4, R.drawable.escudo5, R.drawable.escudo6, R.drawable.escudo7, R.drawable.escudo8)
 
     fun setUserid(userid: Long) {
         userFilter.value = userid

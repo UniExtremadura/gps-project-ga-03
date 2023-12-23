@@ -1,39 +1,35 @@
 package uex.aseegps.ga03.tuonce.view.viewmodels
 
-
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import org.mockito.ArgumentMatchers.any
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import org.junit.jupiter.api.Assertions.*
+import org.mockito.Mock
+import uex.aseegps.ga03.tuonce.R
+import org.mockito.Mockito
+import org.mockito.junit.MockitoJUnit
+import org.mockito.junit.MockitoRule
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
-import org.hamcrest.core.Every
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.ArgumentMatchers.eq
-import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
-import org.mockito.MockitoAnnotations
-import org.mockito.junit.MockitoJUnit
 import org.mockito.junit.MockitoJUnitRunner
-import org.mockito.junit.MockitoRule
-import org.mockito.kotlin.anyOrNull
-import org.mockito.kotlin.check
 import uex.aseegps.ga03.tuonce.model.Equipo
 import uex.aseegps.ga03.tuonce.model.Futbolista
 import uex.aseegps.ga03.tuonce.model.Repository
 import uex.aseegps.ga03.tuonce.model.User
-import kotlin.random.Random
+
+
 @RunWith(MockitoJUnitRunner::class)
 @ExperimentalCoroutinesApi
 class JoinViewModelTest {
@@ -43,10 +39,10 @@ class JoinViewModelTest {
     @get:Rule
     val mockitoRule: MockitoRule = MockitoJUnit.rule()
 
-    private lateinit var viewModel: JoinViewModel
-
     @Mock
-    private lateinit var mockRepository: Repository
+    lateinit var mockRepository: Repository
+
+    private lateinit var viewModel: JoinViewModel
 
     val futbolistaa = Futbolista(
         futbolistaId = 1,
@@ -281,6 +277,22 @@ class JoinViewModelTest {
         futbolistaa11
     )
 
+    val equipo = Equipo(
+        equipoId = 1,
+        name = "EqTest",
+        presupuesto = 10000,
+        ligaId = 1,
+        userId = 1
+    )
+    private val usuario = User(
+        userId = 1L,
+        image = 0,
+        name = "UsuarioEjemplo",
+        password = "12345",
+        points = 100,
+        conectado = 1
+    )
+
     @Before
     fun setUp() {
         viewModel = JoinViewModel(mockRepository)
@@ -298,27 +310,29 @@ class JoinViewModelTest {
         Dispatchers.setMain(Dispatchers.Unconfined)
     }
 
+    @Test
+    fun `obtenerEscudos devuelve lista correcta`() {
+        val expectedEscudos = listOf(R.drawable.escudo1, R.drawable.escudo2, R.drawable.escudo3)
+        Mockito.`when`(mockRepository.escudos).thenReturn(expectedEscudos)
+
+        val actualEscudos = viewModel.obtenerEscudos()
+
+        assertEquals(expectedEscudos, actualEscudos)
+    }
+
+    @Test
+    fun `obtenerEscudos maneja lista vacia correctamente`() {
+        Mockito.`when`(mockRepository.escudos).thenReturn(emptyList())
+
+        val actualEscudos = viewModel.obtenerEscudos()
+
+        assertTrue(actualEscudos.isEmpty())
+    }
 
     @After
     fun tearDown() {
         Dispatchers.resetMain()
     }
-
-    val equipo = Equipo(
-        equipoId = 1,
-        name = "EqTest",
-        presupuesto = 10000,
-        ligaId = 1,
-        userId = 1
-    )
-    private val usuario = User(
-        userId = 1L,
-        image = 0,
-        name = "UsuarioEjemplo",
-        password = "12345",
-        points = 100,
-        conectado = 1
-    )
 
     @Test
     fun `insertarNuevoUsuario insertar usuario y que coincida el id`() = runBlocking {
