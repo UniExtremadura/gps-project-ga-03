@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import uex.aseegps.ga03.tuonce.model.Repository
 import kotlinx.coroutines.Dispatchers
-import uex.aseegps.ga03.tuonce.model.Repository
 import kotlinx.coroutines.launch
 import uex.aseegps.ga03.tuonce.TuOnceApplication
 import uex.aseegps.ga03.tuonce.model.Equipo
