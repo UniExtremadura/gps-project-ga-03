@@ -32,6 +32,9 @@ import uex.aseegps.ga03.tuonce.model.User
 @RunWith(MockitoJUnitRunner::class)
 @ExperimentalCoroutinesApi
 class JoinViewModelTest {
+
+class JoinViewModelTest {
+
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
@@ -43,6 +46,30 @@ class JoinViewModelTest {
 
     private lateinit var viewModel: JoinViewModel
 
+    @Before
+    fun setUp() {
+        viewModel = JoinViewModel(mockRepository)
+    }
+
+    @Test
+    fun `obtenerEquipaciones devuelve lista correcta`() {
+        val expectedEquipaciones = listOf(R.drawable.equipacion1, R.drawable.equipacion2, R.drawable.equipacion3)
+        Mockito.`when`(mockRepository.equipaciones).thenReturn(expectedEquipaciones)
+
+        val actualEquipaciones = viewModel.obtenerEquipaciones()
+
+        assertEquals(expectedEquipaciones, actualEquipaciones)
+    }
+
+    @Test
+    fun `obtenerEquipaciones maneja lista vacia correctamente`() {
+        Mockito.`when`(mockRepository.equipaciones).thenReturn(emptyList())
+
+        val actualEquipaciones = viewModel.obtenerEquipaciones()
+
+        assertTrue(actualEquipaciones.isEmpty())
+    }
+}
     val futbolistaa = Futbolista(
         futbolistaId = 1,
         image = 0,

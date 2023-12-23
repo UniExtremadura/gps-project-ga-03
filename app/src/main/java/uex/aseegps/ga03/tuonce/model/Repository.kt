@@ -94,6 +94,8 @@ class Repository(
 
     val escudos = listOf(R.drawable.escudo1, R.drawable.escudo2, R.drawable.escudo3, R.drawable.escudo4, R.drawable.escudo5, R.drawable.escudo6, R.drawable.escudo7, R.drawable.escudo8)
 
+    val equipaciones = listOf(R.drawable.equipacion1, R.drawable.equipacion2, R.drawable.equipacion3, R.drawable.equipacion4, R.drawable.equipacion5, R.drawable.equipacion6, R.drawable.equipacion7, R.drawable.equipacion8)
+
     fun setUserid(userid: Long) {
         userFilter.value = userid
     }
