@@ -29,7 +29,7 @@ class MercadoFragment : Fragment() {
 
     private lateinit var adapter: MercadoAdapter
 
-    private val viewModel : MercadoViewModel by viewModels { MercadoViewModel.Factory }
+    val viewModel : MercadoViewModel by viewModels { MercadoViewModel.Factory }
     private val homeViewModel: HomeViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -82,10 +82,10 @@ class MercadoFragment : Fragment() {
         }
     }
 
-    private fun ordenarPorPuntuacion()
+    fun ordenarPorPuntuacion()
     {
         lifecycleScope.launch {
-            val jugadoresOrdenados = clasificarJugadores(viewModel.obtenerJugadoresOrdenadosPorPuntuacion())
+            val jugadoresOrdenados = clasificarJugadores(ordenarPorPuntuacionViewModel())
             binding.RvFutbolista.layoutManager = LinearLayoutManager(requireContext())
             binding.RvFutbolista.adapter = MercadoAdapter(
                 lista = jugadoresOrdenados,
@@ -95,6 +95,10 @@ class MercadoFragment : Fragment() {
                 }
             )
         }
+    }
+
+    suspend fun ordenarPorPuntuacionViewModel(): List<Futbolista> {
+        return viewModel.obtenerJugadoresOrdenadosPorPuntuacion()
     }
 
 
