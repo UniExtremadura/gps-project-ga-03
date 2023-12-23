@@ -33,8 +33,6 @@ import uex.aseegps.ga03.tuonce.model.User
 @ExperimentalCoroutinesApi
 class JoinViewModelTest {
 
-class JoinViewModelTest {
-
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
@@ -49,6 +47,18 @@ class JoinViewModelTest {
     @Before
     fun setUp() {
         viewModel = JoinViewModel(mockRepository)
+        viewModel.futbolistas = MutableLiveData(futbolistasEnElEquipo)
+        runBlocking {
+            `when`(mockRepository.insertarUsuario(usuario)).thenReturn(usuario.userId)
+            `when`(mockRepository.insertarEquipo(equipo)).thenReturn(equipo.equipoId)
+            `when`(mockRepository.insertarEquipo(equipo)).thenReturn(1L)
+            // Simula la respuesta del repositorio
+            `when`(mockRepository.insertarEquipo(equipo)).thenReturn(1L)
+            futbolistasEnElEquipo.forEach { futbolista ->
+                `when`(mockRepository.insertarFutbolista(futbolista)).thenReturn(Unit)
+            }
+        }
+        Dispatchers.setMain(Dispatchers.Unconfined)
     }
 
     @Test
@@ -69,7 +79,7 @@ class JoinViewModelTest {
 
         assertTrue(actualEquipaciones.isEmpty())
     }
-}
+
     val futbolistaa = Futbolista(
         futbolistaId = 1,
         image = 0,
@@ -318,23 +328,6 @@ class JoinViewModelTest {
         points = 100,
         conectado = 1
     )
-
-    @Before
-    fun setUp() {
-        viewModel = JoinViewModel(mockRepository)
-        viewModel.futbolistas = MutableLiveData(futbolistasEnElEquipo)
-        runBlocking {
-            `when`(mockRepository.insertarUsuario(usuario)).thenReturn(usuario.userId)
-            `when`(mockRepository.insertarEquipo(equipo)).thenReturn(equipo.equipoId)
-            `when`(mockRepository.insertarEquipo(equipo)).thenReturn(1L)
-            // Simula la respuesta del repositorio
-            `when`(mockRepository.insertarEquipo(equipo)).thenReturn(1L)
-            futbolistasEnElEquipo.forEach { futbolista ->
-                `when`(mockRepository.insertarFutbolista(futbolista)).thenReturn(Unit)
-            }
-        }
-        Dispatchers.setMain(Dispatchers.Unconfined)
-    }
 
     @Test
     fun `obtenerEscudos devuelve lista correcta`() {
