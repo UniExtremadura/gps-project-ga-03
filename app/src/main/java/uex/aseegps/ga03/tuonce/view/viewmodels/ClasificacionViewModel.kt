@@ -3,7 +3,7 @@ package uex.aseegps.ga03.tuonce.view.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
-import es.unex.giiis.asee.tiviclone.data.Repository
+import uex.aseegps.ga03.tuonce.model.Repository
 import uex.aseegps.ga03.tuonce.TuOnceApplication
 import uex.aseegps.ga03.tuonce.model.User
 

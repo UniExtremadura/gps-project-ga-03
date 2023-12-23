@@ -1,23 +1,18 @@
 package uex.aseegps.ga03.tuonce.view.viewmodels
 
 import android.util.Log
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
+import uex.aseegps.ga03.tuonce.model.Repository
 import androidx.recyclerview.widget.LinearLayoutManager
-import es.unex.giiis.asee.tiviclone.data.Repository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import uex.aseegps.ga03.tuonce.TuOnceApplication
-import uex.aseegps.ga03.tuonce.model.Equipo
 import uex.aseegps.ga03.tuonce.model.Futbolista
 import uex.aseegps.ga03.tuonce.model.User
 import uex.aseegps.ga03.tuonce.utils.SortPlayers
-import uex.aseegps.ga03.tuonce.view.adapters.MercadoAdapter
 
 class MercadoViewModel(
     private val repository: Repository
@@ -39,7 +34,10 @@ class MercadoViewModel(
             jugadoresOrdenados = SortPlayers.clasificarJugadores(jugadoresLibres)
         }
 
-        return jugadoresOrdenados.filter{ it.equipoId == null}
+        println(jugadoresOrdenados.toString())
+        println(futbolistas.value.toString())
+
+        return jugadoresOrdenados.filter{ it.equipoId == null}.sortedByDescending { it.puntosAportados }
     }
 
     fun initialize(){

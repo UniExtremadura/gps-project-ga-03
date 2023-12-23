@@ -82,12 +82,12 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun navigateToHomeActivity(user: User, msg: String) {
+    fun navigateToHomeActivity(user: User, msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
         val intent = Intent(this, HomeActivity::class.java)
         startActivity(intent)
     }
-    private fun checkLogin(){
+    fun checkLogin(){
         val check = CredentialCheck.login(binding.etUsername.text.toString(),
             binding.etPassword.text.toString())
         if (!check.fail){

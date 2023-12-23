@@ -2,7 +2,6 @@ package uex.aseegps.ga03.tuonce.view.viewmodels
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
-import es.unex.giiis.asee.tiviclone.data.Repository
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -26,6 +25,7 @@ import uex.aseegps.ga03.tuonce.model.Futbolista
 import uex.aseegps.ga03.tuonce.model.User
 import androidx.lifecycle.Observer
 import org.mockito.Mockito.`when`
+import uex.aseegps.ga03.tuonce.model.Repository
 
 
 @ExperimentalCoroutinesApi

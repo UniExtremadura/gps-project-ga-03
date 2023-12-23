@@ -2,7 +2,7 @@ package uex.aseegps.ga03.tuonce.view.viewmodels
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
-import es.unex.giiis.asee.tiviclone.data.Repository
+import org.mockito.ArgumentMatchers.any
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -26,6 +26,7 @@ import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
 import uex.aseegps.ga03.tuonce.model.Equipo
 import uex.aseegps.ga03.tuonce.model.Futbolista
+import uex.aseegps.ga03.tuonce.model.Repository
 import uex.aseegps.ga03.tuonce.model.User
 
 
